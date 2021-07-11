@@ -5,6 +5,7 @@ import { FormAddBook } from "./component/FormAddBook";
 import { Header } from "./component/Header";
 import { ListBooks } from "./component/ListBooks";
 import { Toolbar } from "./component/Toolbar";
+import { About } from "./component/About";
 import { Book } from "./types";
 
 let booksData: Book[] = [
