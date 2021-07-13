@@ -1,21 +1,27 @@
 .App {
-    margin:0.5em;
-    padding:1em;
+    margin:0.2em;
+    padding:0.2em;
+    min-width: 300px;
 
     header {
-        background-color: rgb(153, 153, 153);
+        border-bottom: 1px dotted grey;
+        margin-bottom: 1.2em;
+
         img {
             float: left;
             margin:1em;
             width:4em;
         }
         h2 {
-            height:4em;
+            height:2.4em;
+            margin:0;
+            padding-top: 1em;
+            padding-bottom: 0;
         }
     }
 
     .toolbar {
-        background-color: gray;
+        background-color: #ececec;
         margin-top:0.5em;
         margin-bottom:0.5em;
         padding-left:1em;
@@ -27,10 +33,10 @@
     .list-books .item-book {
         padding-bottom:0.2em;
         margin-bottom:0.2em;
-        border-bottom: 1px solid gray;
+        border-bottom: 1px solid rgb(213, 213, 213);
 
         &:hover {
-            background-color: yellow;
+            background-color: rgb(255, 245, 231);
         }
         .info .title {
             font-weight: bold;

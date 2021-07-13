@@ -41,9 +41,10 @@ export const FormBook: React.FC<Props> = ({
                 onChange={(e) => setBookAuthor(e.target.value)}
                 placeholder="author"
             />
-
-            <button onClick={handleSubmit}>save</button>
-            <button onClick={() => onCancel()}>Cancel</button>
+            <div>
+                <button onClick={handleSubmit}>save</button>
+                <button onClick={() => onCancel()}>Cancel</button>
+            </div>
         </div>
     );
 };
