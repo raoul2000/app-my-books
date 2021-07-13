@@ -1,6 +1,8 @@
 import React from "react";
 import { Book } from "../types";
 import { useLocation } from "wouter";
+import { booksState } from "../state/books";
+import { useSetRecoilState } from "recoil";
 
 type Props = {
     books: Book[];
@@ -9,7 +11,15 @@ type Props = {
 export const ListBooks: React.FC<Props> = ({
     books
 }): JSX.Element => {
-    const [location, setLocation] = useLocation();
+    const [, setLocation] = useLocation();
+    const setBooks = useSetRecoilState<Book[]>(booksState);
+    
+    const handleDeleteBook = (book:Book):void => {
+        if(confirm(`Delete "${book.title}" ?`)) {
+            setBooks((oldBooks) => [ ...oldBooks.filter((obook) => obook.id !== book.id)]);
+        }
+    };
+
     return (
         <div className="list-books">
             {books.length ? (
@@ -23,10 +33,10 @@ export const ListBooks: React.FC<Props> = ({
                             <button onClick={() => setLocation(`/detail/${book.id}`)}>
                                 info
                             </button>
-                            <button onClick={() => console.log('delete')}>
+                            <button onClick={() => handleDeleteBook(book)}>
                                 Delete
                             </button>
-                            <button onClick={() => console.log('update')}>
+                            <button onClick={() =>  setLocation(`/update/${book.id}`)}>
                                 Update
                             </button>
                         </div>
@@ -38,3 +48,5 @@ export const ListBooks: React.FC<Props> = ({
         </div>
     );
 };
+
+

@@ -1,17 +1,17 @@
-import React, { useState } from "react";
-import { booksData } from "../bookData";
+import React from "react";
+import { useRecoilValue } from "recoil";
 import { ListBooks } from "../component/ListBooks";
 import { Toolbar } from "../component/Toolbar";
+import { booksState } from "../state/books";
 import { Book } from "../types";
 
 export const BookListPage: React.FC<{}> = (): JSX.Element => {
-    const [listOfBooks, setListOfBooks] = useState<Book[]>(booksData);
-
+    const books = useRecoilValue<Book[]>(booksState)
     return (
         <>
             <Toolbar/>
             <ListBooks
-                books={listOfBooks}
+                books={books}
             />
         </>
     );
