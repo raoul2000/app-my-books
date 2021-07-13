@@ -13,11 +13,10 @@ import { Header } from "./component/Header";
 import { loadingState } from "./state/loading";
 
 function App() {
-    const [, setBooks] = useRecoilState(booksState);
+    const setBooks = useSetRecoilState(booksState);
     const [loading, setLoading] = useRecoilState(loadingState);
 
     useEffect(() => {
-        setLoading({ isLoading: true, infoMessage: "loading Book List ..." });
         // simulate API call to fetch book list
         setTimeout(() => {
             console.log(booksData);
@@ -25,12 +24,12 @@ function App() {
             setLoading({ isLoading: false });
         }, 2000);
     }, []);
-
+    
     return (
         <div className="App">
             <Header />
             {loading.isLoading ? (
-                <div>loading books list ...</div>
+                <div>{loading.infoMessage || 'loading ...'}</div>
             ) : (
                 <Switch>
                     <Route path="/about" component={AboutPage} />

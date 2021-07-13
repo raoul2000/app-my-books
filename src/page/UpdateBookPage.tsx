@@ -16,13 +16,15 @@ export const UpdateBookPage: React.FC<Props> = ({ id }): JSX.Element => {
     const thisBook = books.find((book) => book.id === id);
 
     const updateBook = (book: Book) => {
-        setBooks((oldBooks) => [...oldBooks.map( oBook => {
-            if(oBook.id === book.id) {
-                return {...book};
-            } else {
-                return {...oBook};
-            }
-        })]);
+        setBooks((oldBooks) => [
+            ...oldBooks.map((oBook) => {
+                if (oBook.id === book.id) {
+                    return { ...book };
+                } else {
+                    return { ...oBook };
+                }
+            }),
+        ]);
         setLocation("/");
     };
     const goHome = () => setLocation("/");
@@ -31,9 +33,19 @@ export const UpdateBookPage: React.FC<Props> = ({ id }): JSX.Element => {
             <Link href="/" className="active">
                 &lt; home
             </Link>
-            <h3>Update book</h3>
-            <hr />
-            <FormBook book={thisBook} onSubmit={updateBook} onCancel={goHome} />
+            {thisBook ? (
+                <>
+                    <h3>Update book</h3>
+                    <hr />
+                    <FormBook
+                        book={thisBook}
+                        onSubmit={updateBook}
+                        onCancel={goHome}
+                    />
+                </>
+            ) : (
+                <div>Book Not found</div>
+            )}
         </div>
     );
 };
