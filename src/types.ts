@@ -3,3 +3,8 @@ export type Book = {
     title: string;
     author?: string;
 }
+
+export type LoadingState = {
+    isLoading: boolean;
+    infoMessage?: string;
+}
