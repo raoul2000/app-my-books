@@ -1,12 +1,13 @@
 import React from "react";
+import { useLocation } from "wouter";
 
-type Props = {
-    onAddBook: () => void
-}
-export const Toolbar: React.FC<Props> = ({onAddBook}): JSX.Element => {
+
+export const Toolbar: React.FC<{}> = (): JSX.Element => {
+    const [, setLocation] = useLocation();
     return (
         <div className="toolbar">
-            <button onClick={() => onAddBook()}>add book</button>
+            <button onClick={() => {setLocation('/add');}}>add book</button>
+            <button onClick={() => {setLocation('/about');} }>About</button>
         </div>
     )
 };

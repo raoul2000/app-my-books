@@ -1,19 +1,15 @@
 import React from "react";
 import { Book } from "../types";
+import { useLocation } from "wouter";
 
 type Props = {
     books: Book[];
-    onViewBookDetails: (book: Book) => void;
-    onDeleteBookById: (bookId: string) => void;
-    onUpdateBookById: (bookId: string) => void;
 };
 
 export const ListBooks: React.FC<Props> = ({
-    books,
-    onViewBookDetails,
-    onDeleteBookById,
-    onUpdateBookById,
+    books
 }): JSX.Element => {
+    const [location, setLocation] = useLocation();
     return (
         <div className="list-books">
             {books.length ? (
@@ -24,13 +20,13 @@ export const ListBooks: React.FC<Props> = ({
                             <div className="author">{book.author}</div>
                         </div>
                         <div className="actions">
-                            <button onClick={() => onViewBookDetails(book)}>
+                            <button onClick={() => setLocation(`/detail/${book.id}`)}>
                                 info
                             </button>
-                            <button onClick={() => onDeleteBookById(book.id)}>
+                            <button onClick={() => console.log('delete')}>
                                 Delete
                             </button>
-                            <button onClick={() => onUpdateBookById(book.id)}>
+                            <button onClick={() => console.log('update')}>
                                 Update
                             </button>
                         </div>
