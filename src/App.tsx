@@ -1,23 +1,52 @@
-import React, { useState } from 'react'
-import logo from './logo.svg'
-import './App.css'
+import React, { useEffect } from "react";
+import "./App.less";
+import { Route, Switch } from "wouter";
+import { BookListPage } from "./page/BookListPage";
+import { BookDetailsPage } from "./page/BookDetailsPage";
+import { AboutPage } from "./page/AboutPage";
+import { AddBookPage } from "./page/AddBookPage";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { booksState } from "./state/books";
+import { booksData } from "./bookData";
+import { UpdateBookPage } from "./page/UpdateBookPage";
+import { Header } from "./component/Header";
+import { loadingState } from "./state/loading";
 
 function App() {
-  const [count, setCount] = useState(0)
+    const setBooks = useSetRecoilState(booksState);
+    const [loading, setLoading] = useRecoilState(loadingState);
 
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <h2>My Books</h2>
-        <p>
-          <button type="button" onClick={() => setCount((cnt) => cnt + 1)}>
-            count is: {count}
-          </button>
-        </p>
-      </header>
-    </div>
-  )
+    useEffect(() => {
+        // simulate API call to fetch book list
+        setTimeout(() => {
+            console.log(booksData);
+            setBooks(booksData);
+            setLoading({ isLoading: false });
+        }, 2000);
+    }, []);
+    
+    return (
+        <div className="App">
+            <Header />
+            {loading.isLoading ? (
+                <div>{loading.infoMessage || 'loading ...'}</div>
+            ) : (
+                <Switch>
+                    <Route path="/about" component={AboutPage} />
+                    <Route path="/add" component={AddBookPage} />
+                    <Route path="/update/:id">
+                        {(params) => <UpdateBookPage id={params.id} />}
+                    </Route>
+                    <Route path="/detail/:id">
+                        {(params) => <BookDetailsPage id={params.id} />}
+                    </Route>
+                    <Route>
+                        <BookListPage />
+                    </Route>
+                </Switch>
+            )}
+        </div>
+    );
 }
 
-export default App
+export default App;
