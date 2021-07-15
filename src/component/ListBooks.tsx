@@ -16,7 +16,11 @@ export const ListBooks: React.FC<Props> = ({
     
     const handleDeleteBook = (book:Book):void => {
         if(confirm(`Delete "${book.title}" ?`)) {
-            setBooks((oldBooks) => [ ...oldBooks.filter((obook) => obook.id !== book.id)]);
+            fetch(`http://localhost:3001/books/${book.id}`, {
+                method: 'DELETE'
+            }).then( () => {
+                setBooks((oldBooks) => [ ...oldBooks.filter((obook) => obook.id !== book.id)]);
+            }).catch(console.error);
         }
     };
 
@@ -27,7 +31,7 @@ export const ListBooks: React.FC<Props> = ({
                     <div key={book.id} className="item-book">
                         <div className="info">
                             <div className="title">{book.title}</div>
-                            <div className="author">{book.author}</div>
+                            <div className="author">{book.author} {book.id}</div>
                         </div>
                         <div className="actions">
                             <button onClick={() => setLocation(`/detail/${book.id}`)}>

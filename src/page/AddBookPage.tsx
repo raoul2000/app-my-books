@@ -11,8 +11,19 @@ export const AddBookPage: React.FC<{}> = (): JSX.Element => {
     const [, setLocation] = useLocation();
 
     const addBook = (book: Book) => {
-        setBooks((oldBooks) => [book, ...oldBooks]);
-        setLocation("/");
+        fetch('http://localhost:3001/books',{
+            method: 'POST',
+            headers: {
+                'Content-Type' : 'application/json'
+            },
+            body: JSON.stringify({title: book.title, author: book.author})
+        })
+        .then(resp => resp.json())
+        .then(newBook => {
+            setBooks((oldBooks) => [newBook, ...oldBooks]);
+            setLocation("/");
+        })
+        .catch(error => console.error(error));
     };
     const goHome = () => setLocation("/");
 

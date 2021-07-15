@@ -11,40 +11,48 @@ import { booksData } from "./bookData";
 import { UpdateBookPage } from "./page/UpdateBookPage";
 import { Header } from "./component/Header";
 import { loadingState } from "./state/loading";
+import useFetch from 'react-fetch-hook';
+import { Book } from "./types";
 
 function App() {
     const setBooks = useSetRecoilState(booksState);
+    const {isLoading, data, error} = useFetch('http://localhost:3001/books');
+
     const [loading, setLoading] = useRecoilState(loadingState);
 
     useEffect(() => {
-        // simulate API call to fetch book list
-        setTimeout(() => {
-            console.log(booksData);
-            setBooks(booksData);
-            setLoading({ isLoading: false });
-        }, 2000);
-    }, []);
+        if(!isLoading) {
+            setBooks(data as Book[]);
+        }
+    },[isLoading])
     
+    const renderMain = () => {
+        if(error) {
+            return <div>Eroor when loading book list</div>;
+        } else if(isLoading) {
+            return <div>loading books...</div>
+        } else {
+            return (
+                <Switch>
+                <Route path="/about" component={AboutPage} />
+                <Route path="/add" component={AddBookPage} />
+                <Route path="/update/:id">
+                    {(params) => <UpdateBookPage id={params.id} />}
+                </Route>
+                <Route path="/detail/:id">
+                    {(params) => <BookDetailsPage id={params.id} />}
+                </Route>
+                <Route>
+                    <BookListPage />
+                </Route>
+            </Switch>
+            )
+        } 
+    }
     return (
         <div className="App">
             <Header />
-            {loading.isLoading ? (
-                <div>{loading.infoMessage || 'loading ...'}</div>
-            ) : (
-                <Switch>
-                    <Route path="/about" component={AboutPage} />
-                    <Route path="/add" component={AddBookPage} />
-                    <Route path="/update/:id">
-                        {(params) => <UpdateBookPage id={params.id} />}
-                    </Route>
-                    <Route path="/detail/:id">
-                        {(params) => <BookDetailsPage id={params.id} />}
-                    </Route>
-                    <Route>
-                        <BookListPage />
-                    </Route>
-                </Switch>
-            )}
+            {renderMain()}
         </div>
     );
 }

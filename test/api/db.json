@@ -1,0 +1,14 @@
+{
+  "books": [
+    {
+      "id": 2,
+      "title": "Lors of the Ring",
+      "author": "JRR Tolkien"
+    },
+    {
+      "id": 3,
+      "title": "Les misérables",
+      "author": "Victor Hugo"
+    }
+  ]
+}

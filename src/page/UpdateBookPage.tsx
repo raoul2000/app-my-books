@@ -13,20 +13,30 @@ export const UpdateBookPage: React.FC<Props> = ({ id }): JSX.Element => {
     const [books, setBooks] = useRecoilState<Book[]>(booksState);
     const [, setLocation] = useLocation();
 
-    const thisBook = books.find((book) => book.id === id);
+    const thisBook = books.find((book) => book.id == id);
 
     const updateBook = (book: Book) => {
-        setBooks((oldBooks) => [
-            ...oldBooks.map((oBook) => {
-                if (oBook.id === book.id) {
-                    return { ...book };
-                } else {
-                    return { ...oBook };
-                }
-            }),
-        ]);
-        setLocation("/");
+        fetch(`http://localhost:3001/books/${book.id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                title: book.title,
+                author: book.author
+            })
+        }).then(() => {
+            setBooks((oldBooks) => [
+                ...oldBooks.map((oBook) => {
+                    if (oBook.id === book.id) {
+                        return { ...book };
+                    } else {
+                        return { ...oBook };
+                    }
+                }),
+            ]);
+            setLocation("/");
+        }).catch(console.error);
     };
+
     const goHome = () => setLocation("/");
     return (
         <div className="form-add-book">
