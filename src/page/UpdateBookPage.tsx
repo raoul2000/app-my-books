@@ -4,7 +4,8 @@ import { Link, useLocation } from "wouter";
 import { FormBook } from "../component/FormBook";
 import { booksState } from "../state/books";
 import { Book } from "../types";
-import { updateBook as saveBook } from "../api/mock";
+
+import BookApi from "../api/book";
 type Props = {
     id: string;
 };
@@ -13,10 +14,10 @@ export const UpdateBookPage: React.FC<Props> = ({ id }): JSX.Element => {
     const [books, setBooks] = useRecoilState<Book[]>(booksState);
     const [, setLocation] = useLocation();
 
-    const thisBook = books.find((book) => book.id == id);
+    const thisBook = books.find((book) => book.id === id);
 
     const updateBook = (book: Book) => {
-        saveBook(book)
+        BookApi.updateBook(book)
             .then(() => {
                 setBooks((oldBooks) => [
                     ...oldBooks.map((oBook) => {

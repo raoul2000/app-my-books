@@ -4,7 +4,7 @@ import { useSetRecoilState } from "recoil";
 import { booksState } from "../state/books";
 import { Book } from "../types";
 import { FormBook } from "../component/FormBook";
-import { addBook as saveBook } from "../api/mock"; 
+import BookApi from "../api/book"; 
 
 export const AddBookPage: React.FC<{}> = (): JSX.Element => {
     const setBooks = useSetRecoilState<Book[]>(booksState);
@@ -12,8 +12,9 @@ export const AddBookPage: React.FC<{}> = (): JSX.Element => {
     const [, setLocation] = useLocation();
 
     const addBook = (book: Book) => {
-        saveBook(book)
+        BookApi.addBook(book)
         .then(newBook => {
+            console.log(newBook);
             setBooks((oldBooks) => [newBook, ...oldBooks]);
             setLocation("/");
         })

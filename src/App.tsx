@@ -11,10 +11,11 @@ import { UpdateBookPage } from "./page/UpdateBookPage";
 import { Header } from "./component/Header";
 import useFetch from "react-fetch-hook";
 import { Book } from "./types";
+import BookApi from './api/book';
 
 function App() {
     const setBooks = useSetRecoilState(booksState);
-    const { isLoading, data, error } = useFetch("http://localhost:3001/books");
+    const { isLoading, data, error } = useFetch(BookApi.apiBaseUrl);
 
     useEffect(() => {
         if (!isLoading) {

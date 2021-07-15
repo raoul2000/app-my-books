@@ -1,6 +1,6 @@
 import { Book } from "../../types";
 
-const apiBaseUrl = 'http://localhost:3001/books';
+export const apiBaseUrl = import.meta.env.VITE_BOOK_API_BASE_URL;
 
 export const deleteBookById = (id: string): Promise<Response> =>
     fetch(`${apiBaseUrl}/${id}`, {
@@ -24,4 +24,11 @@ export const updateBook = (book: Book): Promise<Book> =>
             title: book.title,
             author: book.author,
         }),
-    }).then((resp) => resp.json() as unknown as Book);;
+    }).then((resp) => resp.json() as unknown as Book);
+
+export default {
+    apiBaseUrl,
+    deleteBookById,
+    addBook,
+    updateBook
+};
