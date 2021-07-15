@@ -5,32 +5,31 @@ import { BookListPage } from "./page/BookListPage";
 import { BookDetailsPage } from "./page/BookDetailsPage";
 import { AboutPage } from "./page/AboutPage";
 import { AddBookPage } from "./page/AddBookPage";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { booksState } from "./state/books";
-import { booksData } from "./bookData";
 import { UpdateBookPage } from "./page/UpdateBookPage";
 import { Header } from "./component/Header";
-import { loadingState } from "./state/loading";
+import useFetch from "react-fetch-hook";
+import { Book } from "./types";
+import BookApi from './api/book';
 
 function App() {
     const setBooks = useSetRecoilState(booksState);
-    const [loading, setLoading] = useRecoilState(loadingState);
+    const { isLoading, data, error } = useFetch(BookApi.apiBaseUrl);
 
     useEffect(() => {
-        // simulate API call to fetch book list
-        setTimeout(() => {
-            console.log(booksData);
-            setBooks(booksData);
-            setLoading({ isLoading: false });
-        }, 2000);
-    }, []);
-    
-    return (
-        <div className="App">
-            <Header />
-            {loading.isLoading ? (
-                <div>{loading.infoMessage || 'loading ...'}</div>
-            ) : (
+        if (!isLoading) {
+            setBooks(data as Book[]);
+        }
+    }, [isLoading]);
+
+    const renderMain = () => {
+        if (error) {
+            return <div>Eroor when loading book list</div>;
+        } else if (isLoading) {
+            return <div>loading books...</div>;
+        } else {
+            return (
                 <Switch>
                     <Route path="/about" component={AboutPage} />
                     <Route path="/add" component={AddBookPage} />
@@ -44,7 +43,13 @@ function App() {
                         <BookListPage />
                     </Route>
                 </Switch>
-            )}
+            );
+        }
+    };
+    return (
+        <div className="App">
+            <Header />
+            {renderMain()}
         </div>
     );
 }

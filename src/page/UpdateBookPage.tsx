@@ -5,6 +5,7 @@ import { FormBook } from "../component/FormBook";
 import { booksState } from "../state/books";
 import { Book } from "../types";
 
+import BookApi from "../api/book";
 type Props = {
     id: string;
 };
@@ -16,17 +17,22 @@ export const UpdateBookPage: React.FC<Props> = ({ id }): JSX.Element => {
     const thisBook = books.find((book) => book.id === id);
 
     const updateBook = (book: Book) => {
-        setBooks((oldBooks) => [
-            ...oldBooks.map((oBook) => {
-                if (oBook.id === book.id) {
-                    return { ...book };
-                } else {
-                    return { ...oBook };
-                }
-            }),
-        ]);
-        setLocation("/");
+        BookApi.updateBook(book)
+            .then(() => {
+                setBooks((oldBooks) => [
+                    ...oldBooks.map((oBook) => {
+                        if (oBook.id === book.id) {
+                            return { ...book };
+                        } else {
+                            return { ...oBook };
+                        }
+                    }),
+                ]);
+                setLocation("/");
+            })
+            .catch(console.error);
     };
+
     const goHome = () => setLocation("/");
     return (
         <div className="form-add-book">
