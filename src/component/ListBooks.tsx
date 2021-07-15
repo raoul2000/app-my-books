@@ -3,6 +3,7 @@ import { Book } from "../types";
 import { useLocation } from "wouter";
 import { booksState } from "../state/books";
 import { useSetRecoilState } from "recoil";
+import { deleteBookById } from "../api/mock";
 
 type Props = {
     books: Book[];
@@ -16,9 +17,8 @@ export const ListBooks: React.FC<Props> = ({
     
     const handleDeleteBook = (book:Book):void => {
         if(confirm(`Delete "${book.title}" ?`)) {
-            fetch(`http://localhost:3001/books/${book.id}`, {
-                method: 'DELETE'
-            }).then( () => {
+            deleteBookById(book.id)
+            .then( () => {
                 setBooks((oldBooks) => [ ...oldBooks.filter((obook) => obook.id !== book.id)]);
             }).catch(console.error);
         }

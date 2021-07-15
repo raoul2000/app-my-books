@@ -4,6 +4,7 @@ import { useSetRecoilState } from "recoil";
 import { booksState } from "../state/books";
 import { Book } from "../types";
 import { FormBook } from "../component/FormBook";
+import { addBook as saveBook } from "../api/mock"; 
 
 export const AddBookPage: React.FC<{}> = (): JSX.Element => {
     const setBooks = useSetRecoilState<Book[]>(booksState);
@@ -11,14 +12,7 @@ export const AddBookPage: React.FC<{}> = (): JSX.Element => {
     const [, setLocation] = useLocation();
 
     const addBook = (book: Book) => {
-        fetch('http://localhost:3001/books',{
-            method: 'POST',
-            headers: {
-                'Content-Type' : 'application/json'
-            },
-            body: JSON.stringify({title: book.title, author: book.author})
-        })
-        .then(resp => resp.json())
+        saveBook(book)
         .then(newBook => {
             setBooks((oldBooks) => [newBook, ...oldBooks]);
             setLocation("/");

@@ -4,7 +4,7 @@ import { Link, useLocation } from "wouter";
 import { FormBook } from "../component/FormBook";
 import { booksState } from "../state/books";
 import { Book } from "../types";
-
+import { updateBook as saveBook } from "../api/mock";
 type Props = {
     id: string;
 };
@@ -16,25 +16,20 @@ export const UpdateBookPage: React.FC<Props> = ({ id }): JSX.Element => {
     const thisBook = books.find((book) => book.id == id);
 
     const updateBook = (book: Book) => {
-        fetch(`http://localhost:3001/books/${book.id}`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                title: book.title,
-                author: book.author
+        saveBook(book)
+            .then(() => {
+                setBooks((oldBooks) => [
+                    ...oldBooks.map((oBook) => {
+                        if (oBook.id === book.id) {
+                            return { ...book };
+                        } else {
+                            return { ...oBook };
+                        }
+                    }),
+                ]);
+                setLocation("/");
             })
-        }).then(() => {
-            setBooks((oldBooks) => [
-                ...oldBooks.map((oBook) => {
-                    if (oBook.id === book.id) {
-                        return { ...book };
-                    } else {
-                        return { ...oBook };
-                    }
-                }),
-            ]);
-            setLocation("/");
-        }).catch(console.error);
+            .catch(console.error);
     };
 
     const goHome = () => setLocation("/");
