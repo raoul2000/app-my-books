@@ -1,12 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
+import CssBaseline from "@material-ui/core/CssBaseline";
 import App from "./App";
 import { RecoilRoot } from "recoil";
 
 ReactDOM.render(
     <React.StrictMode>
         <RecoilRoot>
+            <CssBaseline />
             <App />
         </RecoilRoot>
     </React.StrictMode>,

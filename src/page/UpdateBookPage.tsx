@@ -1,11 +1,15 @@
 import React from "react";
+import IconButton from "@material-ui/core/IconButton";
+import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
+import Typography from "@material-ui/core/Typography";
+
 import { useRecoilState } from "recoil";
-import { Link, useLocation } from "wouter";
 import { FormBook } from "../component/FormBook";
 import { booksState } from "../state/books";
 import { Book } from "../types";
-
 import BookApi from "../api/book";
+import useLocation from "wouter/use-location";
+
 type Props = {
     id: string;
 };
@@ -35,14 +39,19 @@ export const UpdateBookPage: React.FC<Props> = ({ id }): JSX.Element => {
 
     const goHome = () => setLocation("/");
     return (
-        <div className="form-add-book">
-            <Link href="/" className="active">
-                &lt; home
-            </Link>
+        <div className="update-book">
+            <IconButton
+                aria-label="back"
+                size="small"
+                onClick={() => setLocation("/")}
+            >
+                <ArrowBackIosIcon fontSize="small" /> Book list
+            </IconButton>
             {thisBook ? (
                 <>
-                    <h3>Update book</h3>
-                    <hr />
+                    <Typography variant="h5" component="h1">
+                        Update book
+                    </Typography>
                     <FormBook
                         book={thisBook}
                         onSubmit={updateBook}

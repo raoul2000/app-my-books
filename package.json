@@ -7,6 +7,9 @@
     "mock-api": "json-server --port 3001 --watch test/api/db.json --snapshots test/api/db-snapshot "
   },
   "dependencies": {
+    "@fontsource/roboto": "^4.5.0",
+    "@material-ui/core": "^4.12.1",
+    "@material-ui/icons": "^4.11.2",
     "nanoid": "^3.1.23",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
