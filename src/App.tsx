@@ -1,5 +1,10 @@
 import React, { useEffect } from "react";
 import "./App.less";
+import "@fontsource/roboto";
+import AppBar from "@material-ui/core/AppBar";
+import Container from "@material-ui/core/Container";
+import Typography from "@material-ui/core/Typography";
+
 import { Route, Switch } from "wouter";
 import { BookListPage } from "./page/BookListPage";
 import { BookDetailsPage } from "./page/BookDetailsPage";
@@ -8,10 +13,9 @@ import { AddBookPage } from "./page/AddBookPage";
 import { useSetRecoilState } from "recoil";
 import { booksState } from "./state/books";
 import { UpdateBookPage } from "./page/UpdateBookPage";
-import { Header } from "./component/Header";
 import useFetch from "react-fetch-hook";
 import { Book } from "./types";
-import BookApi from './api/book';
+import BookApi from "./api/book";
 
 function App() {
     const setBooks = useSetRecoilState(booksState);
@@ -48,8 +52,12 @@ function App() {
     };
     return (
         <div className="App">
-            <Header />
-            {renderMain()}
+            <AppBar position="sticky">
+                <Typography variant="h6">&nbsp;My Books</Typography>
+            </AppBar>
+            <main>
+                <Container maxWidth="sm">{renderMain()}</Container>
+            </main>
         </div>
     );
 }
