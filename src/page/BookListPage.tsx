@@ -1,18 +1,27 @@
 import React from "react";
+import Fab from "@material-ui/core/Fab";
+import AddIcon from "@material-ui/icons/Add";
+
 import { useRecoilValue } from "recoil";
 import { ListBooks } from "../component/ListBooks";
-import { Toolbar } from "../component/Toolbar";
 import { booksState } from "../state/books";
 import { Book } from "../types";
+import { useLocation } from "wouter";
 
 export const BookListPage: React.FC<{}> = (): JSX.Element => {
-    const books = useRecoilValue<Book[]>(booksState)
+    const books = useRecoilValue<Book[]>(booksState);
+    const [, setLocation] = useLocation();
     return (
         <>
-            <Toolbar/>
-            <ListBooks
-                books={books}
-            />
+            <ListBooks books={books} />
+            <Fab
+                color="primary"
+                aria-label="add"
+                className="btn-add-book"
+                onClick={() => setLocation("/add")}
+            >
+                <AddIcon />
+            </Fab>
         </>
     );
 };
