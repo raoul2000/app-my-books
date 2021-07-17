@@ -21,6 +21,7 @@ export const UpdateBookPage: React.FC<Props> = ({ id }): JSX.Element => {
     const thisBook = books.find((book) => book.id === id);
 
     const updateBook = (book: Book) => {
+        setLocation("/");
         BookApi.updateBook(book)
             .then(() => {
                 setBooks((oldBooks) => [
@@ -32,7 +33,6 @@ export const UpdateBookPage: React.FC<Props> = ({ id }): JSX.Element => {
                         }
                     }),
                 ]);
-                setLocation("/");
             })
             .catch(console.error);
     };

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.less";
 import "@fontsource/roboto";
 import AppBar from "@material-ui/core/AppBar";
@@ -13,24 +13,24 @@ import { AddBookPage } from "./page/AddBookPage";
 import { useSetRecoilState } from "recoil";
 import { booksState } from "./state/books";
 import { UpdateBookPage } from "./page/UpdateBookPage";
-import useFetch from "react-fetch-hook";
-import { Book } from "./types";
 import BookApi from "./api/book";
 
 function App() {
     const setBooks = useSetRecoilState(booksState);
-    const { isLoading, data, error } = useFetch(BookApi.apiBaseUrl);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [error, setError] = useState<any>();
 
     useEffect(() => {
-        if (!isLoading) {
-            setBooks(data as Book[]);
-        }
-    }, [isLoading]);
+        BookApi.getAllBooks()
+            .then(setBooks)
+            .then(() => setLoading(false))
+            .catch(setError);
+    }, []);
 
     const renderMain = () => {
         if (error) {
             return <div>Eroor when loading book list</div>;
-        } else if (isLoading) {
+        } else if (loading) {
             return <div>loading books...</div>;
         } else {
             return (

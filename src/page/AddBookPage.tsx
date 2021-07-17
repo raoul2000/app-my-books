@@ -16,11 +16,11 @@ export const AddBookPage: React.FC<{}> = (): JSX.Element => {
     const [, setLocation] = useLocation();
 
     const addBook = (book: Book) => {
+        setLocation("/");
         BookApi.addBook(book)
             .then((newBook) => {
                 console.log(newBook);
                 setBooks((oldBooks) => [newBook, ...oldBooks]);
-                setLocation("/");
             })
             .catch((error) => console.error(error));
     };
