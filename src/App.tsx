@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./App.less";
 import "@fontsource/roboto";
-import AppBar from "@material-ui/core/AppBar";
 import Container from "@material-ui/core/Container";
-import Typography from "@material-ui/core/Typography";
 
 import { Route, Switch } from "wouter";
 import { BookListPage } from "./page/BookListPage";
@@ -14,8 +12,13 @@ import { useSetRecoilState } from "recoil";
 import { booksState } from "./state/books";
 import { UpdateBookPage } from "./page/UpdateBookPage";
 import BookApi from "./api/book";
+import { SettingsPage } from "./page/SettingsPage";
+import { TopBar } from "./component/TopBar";
+
+
 
 function App() {
+
     const setBooks = useSetRecoilState(booksState);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<any>();
@@ -37,6 +40,7 @@ function App() {
                 <Switch>
                     <Route path="/about" component={AboutPage} />
                     <Route path="/add" component={AddBookPage} />
+                    <Route path="/settings" component={SettingsPage} />
                     <Route path="/update/:id">
                         {(params) => <UpdateBookPage id={params.id} />}
                     </Route>
@@ -52,9 +56,7 @@ function App() {
     };
     return (
         <div className="App">
-            <AppBar position="sticky">
-                <Typography variant="h6">&nbsp;My Books</Typography>
-            </AppBar>
+            <TopBar/>
             <main>
                 <Container maxWidth="sm">{renderMain()}</Container>
             </main>
