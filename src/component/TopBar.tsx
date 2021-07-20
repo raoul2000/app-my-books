@@ -19,6 +19,9 @@ const useStyles = makeStyles((theme: Theme) =>
         title: {
             flexGrow: 1,
         },
+        progressColor: {
+            color: 'white'
+        }
     })
 );
 
@@ -31,7 +34,7 @@ export const TopBar: React.FC<{}> = (): JSX.Element => {
                 <Typography variant="h6" className={classes.title}>
                     My Books
                 </Typography>
-                {progress && <CircularProgress color="textPrimary" />}
+                {progress && <CircularProgress className={classes.progressColor} />}
                 <MainMenu />
             </Toolbar>
         </AppBar>
