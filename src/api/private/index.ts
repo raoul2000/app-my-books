@@ -1,10 +1,11 @@
 import { Book } from "../../types";
 import { nanoid } from "nanoid";
+import Storage from '@/utils/storage';
 
 export const apiBaseUrl = import.meta.env.VITE_BOOK_API_BASE_URL;
 const HEADER_NAME_API_KEY = 'X-Api-Key';
 
-const getApiKey = () => localStorage.getItem('api-key') || '';
+const getApiKey = () => Storage.getApiKey() || '';
 
 export const getAllBooks = () => {
 
