@@ -1,9 +1,10 @@
+import React, { useState, useEffect } from "react";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import SaveIcon from "@material-ui/icons/Save";
-import React, { useState } from "react";
-import { useEffect } from "react";
+
+import Storage from '@/utils/storage';
 
 type Props = {
     onSubmit: () => void;
@@ -18,7 +19,7 @@ export const FormSettings: React.FC<Props> = ({ onSubmit }): JSX.Element => {
     }, []);
 
     const handleSubmit = () => {
-        window.localStorage.setItem('api-key',apiKey);
+        Storage.setApiKey(apiKey);
         onSubmit();
     };
 
