@@ -34,6 +34,7 @@ export const FormSettings: React.FC<Props> = ({ onSubmit }): JSX.Element => {
                             onChange={(e) => setApiKey(e.target.value)}
                             required
                             fullWidth
+                            variant="filled"
                         />
                     </Grid>
                 </Grid>

@@ -11,6 +11,7 @@ import { useRecoilValue } from "recoil";
 import { booksState } from "../state/books";
 import { Book } from "../types";
 import useLocation from "wouter/use-location";
+import { GoBackButton } from "../component/GoBackButton";
 
 type Props = {
     id: string;
@@ -23,13 +24,7 @@ export const BookDetailsPage: React.FC<Props> = ({ id }): JSX.Element => {
 
     return (
         <div className="detail-book">
-            <IconButton
-                aria-label="back"
-                size="small"
-                onClick={() => setLocation("/")}
-            >
-                <ArrowBackIosIcon fontSize="small" /> Book list
-            </IconButton>
+            <GoBackButton to="/" label="Book list" />
 
             {thisBook && (
                 <Card>

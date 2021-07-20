@@ -1,11 +1,12 @@
-import React  from "react";
+import React from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Typography from "@material-ui/core/Typography";
 import Toolbar from "@material-ui/core/Toolbar";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import SettingsIcon from "@material-ui/icons/Settings";
-import IconButton from "@material-ui/core/IconButton";
-import { useLocation } from "wouter";
+import MainMenu from "./MainMenu";
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { progressState } from "../state/progress";
+import { useRecoilValue } from "recoil";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -21,25 +22,20 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
-export const TopBar: React.FC<{}> = ():JSX.Element => {
+export const TopBar: React.FC<{}> = (): JSX.Element => {
     const classes = useStyles();
-    const [, setLocation] = useLocation();
-
-    return ( 
-        <div className={classes.root}>
+    const progress = useRecoilValue<boolean>(progressState);
+    return (
         <AppBar position="sticky">
             <Toolbar>
                 <Typography variant="h6" className={classes.title}>
                     My Books
                 </Typography>
-                <IconButton
-                    aria-label="show 4 new mails"
-                    color="inherit"
-                >
-                    <SettingsIcon onClick={() => setLocation("/settings")}/>
-                </IconButton>
+                {progress && <CircularProgress color="textPrimary" />}
+                <MainMenu />
             </Toolbar>
         </AppBar>
-    </div>
     );
-}
+};
+
+

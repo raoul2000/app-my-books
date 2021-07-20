@@ -43,6 +43,7 @@ export const FormBook: React.FC<Props> = ({
                             onChange={(e) => setBookTitle(e.target.value)}
                             required
                             fullWidth
+                            variant="filled"
                         />
                     </Grid>
                     <Grid item xs={12}>
@@ -52,6 +53,7 @@ export const FormBook: React.FC<Props> = ({
                             value={bookAuthor}
                             onChange={(e) => setBookAuthor(e.target.value)}
                             fullWidth
+                            variant="filled"
                         />
                     </Grid>
                 </Grid>

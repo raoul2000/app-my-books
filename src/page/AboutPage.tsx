@@ -1,12 +1,15 @@
 import React from 'react';
-import { Link } from "wouter"
+import { GoBackButton } from '../component/GoBackButton';
+import Typography from "@material-ui/core/Typography";
 
 export const AboutPage: React.FC<{}> = ():JSX.Element => {
     return ( 
         <div className="about">
-            <Link href="/" className="active">&lt; home</Link>
-            <h2>About</h2>
-            <p>This app is a work in progress</p>
+            <GoBackButton to="/" label="Book list"/>
+            <Typography variant="h5" component="h1">
+                About
+            </Typography>
+            <p>This app is a work in progress...</p>
         </div>
     );
 }
