@@ -16,7 +16,10 @@
     "jsx": "react",
     "noImplicitAny": true,
     "noImplicitThis": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "paths": {
+      "@/*" : [ "./src/*"]
+    }
   },
   "include": ["./src"]
 }
