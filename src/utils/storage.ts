@@ -1,4 +1,4 @@
-const storagePrefix = "m_book_";
+const storagePrefix = "my_books_";
 
 const storage = {
     getApiKey: () => {
