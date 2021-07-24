@@ -1,11 +1,15 @@
 import React from "react";
-import bookIconUrl from '../asset/book-icon.png';
+import { TopBar } from "./TopBar";
+import { TopBarSecondary } from "./TopBarSecondary";
+import { Route, Switch } from "wouter";
 
 export const Header: React.FC<{}> = (): JSX.Element => {
     return (
-        <header>
-            <img src={bookIconUrl}/>
-            <h2>My Books</h2>
-        </header>
-    )
+        <Switch>
+            <Route path="/" component={TopBar} />
+            <Route>
+                <TopBarSecondary />
+            </Route>
+        </Switch>
+    );
 };
