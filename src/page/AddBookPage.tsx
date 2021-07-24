@@ -1,16 +1,13 @@
 import React from "react";
-import IconButton from "@material-ui/core/IconButton";
-import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import Typography from "@material-ui/core/Typography";
 
-import { Link, useLocation } from "wouter";
+import { useLocation } from "wouter";
 import { useSetRecoilState } from "recoil";
 import { booksState } from "../state/books";
 import { progressState } from "../state/progress";
 import { Book } from "../types";
 import { FormBook } from "../component/FormBook";
 import BookApi from "../api/book";
-import { GoBackButton } from "../component/GoBackButton";
 
 export const AddBookPage: React.FC<{}> = (): JSX.Element => {
     const setBooks = useSetRecoilState<Book[]>(booksState);
@@ -32,7 +29,6 @@ export const AddBookPage: React.FC<{}> = (): JSX.Element => {
 
     return (
         <div className="add-book">
-            <GoBackButton to="/" label="Book list" />
             <Typography variant="h5" component="h1">
                 Add book
             </Typography>

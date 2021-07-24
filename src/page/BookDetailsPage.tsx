@@ -6,7 +6,6 @@ import Typography from "@material-ui/core/Typography";
 import { useRecoilValue } from "recoil";
 import { booksState } from "../state/books";
 import { Book } from "../types";
-import { GoBackButton } from "../component/GoBackButton";
 
 type Props = {
     id: string;
@@ -18,7 +17,6 @@ export const BookDetailsPage: React.FC<Props> = ({ id }): JSX.Element => {
 
     return (
         <div className="detail-book">
-            <GoBackButton to="/" label="Book list" />
             {thisBook && (
                 <Card>
                     <CardContent>

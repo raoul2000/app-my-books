@@ -13,12 +13,9 @@ import { booksState } from "./state/books";
 import { UpdateBookPage } from "./page/UpdateBookPage";
 import BookApi from "./api/book";
 import { SettingsPage } from "./page/SettingsPage";
-import { TopBar } from "./component/TopBar";
-
-
+import { Header } from "./component/Header";
 
 function App() {
-
     const setBooks = useSetRecoilState(booksState);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<any>();
@@ -56,7 +53,7 @@ function App() {
     };
     return (
         <div className="App">
-            <TopBar/>
+            <Header />
             <main>
                 <Container maxWidth="sm">{renderMain()}</Container>
             </main>

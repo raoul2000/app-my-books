@@ -1,6 +1,4 @@
 import React from "react";
-import IconButton from "@material-ui/core/IconButton";
-import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import Typography from "@material-ui/core/Typography";
 
 import { useRecoilState, useSetRecoilState } from "recoil";
@@ -9,7 +7,6 @@ import { booksState } from "../state/books";
 import { Book } from "../types";
 import BookApi from "../api/book";
 import useLocation from "wouter/use-location";
-import { GoBackButton } from "../component/GoBackButton";
 import { progressState } from "../state/progress";
 
 type Props = {
@@ -45,7 +42,6 @@ export const UpdateBookPage: React.FC<Props> = ({ id }): JSX.Element => {
     const goHome = () => setLocation("/");
     return (
         <div className="update-book">
-            <GoBackButton to="/" label="Book list" />
             {thisBook ? (
                 <>
                     <Typography variant="h5" component="h1">
