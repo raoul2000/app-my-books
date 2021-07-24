@@ -15,7 +15,7 @@ export const BookListPage: React.FC<{}> = (): JSX.Element => {
         <>
             <ListBooks books={books} />
             <Fab
-                color="secondary"
+                color="primary"
                 aria-label="add"
                 className="btn-add-book"
                 onClick={() => setLocation("/add")}
