@@ -8,6 +8,8 @@ import { progressState } from "../state/progress";
 import { Book } from "../types";
 import { FormBook } from "../component/FormBook";
 import BookApi from "../api/book";
+import { Header } from "@/component/Header";
+import Container from "@material-ui/core/Container";
 
 export const AddBookPage: React.FC<{}> = (): JSX.Element => {
     const setBooks = useSetRecoilState<Book[]>(booksState);
@@ -28,11 +30,18 @@ export const AddBookPage: React.FC<{}> = (): JSX.Element => {
     const goHome = () => setLocation("/");
 
     return (
-        <div className="add-book">
-            <Typography variant="h5" component="h1">
-                Add book
-            </Typography>
-            <FormBook onSubmit={addBook} onCancel={goHome} />
+        <div className="about">
+            <Header />
+            <main>
+                <Container maxWidth="sm">
+                    <div className="add-book">
+                        <Typography variant="h5" component="h1">
+                            Add book
+                        </Typography>
+                        <FormBook onSubmit={addBook} onCancel={goHome} />
+                    </div>
+                </Container>
+            </main>
         </div>
     );
 };
