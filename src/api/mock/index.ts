@@ -32,9 +32,23 @@ export const updateBook = (book: Book): Promise<Book> =>
         }),
     }).then((resp) => resp.json() as unknown as Book);
 
+export const login = (name:string, password:string) => new Promise( (resolve, reject) => {
+    setTimeout(() => {
+        resolve('dummy_key');
+    }, 1000);
+});
+
+export const logout = () => new Promise( (resolve, reject) => {
+    setTimeout(() => {
+        resolve(true);
+    }, 1000);
+});
+
 export default {
     getAllBooks,
     deleteBookById,
     addBook,
-    updateBook
+    updateBook,
+    login,
+    logout
 };

@@ -1,35 +1,30 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import "./App.less";
 import "@fontsource/roboto";
 
-import { useSetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
+import { useLocation } from "wouter";
 
-import { booksState } from "./state/books";
-import BookApi from "./api/book";
 import { WithNavigation } from "./component/WithNavigation";
+import Storage from "@/utils/storage";
+import { apiKeyState } from "./state/api-key";
 
 function App() {
-    const setBooks = useSetRecoilState(booksState);
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<any>();
+    const [apiKey, setApiKey] = useRecoilState(apiKeyState);
+    const [, setLocation] = useLocation();
 
     useEffect(() => {
-        BookApi.getAllBooks()
-            .then(setBooks)
-            .catch(setError)
-            .finally(() => setLoading(false));
-    }, []);
-
-    const renderMain = () => {
-        if (error) {
-            return <div>Error when loading book list</div>;
-        } else if (loading) {
-            return <div>loading books...</div>;
+        if (Storage.hasApiKey()) {
+            setApiKey(Storage.getApiKey());
         } else {
-            return <WithNavigation />;
+            setLocation("/signin");
         }
-    };
-    
-    return <div className="App">{renderMain()}</div>;
+    }, [apiKey]);
+
+    return (
+        <div className="App">
+            <WithNavigation />
+        </div>
+    );
 }
 export default App;

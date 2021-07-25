@@ -9,10 +9,12 @@ import { UpdateBookPage } from "../page/UpdateBookPage";
 import { SettingsPage } from "../page/SettingsPage";
 
 import Storage from "../utils/storage";
+import { SignInPage } from "@/page/SignInPage";
 
 export const WithNavigation: React.FC<{}> = (): JSX.Element => {
     return (
         <Switch>
+            <Route path="/signin" component={SignInPage} />
             <Route path="/about" component={AboutPage} />
             <Route path="/add" component={AddBookPage} />
             <Route path="/settings" component={SettingsPage} />
@@ -23,7 +25,7 @@ export const WithNavigation: React.FC<{}> = (): JSX.Element => {
                 {(params) => <BookDetailsPage id={params.id} />}
             </Route>
             <Route>
-                {Storage.getApiKey() ? <BookListPage /> : <div>no API key</div>}
+                {Storage.getApiKey() ? <BookListPage /> : <div/>}
             </Route>
         </Switch>
     );
