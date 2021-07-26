@@ -8,6 +8,8 @@ import { Book } from "../types";
 import BookApi from "../api/book";
 import useLocation from "wouter/use-location";
 import { progressState } from "../state/progress";
+import Container from "@material-ui/core/Container";
+import { TopBarForm } from "@/component/TopBarForm";
 
 type Props = {
     id: string;
@@ -41,21 +43,28 @@ export const UpdateBookPage: React.FC<Props> = ({ id }): JSX.Element => {
 
     const goHome = () => setLocation("/");
     return (
-        <div className="update-book">
-            {thisBook ? (
-                <>
-                    <Typography variant="h5" component="h1">
-                        Update book
-                    </Typography>
-                    <FormBook
-                        book={thisBook}
-                        onSubmit={updateBook}
-                        onCancel={goHome}
-                    />
-                </>
-            ) : (
-                <div>Book Not found</div>
-            )}
+        <div>
+            <TopBarForm />
+            <main>
+                <Container maxWidth="sm">
+                    <div className="update-book">
+                        {thisBook ? (
+                            <>
+                                <Typography variant="h5" component="h1">
+                                    Update book
+                                </Typography>
+                                <FormBook
+                                    book={thisBook}
+                                    onSubmit={updateBook}
+                                    onCancel={goHome}
+                                />
+                            </>
+                        ) : (
+                            <div>Book Not found</div>
+                        )}
+                    </div>
+                </Container>
+            </main>
         </div>
     );
 };

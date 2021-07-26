@@ -4,6 +4,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import IconButton from "@material-ui/core/IconButton";
 import { useLocation } from "wouter";
+import Storage from '../utils/storage';
 
 const MainMenu: React.FC<{}> = (): JSX.Element => {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -26,6 +27,10 @@ const MainMenu: React.FC<{}> = (): JSX.Element => {
         setLocation("/about");
     };
 
+    const handleSignOut = () => {
+        Storage.clearApiKey();
+        setLocation("/signin");
+    };
     return (
         <div>
             <IconButton
@@ -42,7 +47,7 @@ const MainMenu: React.FC<{}> = (): JSX.Element => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                <MenuItem onClick={handleSettings}>Settings</MenuItem>
+                <MenuItem onClick={handleSignOut}>Sign out</MenuItem>
                 <MenuItem onClick={handleAbout}>About</MenuItem>
             </Menu>
         </div>
