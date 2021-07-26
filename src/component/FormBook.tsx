@@ -4,6 +4,9 @@ import TextField from "@material-ui/core/TextField";
 import SaveIcon from "@material-ui/icons/Save";
 import React, { useState } from "react";
 import { Book } from "../types";
+import {bookFormState} from '../state/book-form';
+import {useResetRecoilState, useSetRecoilState} from 'recoil';
+import { useEffect } from "react";
 
 type Props = {
     book?: Book;
@@ -16,6 +19,7 @@ export const FormBook: React.FC<Props> = ({
     onCancel,
     book,
 }): JSX.Element => {
+    const setBookFormState = useSetRecoilState(bookFormState);
     const [bookTitle, setBookTitle] = useState<string>(book?.title || "");
     const [bookAuthor, setBookAuthor] = useState<string>(book?.author || "");
 
@@ -30,6 +34,7 @@ export const FormBook: React.FC<Props> = ({
             });
         }
     };
+    useEffect(() => setBookFormState({onSubmit : handleSubmit}));
 
     return (
         <div className="form-book">
@@ -43,6 +48,7 @@ export const FormBook: React.FC<Props> = ({
                             onChange={(e) => setBookTitle(e.target.value)}
                             required
                             fullWidth
+                            variant="filled"
                         />
                     </Grid>
                     <Grid item xs={12}>
@@ -52,19 +58,8 @@ export const FormBook: React.FC<Props> = ({
                             value={bookAuthor}
                             onChange={(e) => setBookAuthor(e.target.value)}
                             fullWidth
+                            variant="filled"
                         />
-                    </Grid>
-                </Grid>
-                <Grid container spacing={2} justifyContent="center">
-                    <Grid item>
-                        <Button
-                            variant="contained"
-                            onClick={handleSubmit}
-                            color="primary"
-                            startIcon={<SaveIcon />}
-                        >
-                            Save
-                        </Button>
                     </Grid>
                 </Grid>
             </form>

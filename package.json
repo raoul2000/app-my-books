@@ -4,7 +4,8 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "serve": "vite preview",
-    "mock-api": "json-server --port 3001 --watch test/api/db.json --snapshots test/api/db-snapshot "
+    "mock-api": "json-server --port 3001 --watch test/api/db.json --snapshots test/api/db-snapshot ",
+    "mock-slow-api": "json-server --port 3001 --watch test/api/db.json --snapshots test/api/db-snapshot --delay 4000"
   },
   "dependencies": {
     "@fontsource/roboto": "^4.5.0",
@@ -13,7 +14,6 @@
     "nanoid": "^3.1.23",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
-    "react-fetch-hook": "^1.8.5",
     "recoil": "^0.3.1",
     "wouter": "^2.7.4"
   },
