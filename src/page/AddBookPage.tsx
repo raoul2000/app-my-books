@@ -8,8 +8,8 @@ import { progressState } from "../state/progress";
 import { Book } from "../types";
 import { FormBook } from "../component/FormBook";
 import BookApi from "../api/book";
-import { Header } from "@/component/Header";
 import Container from "@material-ui/core/Container";
+import { TopBarForm } from "@/component/TopBarForm";
 
 export const AddBookPage: React.FC<{}> = (): JSX.Element => {
     const setBooks = useSetRecoilState<Book[]>(booksState);
@@ -31,7 +31,7 @@ export const AddBookPage: React.FC<{}> = (): JSX.Element => {
 
     return (
         <div className="about">
-            <Header />
+            <TopBarForm />
             <main>
                 <Container maxWidth="sm">
                     <div className="add-book">

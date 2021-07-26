@@ -13,3 +13,7 @@ export type LoadingBooksState = {
     status: 'init' | 'loading' | 'success' | 'error';
     errorMessage?: string;
 }
+
+export type BookFormState = {
+    onSubmit : () => void
+};

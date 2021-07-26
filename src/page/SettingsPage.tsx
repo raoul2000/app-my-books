@@ -3,7 +3,6 @@ import useLocation from "wouter/use-location";
 import Typography from "@material-ui/core/Typography";
 import Snackbar from "@material-ui/core/Snackbar";
 import { FormSettings } from "../component/FormSettings";
-import { Header } from "@/component/Header";
 import Container from "@material-ui/core/Container";
 
 export const SettingsPage: React.FC<{}> = (): JSX.Element => {
@@ -16,7 +15,6 @@ export const SettingsPage: React.FC<{}> = (): JSX.Element => {
 
     return (
         <div>
-            <Header />
             <main>
                 <Container maxWidth="sm">
                     <div className="settings">

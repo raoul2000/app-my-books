@@ -12,7 +12,7 @@ import { progressState } from "../state/progress";
 import { Book } from "../types";
 import { useLocation } from "wouter";
 import BookApi from "../api/book";
-import { Header } from "@/component/Header";
+import { TopBarSecondary } from "@/component/TopBarSecondary";
 
 type Props = {
     id: string;
@@ -44,7 +44,7 @@ export const BookDetailsPage: React.FC<Props> = ({ id }): JSX.Element => {
 
     return (
         <div className="about">
-            <Header />
+            <TopBarSecondary />
             <main>
                 <Container maxWidth="sm">
                     <div className="detail-book">

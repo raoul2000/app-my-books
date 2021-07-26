@@ -11,7 +11,7 @@ import { useLocation } from "wouter";
 import { ListBooks } from "../component/ListBooks";
 import { booksState } from "../state/books";
 import { loadingBooksState } from "../state/loading-books";
-import { Header } from "@/component/Header";
+import { TopBar } from "@/component/TopBar";
 import BookApi from "../api/book";
 
 export const BookListPage: React.FC<{}> = (): JSX.Element => {
@@ -38,7 +38,7 @@ export const BookListPage: React.FC<{}> = (): JSX.Element => {
 
     return (
         <div>
-            <Header />
+            <TopBar />
             <main>
                 <Container maxWidth="sm">
                     {loadingBooks.status === "loading" && (

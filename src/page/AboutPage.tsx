@@ -1,12 +1,12 @@
 import React from "react";
 import Typography from "@material-ui/core/Typography";
-import { Header } from "@/component/Header";
+import { TopBarSecondary } from "@/component/TopBarSecondary";
 import Container from "@material-ui/core/Container";
 
 export const AboutPage: React.FC<{}> = (): JSX.Element => {
     return (
         <div className="about">
-            <Header />
+            <TopBarSecondary />
             <main>
                 <Container maxWidth="sm">
                     <Typography variant="h5" component="h1">

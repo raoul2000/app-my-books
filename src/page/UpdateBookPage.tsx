@@ -8,8 +8,8 @@ import { Book } from "../types";
 import BookApi from "../api/book";
 import useLocation from "wouter/use-location";
 import { progressState } from "../state/progress";
-import { Header } from "@/component/Header";
 import Container from "@material-ui/core/Container";
+import { TopBarForm } from "@/component/TopBarForm";
 
 type Props = {
     id: string;
@@ -44,7 +44,7 @@ export const UpdateBookPage: React.FC<Props> = ({ id }): JSX.Element => {
     const goHome = () => setLocation("/");
     return (
         <div>
-            <Header />
+            <TopBarForm />
             <main>
                 <Container maxWidth="sm">
                     <div className="update-book">

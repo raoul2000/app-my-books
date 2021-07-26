@@ -44,9 +44,25 @@ export const updateBook = (book: Book): Promise<Book> =>
             return books[0];
         });
 
+export const login = (name: string, password: string): Promise<string> =>
+    new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve("dummy_key");
+        }, 1000);
+    });
+
+export const logout = () =>
+    new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve(true);
+        }, 1000);
+    });
+
 export default {
     getAllBooks,
     deleteBookById,
     addBook,
     updateBook,
+    login,
+    logout,
 };
