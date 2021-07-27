@@ -43,15 +43,19 @@ export const SignInPage: React.FC<{}> = (): JSX.Element => {
     const [, setLocation] = useLocation();
     const setApiKey = useSetRecoilState(apiKeyState);
 
-    const [email, setEmail] = useState<string>('');
+    const [username, setUsername] = useState<string>('');
     const [password, setpassword] = useState<string>('');
     
     const handleLogin = () => {
-        BookApi.login(email, password)
+        BookApi.login(username, password)
         .then((apiKey) => {
             setApiKey(apiKey);
             Storage.setApiKey(apiKey);
             setLocation('/');
+        })
+        .catch(err => {
+            alert(`erreur : ${err.message}`);
+            console.error(err);
         });
     };
 
@@ -68,12 +72,12 @@ export const SignInPage: React.FC<{}> = (): JSX.Element => {
                         margin="normal"
                         required
                         fullWidth
-                        id="email"
-                        label="Email Address"
-                        name="email"
-                        autoComplete="email"
+                        id="username"
+                        label="User name"
+                        name="username"
+                        autoComplete="username"
                         autoFocus
-                        onChange={(e) => setEmail(e.target.value)}
+                        onChange={(e) => setUsername(e.target.value)}
                     />
                     <TextField
                         variant="outlined"
