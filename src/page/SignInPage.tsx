@@ -8,12 +8,17 @@ import Container from "@material-ui/core/Container";
 import Snackbar from "@material-ui/core/Snackbar";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
+import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
 
 import BookApi from "../api/book";
 import { useLocation } from "wouter";
 import { useSetRecoilState } from "recoil";
 import { apiKeyState } from "@/state/api-key";
 import Storage from "@/utils/storage";
+
+function Alert(props: AlertProps) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -160,7 +165,11 @@ export const SignInPage: React.FC<{}> = (): JSX.Element => {
                         </IconButton>
                     </React.Fragment>
                 }
-            />
+            >
+                <Alert onClose={handleCloseSnackBar} severity="error">
+                    Login failed
+                </Alert>
+            </Snackbar>
         </Container>
     );
 };
