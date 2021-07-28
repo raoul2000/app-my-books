@@ -9,6 +9,7 @@ import Snackbar from "@material-ui/core/Snackbar";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
+import LinearProgress from "@material-ui/core/LinearProgress";
 
 import BookApi from "../api/book";
 import { useLocation } from "wouter";
@@ -21,6 +22,12 @@ function Alert(props: AlertProps) {
 }
 
 const useStyles = makeStyles((theme) => ({
+    loginFormContainer : {
+        paddingTop: "50px"
+    },
+    loginProgressContainer: {
+        width: "100%",
+    },
     paper: {
         marginTop: theme.spacing(8),
         display: "flex",
@@ -48,6 +55,7 @@ type FormError = {
 export const SignInPage: React.FC<{}> = (): JSX.Element => {
     const classes = useStyles();
     const [openSnackBar, setOpenSnackBar] = React.useState(false);
+    const [loginInProgress, setLoginInProgress] = React.useState(false);
     const [, setLocation] = useLocation();
     const setApiKey = useSetRecoilState(apiKeyState);
     const [formError, setFormError] = useState<FormError>({
@@ -85,6 +93,8 @@ export const SignInPage: React.FC<{}> = (): JSX.Element => {
 
     const handleLogin = () => {
         if (isFormValid()) {
+            setLoginInProgress(true);
+            setOpenSnackBar(false);
             BookApi.login(username, password)
                 .then((apiKey) => {
                     setApiKey(apiKey);
@@ -94,12 +104,15 @@ export const SignInPage: React.FC<{}> = (): JSX.Element => {
                 .catch((err) => {
                     setOpenSnackBar(true);
                     console.error(err);
+                })
+                .finally(() => {
+                    setLoginInProgress(false);
                 });
         }
     };
 
     return (
-        <Container component="main" maxWidth="xs">
+        <Container component="main" maxWidth="xs" className={classes.loginFormContainer}>
             <CssBaseline />
             <div className={classes.paper}>
                 <Typography component="h1" variant="h5">
@@ -116,6 +129,7 @@ export const SignInPage: React.FC<{}> = (): JSX.Element => {
                         name="username"
                         autoComplete="username"
                         autoFocus
+                        disabled={loginInProgress}
                         error={formError.username}
                         onChange={(e) => setUsername(e.target.value)}
                     />
@@ -129,9 +143,11 @@ export const SignInPage: React.FC<{}> = (): JSX.Element => {
                         type="password"
                         id="password"
                         autoComplete="current-password"
+                        disabled={loginInProgress}
                         error={formError.password}
                         onChange={(e) => setpassword(e.target.value)}
                     />
+
                     <Button
                         type="button"
                         fullWidth
@@ -139,9 +155,13 @@ export const SignInPage: React.FC<{}> = (): JSX.Element => {
                         color="primary"
                         className={classes.submit}
                         onClick={handleLogin}
+                        disabled={loginInProgress}
                     >
                         Sign In
                     </Button>
+                    <div className={classes.loginProgressContainer}>
+                        <LinearProgress hidden={!loginInProgress} />
+                    </div>
                 </form>
             </div>
             <Snackbar
