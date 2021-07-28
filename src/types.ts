@@ -15,7 +15,9 @@ export type LoadingBooksState = {
 }
 
 export type BookFormState = {
-    onSubmit : () => void
+    onSubmit : () => void,
+    title: string;
+    author?: string;
 };
 
 export type LoginSuccessResponse = {

@@ -5,6 +5,8 @@ import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import Fab from "@material-ui/core/Fab";
 import DeleteIcon from "@material-ui/icons/Delete";
+import Button from "@material-ui/core/Button";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { booksState } from "../state/books";
@@ -13,12 +15,31 @@ import { Book } from "../types";
 import { useLocation } from "wouter";
 import BookApi from "../api/book";
 import { TopBarSecondary } from "@/component/TopBarSecondary";
+import { TopBarActions } from "@/component/TopBarActions";
+
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        title: {
+            flex: 1,
+            justifyContent: "flex-end",
+            color: "white",
+            textAlign: "center",
+        },
+        submitButton: {
+            color: "white",
+        },
+        backButton: {
+            marginRight: theme.spacing(2),
+        },
+    })
+);
 
 type Props = {
     id: string;
 };
 
 export const BookDetailsPage: React.FC<Props> = ({ id }): JSX.Element => {
+    const classes = useStyles();
     const [books, setBooks] = useRecoilState<Book[]>(booksState);
     const setProgress = useSetRecoilState(progressState);
     const [, setLocation] = useLocation();
@@ -44,7 +65,18 @@ export const BookDetailsPage: React.FC<Props> = ({ id }): JSX.Element => {
 
     return (
         <div className="about">
-            <TopBarSecondary />
+            <TopBarActions
+                actions={
+                    <>
+                        <Button
+                            className={classes.submitButton}
+                            onClick={() => setLocation(`/update/${id}`)}
+                        >
+                            Modifier
+                        </Button>
+                    </>
+                }
+            ></TopBarActions>
             <main>
                 <Container maxWidth="sm">
                     <div className="detail-book">
