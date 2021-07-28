@@ -2,6 +2,7 @@ import React from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import SaveIcon from '@material-ui/icons/Save';
 import { useLocation } from "wouter";
 import Button from "@material-ui/core/Button";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
@@ -50,6 +51,7 @@ export const TopBarForm: React.FC<{}> = (): JSX.Element => {
 
                 <Button
                     className={classes.submitButton}
+                    startIcon={<SaveIcon />}
                     onClick={() => bookForm.onSubmit()}
                 >
                     Enregistrer
