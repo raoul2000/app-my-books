@@ -7,13 +7,21 @@ const HEADER_NAME_API_KEY = "X-Api-Key";
 
 const getApiKey = () => Storage.getApiKey() || "";
 
-const errorHandler = (response: Response) => {
+const handleErrorJson = (response: Response) => {
     if (!response.ok) {
         return response.json().then((data) => {
             throw data
         });
     } else {
         return response.json();
+    }
+};
+
+const handleErrorNoResponse = (response: Response) => {
+    if (!response.ok) {
+        throw response.statusText;        
+    } else {
+        return true;
     }
 };
 
@@ -26,7 +34,7 @@ export const getAllBooks = () =>
             headers: { [HEADER_NAME_API_KEY]: getApiKey() },
         }
     )
-        .then(errorHandler)
+        .then(handleErrorJson)
         .then((jsonResp) => jsonResp as unknown as Book[]);
 
 export const addBook = (book: Book): Promise<Book> =>
@@ -47,7 +55,7 @@ export const addBook = (book: Book): Promise<Book> =>
             }),
         }
     )
-        .then(errorHandler)
+        .then(handleErrorJson)
         .then((resp) => resp as unknown as Book);
 
 export const updateBook = (book: Book): Promise<Book> =>
@@ -68,10 +76,10 @@ export const updateBook = (book: Book): Promise<Book> =>
             }),
         }
     )
-        .then(errorHandler)
+        .then(handleErrorJson)
         .then((resp) => resp as unknown as Book);
 
-export const deleteBookById = (id: string): Promise<Response> =>
+export const deleteBookById = (id: string): Promise<boolean> =>
     fetch(
         `${apiBaseUrl}?${new URLSearchParams({
             r: "api/book/delete",
@@ -84,7 +92,7 @@ export const deleteBookById = (id: string): Promise<Response> =>
                 [HEADER_NAME_API_KEY]: getApiKey(),
             },
         }
-    ).then(errorHandler);
+    ).then(handleErrorNoResponse);
 
 export const login = (username: string, password: string): Promise<string> =>
     fetch(
@@ -102,7 +110,7 @@ export const login = (username: string, password: string): Promise<string> =>
             }),
         }
     )
-        .then(errorHandler)
+        .then(handleErrorJson)
         .then((successResponse) => {
             const loginSuccess =
                 successResponse as unknown as LoginSuccessResponse;
