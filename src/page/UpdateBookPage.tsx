@@ -3,7 +3,7 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState,  useSetRecoilState } from "recoil";
 import { FormBook } from "../component/FormBook";
 import { booksState } from "../state/books";
 import { Book } from "../types";
@@ -11,7 +11,6 @@ import BookApi from "../api/book";
 import useLocation from "wouter/use-location";
 import { progressState } from "../state/progress";
 import Container from "@material-ui/core/Container";
-import { TopBarForm } from "@/component/TopBarForm";
 import { TopBarActions } from "@/component/TopBarActions";
 import { bookFormState } from "@/state/book-form";
 
@@ -30,30 +29,12 @@ type Props = {
 export const UpdateBookPage: React.FC<Props> = ({ id }): JSX.Element => {
     const classes = useStyles();
     const [books, setBooks] = useRecoilState<Book[]>(booksState);
-    const bookForm = useRecoilValue(bookFormState);
+    const [bookForm, setBookForm] = useRecoilState(bookFormState);
     const setProgress = useSetRecoilState(progressState);
     const [, setLocation] = useLocation();
 
     const thisBook = books.find((book) => book.id === id);
 
- /*   const updateBook = (book: Book) => {
-        setProgress(true);
-        setLocation("/");
-        BookApi.updateBook(book)
-            .then(() => {
-                setBooks((oldBooks) => [
-                    ...oldBooks.map((oBook) => {
-                        if (oBook.id === book.id) {
-                            return { ...book };
-                        } else {
-                            return { ...oBook };
-                        }
-                    }),
-                ]);
-            })
-            .catch(console.error)
-            .finally(() => setProgress(false));
-    };*/
     const handleSave = () => {
         console.log(bookForm);
         if(!thisBook) {
@@ -61,6 +42,13 @@ export const UpdateBookPage: React.FC<Props> = ({ id }): JSX.Element => {
         }
         if(!bookForm.title) {
             alert('please enter a title');
+            setBookForm((curState) => ({
+                ...curState,
+                validation: {
+                    ...curState.validation,
+                    title:false
+                }
+            }));
             return;
         }
         const updatedBook:Book = {
@@ -86,7 +74,6 @@ export const UpdateBookPage: React.FC<Props> = ({ id }): JSX.Element => {
             .finally(() => setProgress(false));        
 
     };
-    const goHome = () => setLocation("/");
     return (
         <div>
             <TopBarActions

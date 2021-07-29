@@ -23,6 +23,9 @@ export const FormBook: React.FC<Props> = ({
             setBookFormState({
                 title: book.title,
                 author: book.author,
+                validation : {
+                    title:true
+                },
                 onSubmit: () => {},
             });
         }
@@ -59,6 +62,7 @@ export const FormBook: React.FC<Props> = ({
                             required
                             fullWidth
                             variant="filled"
+                            error={!bookForm.validation?.title || false}
                         />
                     </Grid>
                     <Grid item xs={12}>

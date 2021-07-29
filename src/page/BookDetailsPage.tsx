@@ -5,6 +5,7 @@ import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import Fab from "@material-ui/core/Fab";
 import DeleteIcon from "@material-ui/icons/Delete";
+import EditIcon from "@material-ui/icons/Edit";
 import Button from "@material-ui/core/Button";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 
@@ -31,6 +32,13 @@ const useStyles = makeStyles((theme: Theme) =>
         backButton: {
             marginRight: theme.spacing(2),
         },
+        editButton : {
+            backgroundColor: 'green',
+            color: 'white',
+            position: 'fixed',
+            bottom: '1em',
+            right: '1em'
+        }
     })
 );
 
@@ -70,9 +78,9 @@ export const BookDetailsPage: React.FC<Props> = ({ id }): JSX.Element => {
                     <>
                         <Button
                             className={classes.submitButton}
-                            onClick={() => setLocation(`/update/${id}`)}
+                            onClick={() => handleDeleteBook(thisBook)}
                         >
-                            Modifier
+                            Supprimer
                         </Button>
                     </>
                 }
@@ -94,12 +102,11 @@ export const BookDetailsPage: React.FC<Props> = ({ id }): JSX.Element => {
                         )}
                     </div>
                     <Fab
-                        color="secondary"
-                        aria-label="delete book"
-                        className="btn-delete-book"
-                        onClick={() => handleDeleteBook(thisBook)}
+                        aria-label="update book"
+                        onClick={() => setLocation(`/update/${id}`)}
+                        className={classes.editButton}
                     >
-                        <DeleteIcon />
+                        <EditIcon />
                     </Fab>
                 </Container>
             </main>

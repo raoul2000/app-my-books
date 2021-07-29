@@ -18,6 +18,9 @@ export type BookFormState = {
     onSubmit : () => void,
     title: string;
     author?: string;
+    validation: {
+        title:boolean;
+    }
 };
 
 export type LoginSuccessResponse = {
