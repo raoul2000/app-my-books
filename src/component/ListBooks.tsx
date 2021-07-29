@@ -32,7 +32,7 @@ export const ListBooks: React.FC<Props> = ({ books, loading }): JSX.Element => {
         <List className={classes.root}>
             {loading &&
                 Array.from(new Array(5)).map((book, index) => (
-                    <ListItem key={index}>
+                    <ListItem key={index} divider={true}>
                         <ListItemText
                             primary={<Skeleton variant="rect" height="1.5em" />}
                             secondary={<Skeleton variant="text" />}
@@ -43,6 +43,7 @@ export const ListBooks: React.FC<Props> = ({ books, loading }): JSX.Element => {
                 booksToRender.map((book) => (
                     <ListItem
                         key={book.id}
+                        divider={true}
                         button
                         onClick={() => handleShowBookDetail(book.id)}
                     >
