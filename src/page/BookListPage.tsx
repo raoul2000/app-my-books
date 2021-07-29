@@ -2,8 +2,6 @@ import React, { useEffect } from "react";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 import Container from "@material-ui/core/Container";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import Box from "@material-ui/core/Box";
 
 import { useRecoilState } from "recoil";
 import { useLocation } from "wouter";
@@ -41,34 +39,23 @@ export const BookListPage: React.FC<{}> = (): JSX.Element => {
             <TopBar />
             <main>
                 <Container maxWidth="sm">
-                    {loadingBooks.status === "loading" && (
-                        <Box
-                            display="flex"
-                            justifyContent="center"
-                            alignItems="center"
-                            minHeight="70vh"
-                        >
-                            <CircularProgress />
-                        </Box>
-                    )}
-
                     {loadingBooks.status === "error" && (
                         <div>Failed to load book list</div>
                     )}
-
-                    {loadingBooks.status === "success" && (
-                        <>
-                            <ListBooks books={books} />
-                            <Fab
-                                color="primary"
-                                aria-label="add"
-                                className="btn-add-book"
-                                onClick={() => setLocation("/add")}
-                            >
-                                <AddIcon />
-                            </Fab>
-                        </>
-                    )}
+                    <>
+                        <ListBooks
+                            books={books}
+                            loading={loadingBooks.status === "loading"}
+                        />
+                        <Fab
+                            color="primary"
+                            aria-label="add"
+                            className="btn-add-book"
+                            onClick={() => setLocation("/add")}
+                        >
+                            <AddIcon />
+                        </Fab>
+                    </>
                 </Container>
             </main>
         </div>
