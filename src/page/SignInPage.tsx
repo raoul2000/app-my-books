@@ -22,8 +22,8 @@ function Alert(props: AlertProps) {
 }
 
 const useStyles = makeStyles((theme) => ({
-    loginFormContainer : {
-        paddingTop: "50px"
+    loginFormContainer: {
+        paddingTop: "50px",
     },
     loginProgressContainer: {
         width: "100%",
@@ -112,7 +112,11 @@ export const SignInPage: React.FC<{}> = (): JSX.Element => {
     };
 
     return (
-        <Container component="main" maxWidth="xs" className={classes.loginFormContainer}>
+        <Container
+            component="main"
+            maxWidth="xs"
+            className={classes.loginFormContainer}
+        >
             <CssBaseline />
             <div className={classes.paper}>
                 <Typography component="h1" variant="h5">

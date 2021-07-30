@@ -2,15 +2,15 @@ import React from "react";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import Container from "@material-ui/core/Container";
+import useLocation from "wouter/use-location";
 
-import { useRecoilState,  useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { FormBook } from "../component/FormBook";
 import { booksState } from "../state/books";
 import { Book } from "../types";
 import BookApi from "../api/book";
-import useLocation from "wouter/use-location";
 import { progressState } from "../state/progress";
-import Container from "@material-ui/core/Container";
 import { TopBarActions } from "@/component/TopBarActions";
 import { bookFormState } from "@/state/book-form";
 
@@ -37,24 +37,24 @@ export const UpdateBookPage: React.FC<Props> = ({ id }): JSX.Element => {
 
     const handleSave = () => {
         console.log(bookForm);
-        if(!thisBook) {
+        if (!thisBook) {
             return;
         }
-        if(!bookForm.title) {
-            alert('please enter a title');
+        if (!bookForm.title) {
+            alert("please enter a title");
             setBookForm((curState) => ({
                 ...curState,
                 validation: {
                     ...curState.validation,
-                    title:false
-                }
+                    title: false,
+                },
             }));
             return;
         }
-        const updatedBook:Book = {
+        const updatedBook: Book = {
             ...thisBook,
             title: bookForm.title,
-            author:bookForm.author
+            author: bookForm.author,
         };
         setProgress(true);
         setLocation(`/detail/${id}`);
@@ -71,8 +71,7 @@ export const UpdateBookPage: React.FC<Props> = ({ id }): JSX.Element => {
                 ]);
             })
             .catch(console.error)
-            .finally(() => setProgress(false));        
-
+            .finally(() => setProgress(false));
     };
     return (
         <div>
@@ -96,9 +95,7 @@ export const UpdateBookPage: React.FC<Props> = ({ id }): JSX.Element => {
                                 <Typography variant="h5" component="h1">
                                     Update book
                                 </Typography>
-                                <FormBook
-                                    book={thisBook}
-                                />
+                                <FormBook book={thisBook} />
                             </>
                         ) : (
                             <div>Book Not found</div>

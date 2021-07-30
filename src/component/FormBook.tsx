@@ -1,20 +1,16 @@
-import Button from "@material-ui/core/Button";
+import React, { useEffect } from "react";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
-import SaveIcon from "@material-ui/icons/Save";
-import React, { useState } from "react";
+import { useRecoilState } from "recoil";
+
 import { Book, BookFormState } from "../types";
 import { bookFormState } from "../state/book-form";
-import { useResetRecoilState, useRecoilState } from "recoil";
-import { useEffect } from "react";
 
 type Props = {
     book?: Book;
 };
 
-export const FormBook: React.FC<Props> = ({
-    book,
-}): JSX.Element => {
+export const FormBook: React.FC<Props> = ({ book }): JSX.Element => {
     const [bookForm, setBookFormState] =
         useRecoilState<BookFormState>(bookFormState);
 
@@ -23,10 +19,9 @@ export const FormBook: React.FC<Props> = ({
             setBookFormState({
                 title: book.title,
                 author: book.author,
-                validation : {
-                    title:true
-                },
-                onSubmit: () => {},
+                validation: {
+                    title: true,
+                }
             });
         }
     }, []);

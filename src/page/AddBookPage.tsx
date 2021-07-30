@@ -34,8 +34,7 @@ export const AddBookPage: React.FC<{}> = (): JSX.Element => {
                 author: '',
                 validation : {
                     title:true
-                },
-                onSubmit: () => {},
+                }
             });
     }, []);
 

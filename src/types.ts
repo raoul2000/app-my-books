@@ -15,7 +15,6 @@ export type LoadingBooksState = {
 }
 
 export type BookFormState = {
-    onSubmit : () => void,
     title: string;
     author?: string;
     validation: {
