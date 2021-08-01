@@ -6,7 +6,8 @@ import PrivateApi from './private/index';
 let apiModule = PrivateApi;
 //let  apiModule = SheetBestApi;
 if (import.meta.env.PROD) {
-    apiModule = SheetBestApi;
+    //apiModule = SheetBestApi;
+    apiModule = PrivateApi;
 }
 
 export default apiModule;
