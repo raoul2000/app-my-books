@@ -24,9 +24,7 @@ export const WithNavigation: React.FC<{}> = (): JSX.Element => {
             <Route path="/detail/:id">
                 {(params) => <BookDetailsPage id={params.id} />}
             </Route>
-            <Route>
-                {Storage.getApiKey() ? <BookListPage /> : <div/>}
-            </Route>
+            <Route>{Storage.getApiKey() ? <BookListPage /> : <div />}</Route>
         </Switch>
     );
 };

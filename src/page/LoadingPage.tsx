@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import Typography from "@material-ui/core/Typography";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
@@ -20,15 +20,14 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
-
-export const LoadingPage: React.FC<{}> = ():JSX.Element => {
+export const LoadingPage: React.FC<{}> = (): JSX.Element => {
     const classes = useStyles();
-    return ( 
+    return (
         <div className="loading-list">
             <Typography variant="h5" component="h1">
                 About
             </Typography>
-            <CircularProgress className={classes.progressColor}/>
+            <CircularProgress className={classes.progressColor} />
         </div>
     );
-}
+};

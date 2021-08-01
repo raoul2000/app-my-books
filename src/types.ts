@@ -15,5 +15,26 @@ export type LoadingBooksState = {
 }
 
 export type BookFormState = {
-    onSubmit : () => void
+    title: string;
+    author?: string;
+    validation: {
+        title:boolean;
+    }
 };
+
+export type LoginSuccessResponse = {
+    success: boolean;
+    /**
+     * user may not have an api_key (ex: admin user or
+     * api key revoked)
+     */
+    api_key?: string;
+}
+
+export type ErrorResponse = {
+    name: string;
+    message: string;
+    code: number;
+    status: number;
+    type: string;
+}

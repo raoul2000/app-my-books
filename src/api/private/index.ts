@@ -1,4 +1,4 @@
-import { Book } from "../../types";
+import { Book, LoginSuccessResponse } from "../../types";
 import { nanoid } from "nanoid";
 import Storage from "@/utils/storage";
 
@@ -7,8 +7,26 @@ const HEADER_NAME_API_KEY = "X-Api-Key";
 
 const getApiKey = () => Storage.getApiKey() || "";
 
-export const getAllBooks = () => {
-    return fetch(
+const handleErrorJson = (response: Response) => {
+    if (!response.ok) {
+        return response.json().then((data) => {
+            throw data
+        });
+    } else {
+        return response.json();
+    }
+};
+
+const handleErrorNoResponse = (response: Response) => {
+    if (!response.ok) {
+        throw response.statusText;        
+    } else {
+        return true;
+    }
+};
+
+export const getAllBooks = () =>
+    fetch(
         `${apiBaseUrl}?${new URLSearchParams({
             r: "api/book",
         })}`,
@@ -16,9 +34,8 @@ export const getAllBooks = () => {
             headers: { [HEADER_NAME_API_KEY]: getApiKey() },
         }
     )
-        .then((resp) => resp.json())
+        .then(handleErrorJson)
         .then((jsonResp) => jsonResp as unknown as Book[]);
-};
 
 export const addBook = (book: Book): Promise<Book> =>
     fetch(
@@ -37,7 +54,9 @@ export const addBook = (book: Book): Promise<Book> =>
                 author: book.author,
             }),
         }
-    ).then((resp) => resp.json() as unknown as Book);
+    )
+        .then(handleErrorJson)
+        .then((resp) => resp as unknown as Book);
 
 export const updateBook = (book: Book): Promise<Book> =>
     fetch(
@@ -56,9 +75,11 @@ export const updateBook = (book: Book): Promise<Book> =>
                 author: book.author,
             }),
         }
-    ).then((resp) => resp.json() as unknown as Book);
+    )
+        .then(handleErrorJson)
+        .then((resp) => resp as unknown as Book);
 
-export const deleteBookById = (id: string): Promise<Response> =>
+export const deleteBookById = (id: string): Promise<boolean> =>
     fetch(
         `${apiBaseUrl}?${new URLSearchParams({
             r: "api/book/delete",
@@ -71,20 +92,36 @@ export const deleteBookById = (id: string): Promise<Response> =>
                 [HEADER_NAME_API_KEY]: getApiKey(),
             },
         }
-    );
+    ).then(handleErrorNoResponse);
 
-export const login = (name: string, password: string): Promise<string> =>
-    new Promise((resolve, reject) => {
-        setTimeout(() => {
-            resolve("dummy_key");
-        }, 1000);
-    });
+export const login = (username: string, password: string): Promise<string> =>
+    fetch(
+        `${apiBaseUrl}?${new URLSearchParams({
+            r: "api/auth/login",
+        })}`,
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                username,
+                password,
+            }),
+        }
+    )
+        .then(handleErrorJson)
+        .then((successResponse) => {
+            const loginSuccess =
+                successResponse as unknown as LoginSuccessResponse;
+            return loginSuccess.api_key || "";
+        });
 
 export const logout = () =>
     new Promise((resolve, reject) => {
         setTimeout(() => {
             resolve(true);
-        }, 1000);
+        }, 100);
     });
 
 export default {

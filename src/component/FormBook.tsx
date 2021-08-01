@@ -1,40 +1,48 @@
-import Button from "@material-ui/core/Button";
+import React, { useEffect } from "react";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
-import SaveIcon from "@material-ui/icons/Save";
-import React, { useState } from "react";
-import { Book } from "../types";
-import {bookFormState} from '../state/book-form';
-import {useResetRecoilState, useSetRecoilState} from 'recoil';
-import { useEffect } from "react";
+import { useRecoilState } from "recoil";
+
+import { Book, BookFormState } from "../types";
+import { bookFormState } from "../state/book-form";
 
 type Props = {
     book?: Book;
-    onSubmit: (book: Book) => void;
-    onCancel: () => void;
 };
 
-export const FormBook: React.FC<Props> = ({
-    onSubmit,
-    onCancel,
-    book,
-}): JSX.Element => {
-    const setBookFormState = useSetRecoilState(bookFormState);
-    const [bookTitle, setBookTitle] = useState<string>(book?.title || "");
-    const [bookAuthor, setBookAuthor] = useState<string>(book?.author || "");
+export const FormBook: React.FC<Props> = ({ book }): JSX.Element => {
+    const [bookForm, setBookFormState] =
+        useRecoilState<BookFormState>(bookFormState);
 
-    const handleSubmit = () => {
-        if (!bookTitle) {
-            alert("enter book title");
-        } else {
-            onSubmit({
-                id: book ? book.id : "" + Math.random(),
-                title: bookTitle,
-                author: bookAuthor,
+    useEffect(() => {
+        if (book) {
+            setBookFormState({
+                title: book.title,
+                author: book.author,
+                validation: {
+                    title: true,
+                }
             });
         }
+    }, []);
+
+    const handleBookTitleChange = (
+        e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+    ) => {
+        setBookFormState((state) => ({
+            ...state,
+            title: e.target.value,
+        }));
     };
-    useEffect(() => setBookFormState({onSubmit : handleSubmit}));
+
+    const handleBookAuthorChange = (
+        e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+    ) => {
+        setBookFormState((state) => ({
+            ...state,
+            author: e.target.value,
+        }));
+    };
 
     return (
         <div className="form-book">
@@ -44,19 +52,20 @@ export const FormBook: React.FC<Props> = ({
                         <TextField
                             id="book-title"
                             label="Title"
-                            value={bookTitle}
-                            onChange={(e) => setBookTitle(e.target.value)}
+                            value={bookForm.title || ""}
+                            onChange={handleBookTitleChange}
                             required
                             fullWidth
                             variant="filled"
+                            error={!bookForm.validation?.title || false}
                         />
                     </Grid>
                     <Grid item xs={12}>
                         <TextField
                             id="book-author"
                             label="Author"
-                            value={bookAuthor}
-                            onChange={(e) => setBookAuthor(e.target.value)}
+                            value={bookForm.author || ""}
+                            onChange={handleBookAuthorChange}
                             fullWidth
                             variant="filled"
                         />

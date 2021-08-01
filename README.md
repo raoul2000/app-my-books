@@ -1,3 +1,3 @@
 # app-my-books
 
-this is a work-in-progress ...
+Mobile App to access my books

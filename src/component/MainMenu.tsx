@@ -17,11 +17,6 @@ const MainMenu: React.FC<{}> = (): JSX.Element => {
         setAnchorEl(null);
     };
 
-    const handleSettings = () => {
-        handleClose();
-        setLocation("/settings");
-    };
-
     const handleAbout = () => {
         handleClose();
         setLocation("/about");

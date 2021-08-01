@@ -4,6 +4,10 @@ import { atom } from "recoil";
 export const bookFormState = atom<BookFormState>({
     key: 'bookForm',
     default: {
-        onSubmit: () => {}
+        title: '',
+        author: '',
+        validation: {
+            title:true
+        }
     }
 });
