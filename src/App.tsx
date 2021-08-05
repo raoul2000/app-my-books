@@ -9,12 +9,14 @@ import { WithNavigation } from "./component/WithNavigation";
 import Storage from "@/utils/storage";
 import { apiKeyState } from "./state/api-key";
 import { BarCodePage } from "./page/BarCodePage";
+import { NativeBarCodePage } from "./page/NativeBarCodePage";
+import { MyCodeBarScanner } from "./component/MyCodeBarScanner";
 
 function App() {
-    /*
+    
     const [apiKey, setApiKey] = useRecoilState(apiKeyState);
     const [, setLocation] = useLocation();
-
+/* 
     useEffect(() => {
         if (Storage.hasApiKey()) {
             setApiKey(Storage.getApiKey());
@@ -27,7 +29,9 @@ function App() {
         <div className="App">
             <WithNavigation />
         </div>
-    );*/
-    return <BarCodePage />
+    ); */
+
+    return <NativeBarCodePage />
+    
 }
 export default App;

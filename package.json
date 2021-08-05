@@ -17,6 +17,7 @@
     "nanoid": "^3.1.23",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
+    "react-webcam-barcode-scanner": "0.0.2-rc2",
     "recoil": "^0.3.1",
     "wouter": "^2.7.4"
   },
