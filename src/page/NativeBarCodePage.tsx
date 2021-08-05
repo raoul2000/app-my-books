@@ -1,21 +1,27 @@
-import { MyCodeBarScanner } from "@/component/MyCodeBarScanner";
 import React, { useState } from "react";
+import { TopBarSecondary } from "@/component/TopBarSecondary";
+import { BarcodeResult, CodeBarScanner } from "@/component/CodeBarScanner";
+import Container from "@material-ui/core/Container";
+
 
 export const NativeBarCodePage: React.FC<{}> = (): JSX.Element => {
-    const [data, setData] = useState("Not Found");
+    const [data, setData] = useState<BarcodeResult|undefined>();
 
     return (
         <div className="barcode">
-            <MyCodeBarScanner 
-                            width={500}
-                            height={500}
-                            onUpdate={(err, result) => {
-                                if (result) setData(result.getText());
-                                else setData("Not Found");
-                            }}
-                        />
-            
-            <p>{data}</p>
+            <TopBarSecondary />
+            <main>
+                <Container maxWidth="sm">
+                    <CodeBarScanner
+                        width="100%"
+                        onUpdate={(err, result) => {
+                            if (result) setData(result);
+                            else setData(undefined);
+                        }}
+                    />
+                    <p>{data && data.text}</p>
+                </Container>
+            </main>
         </div>
     );
 };

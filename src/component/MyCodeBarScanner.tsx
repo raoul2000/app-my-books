@@ -58,34 +58,43 @@ export const MyCodeBarScanner: React.FC<Props> = ({
     }, [scannerOn]);
 
     return (
-        <div>
+        <div className="video-container">
             {data ? (
                 <div>
                     <ul>
                         <li>text : {data.text}</li>
                         <li>format: {data.format}</li>
                     </ul>
-                    <button onClick={() => setScannerOn(true)}>restart scan</button>
+                    <button onClick={() => setScannerOn(true)}>
+                        restart scan
+                    </button>
                 </div>
             ) : (
                 <div>
                     nothing ...
                     <button onClick={() => setScannerOn(!scannerOn)}>
-                        {scannerOn ? 'stop scan' : 'start scan'}
+                        {scannerOn ? "stop scan" : "start scan"}
                     </button>
                 </div>
             )}
 
             <hr />
-            <Webcam
-                width={width}
-                height={height}
-                ref={webcamRef}
-                screenshotFormat="image/png"
-                videoConstraints={{
-                    facingMode: "environment",
-                }}
-            />
+            <div className="inner-container">
+                <div className="video-overlay">
+                    <button onClick={() => setScannerOn(true)}>
+                        restart scan
+                    </button>
+                </div>
+                <Webcam
+                    width="100%"
+                    height="100%"
+                    ref={webcamRef}
+                    screenshotFormat="image/png"
+                    videoConstraints={{
+                        facingMode: "environment",
+                    }}
+                />
+            </div>
         </div>
     );
 };
