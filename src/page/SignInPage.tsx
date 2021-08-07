@@ -16,6 +16,7 @@ import { useLocation } from "wouter";
 import { useSetRecoilState } from "recoil";
 import { apiKeyState } from "@/state/api-key";
 import Storage from "@/utils/storage";
+import { loadingBooksState } from "@/state/loading-books";
 
 function Alert(props: AlertProps) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -58,6 +59,7 @@ export const SignInPage: React.FC<{}> = (): JSX.Element => {
     const [loginInProgress, setLoginInProgress] = React.useState(false);
     const [, setLocation] = useLocation();
     const setApiKey = useSetRecoilState(apiKeyState);
+    const setLoadingBooks = useSetRecoilState(loadingBooksState);
     const [formError, setFormError] = useState<FormError>({
         username: false,
         password: false,
@@ -99,6 +101,10 @@ export const SignInPage: React.FC<{}> = (): JSX.Element => {
                 .then((apiKey) => {
                     setApiKey(apiKey);
                     Storage.setApiKey(apiKey);
+                    setLoadingBooks({
+                        status: 'init',
+                        errorMessage: ''
+                    });
                     setLocation("/");
                 })
                 .catch((err) => {
