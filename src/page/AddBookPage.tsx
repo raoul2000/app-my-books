@@ -50,8 +50,7 @@ export const AddBookPage: React.FC<{}> = (): JSX.Element => {
             }));
             return;
         }
-        const newBook:Book = {
-            id: '',
+        const newBook:Omit<Book, 'id'> = {
             title: bookForm.title,
             author:bookForm.author
         };                
