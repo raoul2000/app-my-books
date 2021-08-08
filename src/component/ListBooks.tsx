@@ -56,7 +56,7 @@ export const ListBooks: React.FC<Props> = ({ books, loading }): JSX.Element => {
                 ))}
         </List>
     );
-    console.log(loading);
+    
     return (
         <>
             {loading || books.length ? (
