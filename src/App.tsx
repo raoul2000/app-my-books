@@ -8,6 +8,7 @@ import { useLocation } from "wouter";
 import { WithNavigation } from "./component/WithNavigation";
 import Storage from "@/utils/storage";
 import { apiKeyState } from "./state/api-key";
+import { SnackbarProvider } from "notistack";
 
 function App() {
     const [apiKey, setApiKey] = useRecoilState(apiKeyState);
@@ -22,9 +23,11 @@ function App() {
     }, [apiKey]);
 
     return (
-        <div className="App">
-            <WithNavigation />
-        </div>
+        <SnackbarProvider>
+            <div className="App">
+                <WithNavigation />
+            </div>
+        </SnackbarProvider>
     );
 }
 export default App;

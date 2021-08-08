@@ -28,7 +28,7 @@ const handleErrorNoResponse = (response: Response) => {
 export const getAllBooks = () =>
     fetch(
         `${apiBaseUrl}?${new URLSearchParams({
-            r: "api/book",
+            r: "api/user-book",
         })}`,
         {
             headers: { [HEADER_NAME_API_KEY]: getApiKey() },
@@ -37,10 +37,10 @@ export const getAllBooks = () =>
         .then(handleErrorJson)
         .then((jsonResp) => jsonResp as unknown as Book[]);
 
-export const addBook = (book: Book): Promise<Book> =>
+export const addBook = (book: Omit<Book, 'id'>): Promise<Book> =>
     fetch(
         `${apiBaseUrl}?${new URLSearchParams({
-            r: "api/book/create",
+            r: "api/user-book/create",
         })}`,
         {
             method: "POST",
@@ -49,7 +49,6 @@ export const addBook = (book: Book): Promise<Book> =>
                 [HEADER_NAME_API_KEY]: getApiKey(),
             },
             body: JSON.stringify({
-                id: nanoid(),
                 title: book.title,
                 author: book.author,
             }),
@@ -61,7 +60,7 @@ export const addBook = (book: Book): Promise<Book> =>
 export const updateBook = (book: Book): Promise<Book> =>
     fetch(
         `${apiBaseUrl}?${new URLSearchParams({
-            r: "api/book/update",
+            r: "api/user-book/update",
             id: book.id,
         })}`,
         {
@@ -82,7 +81,7 @@ export const updateBook = (book: Book): Promise<Book> =>
 export const deleteBookById = (id: string): Promise<boolean> =>
     fetch(
         `${apiBaseUrl}?${new URLSearchParams({
-            r: "api/book/delete",
+            r: "api/user-book/delete",
             id,
         })}`,
         {

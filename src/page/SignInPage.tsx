@@ -5,21 +5,15 @@ import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import Snackbar from "@material-ui/core/Snackbar";
-import IconButton from "@material-ui/core/IconButton";
-import CloseIcon from "@material-ui/icons/Close";
-import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
 import LinearProgress from "@material-ui/core/LinearProgress";
+import { useSnackbar } from "notistack";
 
 import BookApi from "../api/book";
 import { useLocation } from "wouter";
 import { useSetRecoilState } from "recoil";
 import { apiKeyState } from "@/state/api-key";
 import Storage from "@/utils/storage";
-
-function Alert(props: AlertProps) {
-    return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
+import { loadingBooksState } from "@/state/loading-books";
 
 const useStyles = makeStyles((theme) => ({
     loginFormContainer: {
@@ -54,10 +48,11 @@ type FormError = {
 
 export const SignInPage: React.FC<{}> = (): JSX.Element => {
     const classes = useStyles();
-    const [openSnackBar, setOpenSnackBar] = React.useState(false);
+    const { enqueueSnackbar } = useSnackbar();
     const [loginInProgress, setLoginInProgress] = React.useState(false);
     const [, setLocation] = useLocation();
     const setApiKey = useSetRecoilState(apiKeyState);
+    const setLoadingBooks = useSetRecoilState(loadingBooksState);
     const [formError, setFormError] = useState<FormError>({
         username: false,
         password: false,
@@ -66,16 +61,6 @@ export const SignInPage: React.FC<{}> = (): JSX.Element => {
     const [username, setUsername] = useState<string>("");
     const [password, setpassword] = useState<string>("");
 
-    const handleCloseSnackBar = (
-        event: React.SyntheticEvent | React.MouseEvent,
-        reason?: string
-    ) => {
-        if (reason === "clickaway") {
-            return;
-        }
-
-        setOpenSnackBar(false);
-    };
     const isFormValid = () => {
         if (!username || !password) {
             setFormError({
@@ -94,15 +79,18 @@ export const SignInPage: React.FC<{}> = (): JSX.Element => {
     const handleLogin = () => {
         if (isFormValid()) {
             setLoginInProgress(true);
-            setOpenSnackBar(false);
             BookApi.login(username, password)
                 .then((apiKey) => {
                     setApiKey(apiKey);
                     Storage.setApiKey(apiKey);
+                    setLoadingBooks({
+                        status: "init",
+                        errorMessage: "",
+                    });
                     setLocation("/");
                 })
                 .catch((err) => {
-                    setOpenSnackBar(true);
+                    enqueueSnackbar("Login failed", { variant: "error" });
                     console.error(err);
                 })
                 .finally(() => {
@@ -168,32 +156,6 @@ export const SignInPage: React.FC<{}> = (): JSX.Element => {
                     </div>
                 </form>
             </div>
-            <Snackbar
-                anchorOrigin={{
-                    vertical: "bottom",
-                    horizontal: "center",
-                }}
-                open={openSnackBar}
-                autoHideDuration={6000}
-                onClose={handleCloseSnackBar}
-                message="login failed"
-                action={
-                    <React.Fragment>
-                        <IconButton
-                            size="small"
-                            aria-label="close"
-                            color="inherit"
-                            onClick={handleCloseSnackBar}
-                        >
-                            <CloseIcon fontSize="small" />
-                        </IconButton>
-                    </React.Fragment>
-                }
-            >
-                <Alert onClose={handleCloseSnackBar} severity="error">
-                    Login failed
-                </Alert>
-            </Snackbar>
         </Container>
     );
 };

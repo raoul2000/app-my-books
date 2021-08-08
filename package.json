@@ -13,6 +13,7 @@
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.60",
     "nanoid": "^3.1.23",
+    "notistack": "^1.0.10",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
     "recoil": "^0.3.1",
