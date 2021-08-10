@@ -167,7 +167,7 @@ export const SignInPage: React.FC<{}> = (): JSX.Element => {
                 color="primary"
                 aria-label="add"
                 className={classes.fabQuickLogin}
-                onClick={() => setLocation("/add")}
+                onClick={() => setLocation("/scan-signin")}
             >
                 <CropFreeIcon />
             </Fab>

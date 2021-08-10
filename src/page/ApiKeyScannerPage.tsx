@@ -4,7 +4,7 @@ import { BarcodeResult, CodeBarScanner } from "@/component/CodeBarScanner";
 import Container from "@material-ui/core/Container";
 
 
-export const NativeBarCodePage: React.FC<{}> = (): JSX.Element => {
+export const ApiKeyScannerPage: React.FC<{}> = (): JSX.Element => {
     const [data, setData] = useState<BarcodeResult|undefined>();
 
     return (

@@ -5,6 +5,8 @@ import {
     IScannerControls,
 } from "@zxing/browser";
 
+// this component is not used - just here for example
+
 const getQRCodeReaderControls = async (selectedDeviceId: string) => {
     const codeReader = new BrowserMultiFormatOneDReader();
 
