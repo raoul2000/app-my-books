@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
+import Fab from "@material-ui/core/Fab";
+import CropFreeIcon from '@material-ui/icons/CropFree';
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
@@ -39,6 +41,11 @@ const useStyles = makeStyles((theme) => ({
     submit: {
         margin: theme.spacing(3, 0, 2),
     },
+    fabQuickLogin: {
+        position: 'fixed',
+        bottom: '1em',
+        right: '1em'
+    }
 }));
 
 type FormError = {
@@ -156,6 +163,14 @@ export const SignInPage: React.FC<{}> = (): JSX.Element => {
                     </div>
                 </form>
             </div>
+            <Fab
+                color="primary"
+                aria-label="add"
+                className={classes.fabQuickLogin}
+                onClick={() => setLocation("/add")}
+            >
+                <CropFreeIcon />
+            </Fab>
         </Container>
     );
 };
