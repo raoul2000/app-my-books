@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useRef, useState, useEffect } from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import {
     BarcodeFormat,
@@ -58,7 +58,7 @@ export const CodeBarScanner: React.FC<Props> = ({
         }
     }, [codeReader, onUpdate]);
 
-    React.useEffect(() => {
+    useEffect(() => {
         const cleanup = () => {
             if (scanTimer) 
                 clearInterval(scanTimer);
@@ -70,6 +70,15 @@ export const CodeBarScanner: React.FC<Props> = ({
         }
         return cleanup;
     }, [scannerOn]);
+
+    useEffect(() => {
+        setTimeout(() => {
+            onUpdate(null, {
+                text: 'dummy text',
+                format: BarcodeFormat.EAN_13,
+            });
+        }, 1000);
+    }, []);
 
     return (
         <div className={classes.webcamContainer}>
