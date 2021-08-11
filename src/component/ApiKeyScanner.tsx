@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { TopBarSecondary } from "@/component/TopBarSecondary";
+import IconButton from '@material-ui/core/IconButton';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import Alert from '@material-ui/lab/Alert';
 import { BarcodeResult, CodeBarScanner } from "@/component/CodeBarScanner";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
@@ -9,38 +11,47 @@ import BookApi from "@/api/book";
 type Props = {
     onSuccess: (apiKey: string) => void;
     onError: () => void;
+    onCancel: () => void;
 };
 
 export const ApiKeyScanner: React.FC<Props> = ({
     onSuccess,
     onError,
+    onCancel
 }): JSX.Element => {
-    const [data, setData] = useState<BarcodeResult | undefined>();
+    const [scannedData, setScannedData] = useState<BarcodeResult | undefined>();
 
     useEffect(() => {
-        if (data) {
+        if (scannedData) {
             // TODO: manage fecth abort on cleanup
             // see https://davidwalsh.name/cancel-fetch
             /* const controller = new AbortController();
                 const { signal } = controller; */
 
-            BookApi.checkApiKey(data.text).then((isValid) => {
-                //onSuccess(data.text);
-                onError();
-                /* if (isValid) {
-                    onSuccess(data.text);
+            BookApi.checkApiKey(scannedData.text).then((isValid) => {
+                if (isValid) {
+                    onSuccess(scannedData.text);
                 } else {
                     onError();
-                } */
+                }
             });
         }
-    }, [data]);
+    }, [scannedData]);
 
+    const handleBackToLogin = () => onCancel();
+    
     return (
         <div className="barcode">
             <main>
                 <Container maxWidth="sm">
-                    {data ? (
+                    <IconButton
+                        color="primary"
+                        aria-label="back"
+                        onClick={handleBackToLogin}
+                    >
+                        <ArrowBackIcon />
+                    </IconButton>
+                    {scannedData ? (
                         <Typography
                             variant="h5"
                             component="h1"
@@ -53,13 +64,13 @@ export const ApiKeyScanner: React.FC<Props> = ({
                             <div>Vérification en cours ...</div>
                         </Typography>
                     ) : (
+                        <>
+                        <Alert severity="info">Scan the QR Code from your account settings page</Alert>
                         <CodeBarScanner
                             width="100%"
-                            onUpdate={(err, result) => {
-                                if (result) setData(result);
-                                else setData(undefined);
-                            }}
+                            onScanResult={setScannedData}
                         />
+                        </>
                     )}
                 </Container>
             </main>

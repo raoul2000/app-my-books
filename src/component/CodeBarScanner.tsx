@@ -3,16 +3,16 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import {
     BarcodeFormat,
     BrowserMultiFormatReader,
-    Result,
 } from "@zxing/library";
 import Webcam from "react-webcam";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         webcamContainer: {
-            marginTop:'2em',
-            border: "5px solid black"
-        }
+            marginTop: "2em",
+            border: "5px solid #e2e2e2",
+            padding: "1em",
+        },
     })
 );
 
@@ -24,13 +24,13 @@ export type BarcodeResult = {
 type Props = {
     width?: string | number;
     height?: string | number;
-    onUpdate: (arg0: unknown, arg1?: BarcodeResult) => void;
+    onScanResult: (result: BarcodeResult) => void;
 };
 
 export const CodeBarScanner: React.FC<Props> = ({
     width,
     height,
-    onUpdate,
+    onScanResult,
 }): JSX.Element => {
     const classes = useStyles();
     const webcamRef = useRef<Webcam & HTMLVideoElement>(null);
@@ -46,22 +46,20 @@ export const CodeBarScanner: React.FC<Props> = ({
                 .decodeFromImage(undefined, imageSrc)
                 .then((result) => {
                     setScannerOn(false);
-                    onUpdate(null, {
+                    onScanResult({
                         text: result.getText(),
                         format: result.getBarcodeFormat(),
                     });
                 })
                 .catch((err) => {
                     console.error("decode image failed");
-                    onUpdate(err);
                 });
         }
-    }, [codeReader, onUpdate]);
+    }, [codeReader, onScanResult]);
 
     useEffect(() => {
         const cleanup = () => {
-            if (scanTimer) 
-                clearInterval(scanTimer);
+            if (scanTimer) clearInterval(scanTimer);
         };
         cleanup();
         if (scannerOn) {
@@ -71,31 +69,19 @@ export const CodeBarScanner: React.FC<Props> = ({
         return cleanup;
     }, [scannerOn]);
 
-    useEffect(() => {
-        setTimeout(() => {
-            onUpdate(null, {
-                text: 'dummy text',
-                format: BarcodeFormat.EAN_13,
-            });
-        }, 1000);
-    }, []);
-
     return (
-        <div className={classes.webcamContainer}>
-            <Webcam
-                width={width}
-                height={height}
-                ref={webcamRef}
-                screenshotFormat="image/png"
-                videoConstraints={{
-                    facingMode: "environment",
-                }}
-            />
-            <div>
-                <button onClick={() => setScannerOn(!scannerOn)}>
-                    {scannerOn ? "stop scan" : "start scan"}
-                </button>
+        <>
+            <div className={classes.webcamContainer}>
+                <Webcam
+                    width={width}
+                    height={height}
+                    ref={webcamRef}
+                    screenshotFormat="image/png"
+                    videoConstraints={{
+                        facingMode: "environment",
+                    }}
+                />
             </div>
-        </div>
+        </>
     );
 };

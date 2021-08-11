@@ -51,28 +51,32 @@ export const SignInPage: React.FC<{}> = (): JSX.Element => {
         }
     };
 
+    const handleCancelApiKeyScan = () => setSignInMethode("login");
+
     return (
         <Container>
             {signInMethod === "login" ? (
-                <FormLogin
-                    onSuccess={handleLoginSuccess}
-                    onError={handleLoginError}
-                />
+                <>
+                    <FormLogin
+                        onSuccess={handleLoginSuccess}
+                        onError={handleLoginError}
+                    />
+                    <Fab
+                        color="primary"
+                        aria-label="scan QR Code"
+                        className={classes.fabQuickLogin}
+                        onClick={() => setSignInMethode("apiKey")}
+                    >
+                        <CropFreeIcon />
+                    </Fab>
+                </>
             ) : (
                 <ApiKeyScanner
                     onSuccess={handleLoginSuccess}
                     onError={handleLoginError}
+                    onCancel={handleCancelApiKeyScan}
                 />
             )}
-
-            <Fab
-                color="primary"
-                aria-label="scan QR Code"
-                className={classes.fabQuickLogin}
-                onClick={() => setSignInMethode("apiKey")}
-            >
-                <CropFreeIcon />
-            </Fab>
         </Container>
     );
 };
