@@ -38,7 +38,7 @@ export const IsbnScanner: React.FC<Props> = ({
 
                     <div>
                         <Alert severity="info">
-                            Scan the ISBN Code on the book
+                            Scan the ISBN Code of the book
                         </Alert>
                         <CodeBarScanner
                             width="100%"

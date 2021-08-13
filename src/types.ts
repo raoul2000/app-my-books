@@ -2,6 +2,7 @@ export type Book = {
     id: string;
     title: string;
     author?: string;
+    isbn?:string;
 }
 
 export type LoadingState = {
@@ -17,6 +18,7 @@ export type LoadingBooksState = {
 export type BookFormState = {
     title: string;
     author?: string;
+    isbn?:string;
     validation: {
         title:boolean;
     }
