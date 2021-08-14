@@ -22,6 +22,7 @@ export type BookFormState = {
     validation: {
         title:boolean;
     }
+    isbnSearch : 'progress' | 'success' | 'error'
 };
 
 export type LoginSuccessResponse = {

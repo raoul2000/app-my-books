@@ -45,6 +45,7 @@ export const UpdateBookPage: React.FC<Props> = ({ id }): JSX.Element => {
             validation: {
                 title: true,
             },
+            isbnSearch: "success",
         });
     }, []);
 
@@ -66,7 +67,7 @@ export const UpdateBookPage: React.FC<Props> = ({ id }): JSX.Element => {
             id,
             title: bookForm.title,
             author: bookForm.author,
-            isbn: bookForm.isbn
+            isbn: bookForm.isbn,
         };
         setProgress(true);
         setLocation(`/detail/${id}`);
@@ -86,18 +87,33 @@ export const UpdateBookPage: React.FC<Props> = ({ id }): JSX.Element => {
             .finally(() => setProgress(false));
     };
 
-    const handleIsbnScanSuccess = (isbn:string) => {
-        BookApi.fetchIsbnData(isbn)
-            .then((bookData:Book) => {
+    const searchBookByIsbn = (isbn: string) => {
+        setBookForm((old) => ({ ...old, isbnSearch: "progress" }));
+
+        return BookApi.fetchIsbnData(isbn)
+            .then((bookData: Book) => {
+                setBookForm((old) => ({ ...old, isbnSearch: "success" }));
                 setBookForm((curState) => ({
                     ...curState,
                     ...bookData,
-                    isbn
+                    isbn,
                 }));
             })
-            .finally(() => {
-                setEnableIsbnScan(false);
-            });
+            .catch((error) => {
+                setBookForm((old) => ({ ...old, isbnSearch: "error" }));
+            });            
+    };
+
+    const handleIsbnScanSuccess = (isbn: string) => {
+        setEnableIsbnScan(false);
+        setBookForm((old) => ({ ...old, isbn }));
+        searchBookByIsbn(isbn);
+    };
+
+    const handleIsbnSearch = () => {
+        if (bookForm?.isbn) {
+            searchBookByIsbn(bookForm.isbn);
+        }
     };
 
     return (
@@ -128,7 +144,7 @@ export const UpdateBookPage: React.FC<Props> = ({ id }): JSX.Element => {
                                 <Typography variant="h5" component="h1">
                                     Update book
                                 </Typography>
-                                <FormBook2 />
+                                <FormBook2 onIsbnSearch={handleIsbnSearch} />
                             </div>
                         </Container>
                     </main>

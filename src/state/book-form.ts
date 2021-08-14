@@ -6,8 +6,10 @@ export const bookFormState = atom<BookFormState>({
     default: {
         title: '',
         author: '',
+        isbn: '',
         validation: {
             title:true
-        }
+        },
+        isbnSearch: 'success'
     }
 });

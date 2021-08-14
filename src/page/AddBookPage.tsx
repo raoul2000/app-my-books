@@ -14,6 +14,7 @@ import { TopBarActions } from "@/component/TopBarActions";
 import { bookFormState } from "@/state/book-form";
 import { IsbnScanner } from "@/component/IsbnScanner";
 import { FabScanner } from "@/component/button/FabScanner";
+import { FolderOpenOutlined } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -39,6 +40,7 @@ export const AddBookPage: React.FC<{}> = (): JSX.Element => {
             validation: {
                 title: true,
             },
+            isbnSearch: "success",
         });
     }, []);
 
@@ -57,7 +59,7 @@ export const AddBookPage: React.FC<{}> = (): JSX.Element => {
         const newBook: Omit<Book, "id"> = {
             title: bookForm.title,
             author: bookForm.author,
-            isbn: bookForm.isbn
+            isbn: bookForm.isbn,
         };
 
         setProgress(true);
@@ -71,18 +73,33 @@ export const AddBookPage: React.FC<{}> = (): JSX.Element => {
             .finally(() => setProgress(false));
     };
 
-    const handleIsbnScanSuccess = (isbn:string) => {
-        BookApi.fetchIsbnData(isbn)
-            .then((bookData:Book) => {
+    const searchBookByIsbn = (isbn: string) => {
+        setBookForm((old) => ({ ...old, isbnSearch: "progress" }));
+
+        return BookApi.fetchIsbnData(isbn)
+            .then((bookData: Book) => {
+                setBookForm((old) => ({ ...old, isbnSearch: "success" }));
                 setBookForm((curState) => ({
                     ...curState,
                     ...bookData,
-                    isbn
+                    isbn,
                 }));
             })
-            .finally(() => {
-                setEnableIsbnScan(false);
+            .catch((error) => {
+                setBookForm((old) => ({ ...old, isbnSearch: "error" }));
             });
+    };
+
+    const handleIsbnScanSuccess = (isbn: string) => {
+        setEnableIsbnScan(false);
+        setBookForm((old) => ({ ...old, isbn }));
+        searchBookByIsbn(isbn);
+    };
+
+    const handleIsbnSearch = () => {
+        if (bookForm?.isbn) {
+            searchBookByIsbn(bookForm.isbn);
+        }
     };
 
     return (
@@ -113,7 +130,7 @@ export const AddBookPage: React.FC<{}> = (): JSX.Element => {
                                 <Typography variant="h5" component="h1">
                                     Add book
                                 </Typography>
-                                <FormBook2 />
+                                <FormBook2 onIsbnSearch={handleIsbnSearch} />
                             </div>
                         </Container>
                         <FabScanner onClick={() => setEnableIsbnScan(true)} />
