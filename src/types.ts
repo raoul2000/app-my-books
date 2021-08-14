@@ -15,6 +15,7 @@ export type LoadingBooksState = {
     errorMessage?: string;
 }
 
+export type AsyncOperationStatus = 'progress' | 'success' | 'error';
 export type BookFormState = {
     title: string;
     author?: string;
@@ -22,7 +23,7 @@ export type BookFormState = {
     validation: {
         title:boolean;
     }
-    isbnSearch : 'progress' | 'success' | 'error'
+    isbnSearch : AsyncOperationStatus
 };
 
 export type LoginSuccessResponse = {

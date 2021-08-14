@@ -1,36 +1,19 @@
-import React, { useState } from "react";
+import React from "react";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import IconButton from "@material-ui/core/IconButton";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import CheckIcon from "@material-ui/icons/Check";
-import ErrorIcon from '@material-ui/icons/Error';
 import { useRecoilState } from "recoil";
 
-import { Book, BookFormState } from "../types";
+import { BookFormState } from "../types";
 import { bookFormState } from "../state/book-form";
-import { FormBook } from "./FormBook";
-
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        spinnerButton: {
-            width: "10px",
-        },
-    })
-);
+import { IsbnSearchField } from "./IsbnSearchField";
 
 type Props = {
     onIsbnSearch: () => void;
 };
 export const FormBook2: React.FC<Props> = ({ onIsbnSearch }): JSX.Element => {
-    const classes = useStyles();
+  
     const [bookForm, setBookFormState] =
         useRecoilState<BookFormState>(bookFormState);
-    const [isbnSearchState, setIsbnSearchState] = useState<
-        "progress" | "success" | "error"
-    >("success");
 
     const handleBookTitleChange = (
         e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
@@ -50,35 +33,11 @@ export const FormBook2: React.FC<Props> = ({ onIsbnSearch }): JSX.Element => {
         }));
     };
 
-    const handleBookIsbnChange = (
-        e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
-    ) => {
+    const handleBookIsbnChange = (isbn: string) => {
         setBookFormState((state) => ({
             ...state,
-            isbn: e.target.value,
+            isbn,
         }));
-    };
-
-    const renderIsbnSearchButton = () => {
-        const renderButtonContent = () => {
-            switch (bookForm.isbnSearch) {
-                case 'progress':
-                    return <CircularProgress className={classes.spinnerButton} />;
-                case 'error':
-                    return <ErrorIcon/>
-                default:
-                    return  <CheckIcon/>;
-            }
-        } 
-        return (
-            <IconButton
-                aria-label="search by ISBN"
-                onClick={onIsbnSearch}
-                onMouseDown={console.log}
-            >
-                {renderButtonContent()}
-            </IconButton>
-        );
     };
 
     return (
@@ -95,6 +54,7 @@ export const FormBook2: React.FC<Props> = ({ onIsbnSearch }): JSX.Element => {
                             fullWidth
                             variant="filled"
                             error={!bookForm.validation?.title || false}
+                            disabled={bookForm.isbnSearch === "progress"}
                         />
                     </Grid>
                     <Grid item xs={12}>
@@ -105,24 +65,15 @@ export const FormBook2: React.FC<Props> = ({ onIsbnSearch }): JSX.Element => {
                             onChange={handleBookAuthorChange}
                             fullWidth
                             variant="filled"
+                            disabled={bookForm.isbnSearch === "progress"}
                         />
                     </Grid>
                     <Grid item xs={12}>
-                        <TextField
-                            label="ISBN"
-                            id="book-isbn"
-                            fullWidth
+                        <IsbnSearchField
                             value={bookForm.isbn || ""}
+                            status={bookForm.isbnSearch}
                             onChange={handleBookIsbnChange}
-                            InputProps={{
-                                endAdornment: (
-                                    <InputAdornment position="end">
-                                        {renderIsbnSearchButton()}
-                                    </InputAdornment>
-                                ),
-                            }}
-                            variant="outlined"
-                            error={bookForm.isbnSearch === 'error'}
+                            onStartSearch={onIsbnSearch}
                         />
                     </Grid>
                 </Grid>
@@ -130,4 +81,4 @@ export const FormBook2: React.FC<Props> = ({ onIsbnSearch }): JSX.Element => {
         </div>
     );
 };
-// 
+//
