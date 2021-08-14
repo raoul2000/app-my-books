@@ -6,7 +6,7 @@ import Container from "@material-ui/core/Container";
 import useLocation from "wouter/use-location";
 
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { FormBook2 } from "../component/FormBook2";
+import { FormBook } from "../component/FormBook";
 import { booksState } from "../state/books";
 import { Book } from "../types";
 import BookApi from "../api/book";
@@ -144,7 +144,7 @@ export const UpdateBookPage: React.FC<Props> = ({ id }): JSX.Element => {
                                 <Typography variant="h5" component="h1">
                                     Update book
                                 </Typography>
-                                <FormBook2 onIsbnSearch={handleIsbnSearch} />
+                                <FormBook onIsbnSearch={handleIsbnSearch} />
                             </div>
                         </Container>
                     </main>

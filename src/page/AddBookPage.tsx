@@ -7,14 +7,13 @@ import { useSetRecoilState, useRecoilState } from "recoil";
 import { booksState } from "../state/books";
 import { progressState } from "../state/progress";
 import { Book } from "../types";
-import { FormBook2 } from "../component/FormBook2";
+import { FormBook } from "../component/FormBook";
 import BookApi from "../api/book";
 import Container from "@material-ui/core/Container";
 import { TopBarActions } from "@/component/TopBarActions";
 import { bookFormState } from "@/state/book-form";
 import { IsbnScanner } from "@/component/IsbnScanner";
 import { FabScanner } from "@/component/button/FabScanner";
-import { FolderOpenOutlined } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -130,7 +129,7 @@ export const AddBookPage: React.FC<{}> = (): JSX.Element => {
                                 <Typography variant="h5" component="h1">
                                     Add book
                                 </Typography>
-                                <FormBook2 onIsbnSearch={handleIsbnSearch} />
+                                <FormBook onIsbnSearch={handleIsbnSearch} />
                             </div>
                         </Container>
                         <FabScanner onClick={() => setEnableIsbnScan(true)} />
