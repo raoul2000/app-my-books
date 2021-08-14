@@ -58,6 +58,7 @@ export const IsbnSearchField: React.FC<Props> = ({
         <TextField
             label="ISBN"
             id="book-isbn"
+            type="number"
             fullWidth
             value={value}
             onChange={(e) => onChange(e.target.value)}
