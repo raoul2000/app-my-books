@@ -11,6 +11,7 @@ import { useSetRecoilState } from "recoil";
 import Storage from "@/utils/storage";
 import { loadingBooksState } from "@/state/loading-books";
 import { ApiKeyScanner } from "@/component/ApiKeyScanner";
+import { FabScanner } from "@/component/button/FabScanner";
 
 const useStyles = makeStyles((theme) => ({
     fabQuickLogin: {
@@ -61,14 +62,7 @@ export const SignInPage: React.FC<{}> = (): JSX.Element => {
                         onSuccess={handleLoginSuccess}
                         onError={handleLoginError}
                     />
-                    <Fab
-                        color="primary"
-                        aria-label="scan QR Code"
-                        className={classes.fabQuickLogin}
-                        onClick={() => setSignInMethode("apiKey")}
-                    >
-                        <CropFreeIcon />
-                    </Fab>
+                    <FabScanner onClick={() => setSignInMethode("apiKey")} />
                 </>
             ) : (
                 <ApiKeyScanner

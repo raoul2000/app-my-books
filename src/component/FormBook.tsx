@@ -1,30 +1,18 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import { useRecoilState } from "recoil";
 
-import { Book, BookFormState } from "../types";
+import { BookFormState } from "../types";
 import { bookFormState } from "../state/book-form";
+import { IsbnSearchField } from "./IsbnSearchField";
 
 type Props = {
-    book?: Book;
+    onIsbnSearch: () => void;
 };
-
-export const FormBook: React.FC<Props> = ({ book }): JSX.Element => {
+export const FormBook: React.FC<Props> = ({ onIsbnSearch }): JSX.Element => {
     const [bookForm, setBookFormState] =
         useRecoilState<BookFormState>(bookFormState);
-
-    useEffect(() => {
-        if (book) {
-            setBookFormState({
-                title: book.title,
-                author: book.author,
-                validation: {
-                    title: true,
-                }
-            });
-        }
-    }, []);
 
     const handleBookTitleChange = (
         e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
@@ -44,6 +32,13 @@ export const FormBook: React.FC<Props> = ({ book }): JSX.Element => {
         }));
     };
 
+    const handleBookIsbnChange = (isbn: string) => {
+        setBookFormState((state) => ({
+            ...state,
+            isbn,
+        }));
+    };
+
     return (
         <div className="form-book">
             <form autoComplete="off">
@@ -58,6 +53,7 @@ export const FormBook: React.FC<Props> = ({ book }): JSX.Element => {
                             fullWidth
                             variant="filled"
                             error={!bookForm.validation?.title || false}
+                            disabled={bookForm.isbnSearch === "progress"}
                         />
                     </Grid>
                     <Grid item xs={12}>
@@ -68,6 +64,15 @@ export const FormBook: React.FC<Props> = ({ book }): JSX.Element => {
                             onChange={handleBookAuthorChange}
                             fullWidth
                             variant="filled"
+                            disabled={bookForm.isbnSearch === "progress"}
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <IsbnSearchField
+                            value={bookForm.isbn || ""}
+                            status={bookForm.isbnSearch}
+                            onChange={handleBookIsbnChange}
+                            onStartSearch={onIsbnSearch}
                         />
                     </Grid>
                 </Grid>
@@ -75,3 +80,4 @@ export const FormBook: React.FC<Props> = ({ book }): JSX.Element => {
         </div>
     );
 };
+//

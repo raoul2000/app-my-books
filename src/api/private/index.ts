@@ -1,5 +1,4 @@
 import { Book, LoginSuccessResponse, ApiKeyCheckResponse } from "../../types";
-import { nanoid } from "nanoid";
 import Storage from "@/utils/storage";
 
 export const apiBaseUrl = import.meta.env.VITE_BOOK_API_BASE_URL;
@@ -51,6 +50,7 @@ export const addBook = (book: Omit<Book, "id">): Promise<Book> =>
             body: JSON.stringify({
                 title: book.title,
                 author: book.author,
+                isbn: book.isbn
             }),
         }
     )
@@ -72,6 +72,7 @@ export const updateBook = (book: Book): Promise<Book> =>
             body: JSON.stringify({
                 title: book.title,
                 author: book.author,
+                isbn: book.isbn
             }),
         }
     )
@@ -137,6 +138,21 @@ export const checkApiKey = (apiKey: string) =>
             return apiKeyCheck.isValid;
         });
 
+export const fetchIsbnData = (isbn: string) =>
+    fetch(
+        `${apiBaseUrl}?${new URLSearchParams({
+            r: "api/isbn-service/search",
+            isbn,
+        })}`,
+        {
+            headers: { [HEADER_NAME_API_KEY]: getApiKey() },
+        }
+    )
+        .then(handleErrorJson)
+        .then((successResponse) => {
+            return successResponse as unknown as Book;
+        });
+
 export default {
     getAllBooks,
     deleteBookById,
@@ -144,5 +160,6 @@ export default {
     updateBook,
     login,
     logout,
-    checkApiKey
+    checkApiKey,
+    fetchIsbnData,
 };
