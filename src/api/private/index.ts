@@ -1,5 +1,4 @@
-import { Book, LoginSuccessResponse } from "../../types";
-import { nanoid } from "nanoid";
+import { Book, LoginSuccessResponse, ApiKeyCheckResponse } from "../../types";
 import Storage from "@/utils/storage";
 
 export const apiBaseUrl = import.meta.env.VITE_BOOK_API_BASE_URL;
@@ -10,7 +9,7 @@ const getApiKey = () => Storage.getApiKey() || "";
 const handleErrorJson = (response: Response) => {
     if (!response.ok) {
         return response.json().then((data) => {
-            throw data
+            throw data;
         });
     } else {
         return response.json();
@@ -19,7 +18,7 @@ const handleErrorJson = (response: Response) => {
 
 const handleErrorNoResponse = (response: Response) => {
     if (!response.ok) {
-        throw response.statusText;        
+        throw response.statusText;
     } else {
         return true;
     }
@@ -37,7 +36,7 @@ export const getAllBooks = () =>
         .then(handleErrorJson)
         .then((jsonResp) => jsonResp as unknown as Book[]);
 
-export const addBook = (book: Omit<Book, 'id'>): Promise<Book> =>
+export const addBook = (book: Omit<Book, "id">): Promise<Book> =>
     fetch(
         `${apiBaseUrl}?${new URLSearchParams({
             r: "api/user-book/create",
@@ -51,6 +50,7 @@ export const addBook = (book: Omit<Book, 'id'>): Promise<Book> =>
             body: JSON.stringify({
                 title: book.title,
                 author: book.author,
+                isbn: book.isbn
             }),
         }
     )
@@ -72,6 +72,7 @@ export const updateBook = (book: Book): Promise<Book> =>
             body: JSON.stringify({
                 title: book.title,
                 author: book.author,
+                isbn: book.isbn
             }),
         }
     )
@@ -123,6 +124,35 @@ export const logout = () =>
         }, 100);
     });
 
+export const checkApiKey = (apiKey: string) =>
+    fetch(
+        `${apiBaseUrl}?${new URLSearchParams({
+            r: "api/auth/check-api-key",
+            token: apiKey,
+        })}`
+    )
+        .then(handleErrorJson)
+        .then((successResponse) => {
+            const apiKeyCheck =
+                successResponse as unknown as ApiKeyCheckResponse;
+            return apiKeyCheck.isValid;
+        });
+
+export const fetchIsbnData = (isbn: string) =>
+    fetch(
+        `${apiBaseUrl}?${new URLSearchParams({
+            r: "api/isbn-service/search",
+            isbn,
+        })}`,
+        {
+            headers: { [HEADER_NAME_API_KEY]: getApiKey() },
+        }
+    )
+        .then(handleErrorJson)
+        .then((successResponse) => {
+            return successResponse as unknown as Book;
+        });
+
 export default {
     getAllBooks,
     deleteBookById,
@@ -130,4 +160,6 @@ export default {
     updateBook,
     login,
     logout,
+    checkApiKey,
+    fetchIsbnData,
 };

@@ -58,6 +58,13 @@ export const logout = () =>
         }, 1000);
     });
 
+export const checkApiKey = () =>
+    new Promise<boolean>((resolve, reject) => {
+        setTimeout(() => {
+            resolve(true);
+        }, 1000);
+    });
+
 export default {
     getAllBooks,
     deleteBookById,
@@ -65,4 +72,5 @@ export default {
     updateBook,
     login,
     logout,
+    checkApiKey,
 };

@@ -113,6 +113,9 @@ export const BookDetailsPage: React.FC<Props> = ({ id }): JSX.Element => {
                                     <Typography color="textSecondary">
                                         {thisBook.author}
                                     </Typography>
+                                    <Typography color="textSecondary">
+                                        isbn : {thisBook.isbn || ''}
+                                    </Typography>                                    
                                 </CardContent>
                             </Card>
                         )}

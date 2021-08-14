@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Typography from "@material-ui/core/Typography";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
@@ -12,6 +12,8 @@ import BookApi from "../api/book";
 import Container from "@material-ui/core/Container";
 import { TopBarActions } from "@/component/TopBarActions";
 import { bookFormState } from "@/state/book-form";
+import { IsbnScanner } from "@/component/IsbnScanner";
+import { FabScanner } from "@/component/button/FabScanner";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -23,37 +25,41 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export const AddBookPage: React.FC<{}> = (): JSX.Element => {
     const classes = useStyles();
+    const [enableIsbnScan, setEnableIsbnScan] = useState(false);
     const setBooks = useSetRecoilState<Book[]>(booksState);
     const setProgress = useSetRecoilState(progressState);
     const [bookForm, setBookForm] = useRecoilState(bookFormState);
     const [, setLocation] = useLocation();
 
-    useEffect(() => {        
-            setBookForm({
-                title: '',
-                author: '',
-                validation : {
-                    title:true
-                }
-            });
+    useEffect(() => {
+        setBookForm({
+            title: "",
+            author: "",
+            isbn: "",
+            validation: {
+                title: true,
+            },
+            isbnSearch: "success",
+        });
     }, []);
 
     const handleSave = () => {
-        if(!bookForm.title) {
-            alert('please enter a title');
+        if (!bookForm.title) {
+            alert("please enter a title");
             setBookForm((curState) => ({
                 ...curState,
                 validation: {
                     ...curState.validation,
-                    title:false
-                }
+                    title: false,
+                },
             }));
             return;
         }
-        const newBook:Omit<Book, 'id'> = {
+        const newBook: Omit<Book, "id"> = {
             title: bookForm.title,
-            author:bookForm.author
-        };                
+            author: bookForm.author,
+            isbn: bookForm.isbn,
+        };
 
         setProgress(true);
         setLocation("/");
@@ -66,30 +72,70 @@ export const AddBookPage: React.FC<{}> = (): JSX.Element => {
             .finally(() => setProgress(false));
     };
 
+    const searchBookByIsbn = (isbn: string) => {
+        setBookForm((old) => ({ ...old, isbnSearch: "progress" }));
+
+        return BookApi.fetchIsbnData(isbn)
+            .then((bookData: Book) => {
+                setBookForm((old) => ({ ...old, isbnSearch: "success" }));
+                setBookForm((curState) => ({
+                    ...curState,
+                    ...bookData,
+                    isbn,
+                }));
+            })
+            .catch((error) => {
+                setBookForm((old) => ({ ...old, isbnSearch: "error" }));
+            });
+    };
+
+    const handleIsbnScanSuccess = (isbn: string) => {
+        setEnableIsbnScan(false);
+        setBookForm((old) => ({ ...old, isbn }));
+        searchBookByIsbn(isbn);
+    };
+
+    const handleIsbnSearch = () => {
+        if (bookForm?.isbn) {
+            searchBookByIsbn(bookForm.isbn);
+        }
+    };
+
     return (
-        <div className="about">
-            <TopBarActions
-                showBack={true}
-                backPath={'/'}
-                actions={
-                    <Button
-                        className={classes.submitButton}
-                        onClick={handleSave}
-                    >
-                        Enregistrer
-                    </Button>
-                }
-            />
-            <main>
-                <Container maxWidth="sm">
-                    <div className="add-book">
-                        <Typography variant="h5" component="h1">
-                            Add book
-                        </Typography>
-                        <FormBook />
-                    </div>
-                </Container>
-            </main>
-        </div>
+        <>
+            {enableIsbnScan === true ? (
+                <IsbnScanner
+                    onSuccess={handleIsbnScanSuccess}
+                    onError={console.log}
+                    onCancel={() => setEnableIsbnScan(false)}
+                />
+            ) : (
+                <div className="about">
+                    <TopBarActions
+                        showBack={true}
+                        backPath={"/"}
+                        actions={
+                            <Button
+                                className={classes.submitButton}
+                                onClick={handleSave}
+                            >
+                                Enregistrer
+                            </Button>
+                        }
+                    />
+                    <main>
+                        <Container maxWidth="sm">
+                            <div className="add-book">
+                                <Typography variant="h5" component="h1">
+                                    Add book
+                                </Typography>
+                                <FormBook onIsbnSearch={handleIsbnSearch} />
+                            </div>
+                        </Container>
+                        <FabScanner onClick={() => setEnableIsbnScan(true)} />
+                    </main>
+                </div>
+            )}
+        </>
     );
 };

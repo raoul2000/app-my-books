@@ -2,6 +2,7 @@ export type Book = {
     id: string;
     title: string;
     author?: string;
+    isbn?:string;
 }
 
 export type LoadingState = {
@@ -14,12 +15,15 @@ export type LoadingBooksState = {
     errorMessage?: string;
 }
 
+export type AsyncOperationStatus = 'progress' | 'success' | 'error';
 export type BookFormState = {
     title: string;
     author?: string;
+    isbn?:string;
     validation: {
         title:boolean;
     }
+    isbnSearch : AsyncOperationStatus
 };
 
 export type LoginSuccessResponse = {
@@ -29,7 +33,11 @@ export type LoginSuccessResponse = {
      * api key revoked)
      */
     api_key?: string;
-}
+};
+
+export type ApiKeyCheckResponse = {
+    isValid: boolean;
+};
 
 export type ErrorResponse = {
     name: string;
