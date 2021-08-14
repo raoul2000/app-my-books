@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import IconButton from '@material-ui/core/IconButton';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import Alert from '@material-ui/lab/Alert';
+import IconButton from "@material-ui/core/IconButton";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import Alert from "@material-ui/lab/Alert";
 import { BarcodeResult, CodeBarScanner } from "@/component/CodeBarScanner";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
@@ -17,7 +17,7 @@ type Props = {
 export const ApiKeyScanner: React.FC<Props> = ({
     onSuccess,
     onError,
-    onCancel
+    onCancel,
 }): JSX.Element => {
     const [scannedData, setScannedData] = useState<BarcodeResult | undefined>();
 
@@ -39,41 +39,41 @@ export const ApiKeyScanner: React.FC<Props> = ({
     }, [scannedData]);
 
     const handleBackToLogin = () => onCancel();
-    
+
     return (
         <div className="barcode">
-            <main>
-                <Container maxWidth="sm">
-                    <IconButton
-                        color="primary"
-                        aria-label="back"
-                        onClick={handleBackToLogin}
+            <Container maxWidth="sm">
+                <IconButton
+                    color="primary"
+                    aria-label="back"
+                    onClick={handleBackToLogin}
+                >
+                    <ArrowBackIcon />
+                </IconButton>
+                {scannedData ? (
+                    <Typography
+                        variant="h5"
+                        component="h1"
+                        align="center"
+                        color="textSecondary"
                     >
-                        <ArrowBackIcon />
-                    </IconButton>
-                    {scannedData ? (
-                        <Typography
-                            variant="h5"
-                            component="h1"
-                            align="center"
-                            color="textSecondary"
-                        >
-                            <div>
-                                <CircularProgress />
-                            </div>
-                            <div>Vérification en cours ...</div>
-                        </Typography>
-                    ) : (
-                        <>
-                        <Alert severity="info">Scan the QR Code from your account settings page</Alert>
+                        <div>
+                            <CircularProgress />
+                        </div>
+                        <div>Vérification en cours ...</div>
+                    </Typography>
+                ) : (
+                    <>
+                        <Alert severity="info">
+                            Scan the QR Code from your account settings page
+                        </Alert>
                         <CodeBarScanner
                             width="100%"
                             onScanResult={setScannedData}
                         />
-                        </>
-                    )}
-                </Container>
-            </main>
+                    </>
+                )}
+            </Container>
         </div>
     );
 };

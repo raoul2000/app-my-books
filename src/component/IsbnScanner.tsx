@@ -26,27 +26,25 @@ export const IsbnScanner: React.FC<Props> = ({
 
     return (
         <div>
-            <main>
-                <Container maxWidth="sm">
-                    <IconButton
-                        color="primary"
-                        aria-label="back"
-                        onClick={onCancel}
-                    >
-                        <ArrowBackIcon />
-                    </IconButton>
+            <Container maxWidth="sm">
+                <IconButton
+                    color="primary"
+                    aria-label="back"
+                    onClick={onCancel}
+                >
+                    <ArrowBackIcon />
+                </IconButton>
 
-                    <div>
-                        <Alert severity="info">
-                            Scan the ISBN Code of the book
-                        </Alert>
-                        <CodeBarScanner
-                            width="100%"
-                            onScanResult={setScannedData}
-                        />
-                    </div>
-                </Container>
-            </main>
+                <div>
+                    <Alert severity="info">
+                        Scan the ISBN Code of the book
+                    </Alert>
+                    <CodeBarScanner
+                        width="100%"
+                        onScanResult={setScannedData}
+                    />
+                </div>
+            </Container>
         </div>
     );
 };

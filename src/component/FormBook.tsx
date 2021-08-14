@@ -11,7 +11,6 @@ type Props = {
     onIsbnSearch: () => void;
 };
 export const FormBook: React.FC<Props> = ({ onIsbnSearch }): JSX.Element => {
-  
     const [bookForm, setBookFormState] =
         useRecoilState<BookFormState>(bookFormState);
 
