@@ -114,7 +114,7 @@ export const BookDetailsPage: React.FC<Props> = ({ id }): JSX.Element => {
                                         {thisBook.author}
                                     </Typography>
                                     <Typography color="textSecondary">
-                                        isbn : {thisBook.isbn || ''}
+                                        isbn : {thisBook.isbn || ''} - status : {thisBook.readStatus || '?'}
                                     </Typography>                                    
                                 </CardContent>
                             </Card>

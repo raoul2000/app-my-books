@@ -36,6 +36,7 @@ export const AddBookPage: React.FC<{}> = (): JSX.Element => {
             title: "",
             author: "",
             isbn: "",
+            readStatus:2,
             validation: {
                 title: true,
             },
@@ -59,6 +60,7 @@ export const AddBookPage: React.FC<{}> = (): JSX.Element => {
             title: bookForm.title,
             author: bookForm.author,
             isbn: bookForm.isbn,
+            readStatus: bookForm.readStatus
         };
 
         setProgress(true);

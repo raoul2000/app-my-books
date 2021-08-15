@@ -1,6 +1,12 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
+import InputLabel from '@material-ui/core/InputLabel';
+
 import { useRecoilState } from "recoil";
 
 import { BookFormState } from "../types";
@@ -32,13 +38,22 @@ export const FormBook: React.FC<Props> = ({ onIsbnSearch }): JSX.Element => {
         }));
     };
 
+    const handleReadStatusChange = (
+        readStatus:number
+    ) => {
+        setBookFormState((state) => ({
+            ...state,
+            readStatus,
+        }));
+    };
+
     const handleBookIsbnChange = (isbn: string) => {
         setBookFormState((state) => ({
             ...state,
             isbn,
         }));
     };
-
+console.log(bookForm);
     return (
         <div className="form-book">
             <form autoComplete="off">
@@ -51,7 +66,6 @@ export const FormBook: React.FC<Props> = ({ onIsbnSearch }): JSX.Element => {
                             onChange={handleBookTitleChange}
                             required
                             fullWidth
-                            variant="filled"
                             error={!bookForm.validation?.title || false}
                             disabled={bookForm.isbnSearch === "progress"}
                         />
@@ -63,7 +77,6 @@ export const FormBook: React.FC<Props> = ({ onIsbnSearch }): JSX.Element => {
                             value={bookForm.author || ""}
                             onChange={handleBookAuthorChange}
                             fullWidth
-                            variant="filled"
                             disabled={bookForm.isbnSearch === "progress"}
                         />
                     </Grid>
@@ -74,6 +87,25 @@ export const FormBook: React.FC<Props> = ({ onIsbnSearch }): JSX.Element => {
                             onChange={handleBookIsbnChange}
                             onStartSearch={onIsbnSearch}
                         />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <FormControl fullWidth>
+                            <InputLabel id="demo-simple-select-label">
+                                Read status
+                            </InputLabel>
+                            <Select
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={bookForm.readStatus || ''}
+                                onChange={(e) => handleReadStatusChange(e.target.value as unknown as number)}
+                            >
+                                <MenuItem><em>None</em></MenuItem>
+                                <MenuItem value={1}>To Read</MenuItem>
+                                <MenuItem value={2}>Read</MenuItem>
+                                <MenuItem value={3}>Reading</MenuItem>
+                            </Select>
+                            <FormHelperText>Some important helper text</FormHelperText>
+                        </FormControl>
                     </Grid>
                 </Grid>
             </form>
