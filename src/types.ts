@@ -3,6 +3,7 @@ export type Book = {
     title: string;
     author?: string;
     isbn?:string;
+    readStatus?:number;
 }
 
 export type LoadingState = {
@@ -20,11 +21,24 @@ export type BookFormState = {
     title: string;
     author?: string;
     isbn?:string;
+    readStatus?: number,
     validation: {
         title:boolean;
     }
     isbnSearch : AsyncOperationStatus
 };
+
+export const createBookForm = ():BookFormState => ({
+    title: "",
+    author: "",
+    isbn: "",
+    readStatus:2,
+    validation: {
+        title: true,
+    },
+    isbnSearch: "success",
+});
+
 
 export type LoginSuccessResponse = {
     success: boolean;

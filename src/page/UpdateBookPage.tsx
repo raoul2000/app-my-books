@@ -42,6 +42,7 @@ export const UpdateBookPage: React.FC<Props> = ({ id }): JSX.Element => {
             title: thisBook?.title || "",
             author: thisBook?.author || "",
             isbn: thisBook?.isbn || "",
+            readStatus: thisBook?.readStatus || undefined,
             validation: {
                 title: true,
             },
@@ -68,6 +69,7 @@ export const UpdateBookPage: React.FC<Props> = ({ id }): JSX.Element => {
             title: bookForm.title,
             author: bookForm.author,
             isbn: bookForm.isbn,
+            readStatus: bookForm.readStatus
         };
         setProgress(true);
         setLocation(`/detail/${id}`);

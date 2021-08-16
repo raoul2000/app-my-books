@@ -1,83 +1,9 @@
 import { Book, LoginSuccessResponse, ApiKeyCheckResponse } from "../../types";
-import Storage from "@/utils/storage";
-
-export const apiBaseUrl = import.meta.env.VITE_BOOK_API_BASE_URL;
-const HEADER_NAME_API_KEY = "X-Api-Key";
-
-const getApiKey = () => Storage.getApiKey() || "";
-
-const handleErrorJson = (response: Response) => {
-    if (!response.ok) {
-        return response.json().then((data) => {
-            throw data;
-        });
-    } else {
-        return response.json();
-    }
-};
-
-const handleErrorNoResponse = (response: Response) => {
-    if (!response.ok) {
-        throw response.statusText;
-    } else {
-        return true;
-    }
-};
-
-export const getAllBooks = () =>
-    fetch(
-        `${apiBaseUrl}?${new URLSearchParams({
-            r: "api/user-book",
-        })}`,
-        {
-            headers: { [HEADER_NAME_API_KEY]: getApiKey() },
-        }
-    )
-        .then(handleErrorJson)
-        .then((jsonResp) => jsonResp as unknown as Book[]);
-
-export const addBook = (book: Omit<Book, "id">): Promise<Book> =>
-    fetch(
-        `${apiBaseUrl}?${new URLSearchParams({
-            r: "api/user-book/create",
-        })}`,
-        {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                [HEADER_NAME_API_KEY]: getApiKey(),
-            },
-            body: JSON.stringify({
-                title: book.title,
-                author: book.author,
-                isbn: book.isbn
-            }),
-        }
-    )
-        .then(handleErrorJson)
-        .then((resp) => resp as unknown as Book);
-
-export const updateBook = (book: Book): Promise<Book> =>
-    fetch(
-        `${apiBaseUrl}?${new URLSearchParams({
-            r: "api/user-book/update",
-            id: book.id,
-        })}`,
-        {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-                [HEADER_NAME_API_KEY]: getApiKey(),
-            },
-            body: JSON.stringify({
-                title: book.title,
-                author: book.author,
-                isbn: book.isbn
-            }),
-        }
-    )
-        .then(handleErrorJson)
-        .then((resp) => resp as unknown as Book);
+import { handleErrorJson, handleErrorNoResponse } from "./response-handler";
+import { apiBaseUrl, HEADER_NAME_API_KEY, getApiKey } from "./conf";
+import { getAllBooks } from "./getAllBooks";
+import { updateBook } from "./updateBook";
+import { addBook } from "./addBook";
 
 export const deleteBookById = (id: string): Promise<boolean> =>
     fetch(
