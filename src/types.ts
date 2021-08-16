@@ -28,6 +28,18 @@ export type BookFormState = {
     isbnSearch : AsyncOperationStatus
 };
 
+export const createBookForm = ():BookFormState => ({
+    title: "",
+    author: "",
+    isbn: "",
+    readStatus:2,
+    validation: {
+        title: true,
+    },
+    isbnSearch: "success",
+});
+
+
 export type LoginSuccessResponse = {
     success: boolean;
     /**

@@ -53,7 +53,7 @@ export const FormBook: React.FC<Props> = ({ onIsbnSearch }): JSX.Element => {
             isbn,
         }));
     };
-console.log(bookForm);
+
     return (
         <div className="form-book">
             <form autoComplete="off">

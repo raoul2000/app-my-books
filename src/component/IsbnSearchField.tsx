@@ -34,9 +34,7 @@ export const IsbnSearchField: React.FC<Props> = ({
         const renderButtonContent = () => {
             switch (status) {
                 case "progress":
-                    return (
-                        <CircularProgress className={classes.spinnerButton} />
-                    );
+                    return <CircularProgress className={classes.spinnerButton} />;
                 case "error":
                     return <ErrorIcon />;
                 default:
@@ -64,13 +62,12 @@ export const IsbnSearchField: React.FC<Props> = ({
             onChange={(e) => onChange(e.target.value)}
             InputProps={{
                 endAdornment: (
-                    <InputAdornment position="end">
+                    <InputAdornment position="end" disablePointerEvents={!value?.length}>
                         {renderIsbnSearchButton()}
                     </InputAdornment>
                 ),
             }}
             variant="outlined"
-            error={status === "error"}
             disabled={status === "progress"}
         />
     );

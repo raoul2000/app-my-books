@@ -6,7 +6,7 @@ import { useLocation } from "wouter";
 import { useSetRecoilState, useRecoilState } from "recoil";
 import { booksState } from "../state/books";
 import { progressState } from "../state/progress";
-import { Book } from "../types";
+import { Book, createBookForm } from "../types";
 import { FormBook } from "../component/FormBook";
 import BookApi from "../api/book";
 import Container from "@material-ui/core/Container";
@@ -31,18 +31,7 @@ export const AddBookPage: React.FC<{}> = (): JSX.Element => {
     const [bookForm, setBookForm] = useRecoilState(bookFormState);
     const [, setLocation] = useLocation();
 
-    useEffect(() => {
-        setBookForm({
-            title: "",
-            author: "",
-            isbn: "",
-            readStatus:2,
-            validation: {
-                title: true,
-            },
-            isbnSearch: "success",
-        });
-    }, []);
+    useEffect(() => setBookForm(createBookForm()), []);
 
     const handleSave = () => {
         if (!bookForm.title) {
@@ -60,7 +49,7 @@ export const AddBookPage: React.FC<{}> = (): JSX.Element => {
             title: bookForm.title,
             author: bookForm.author,
             isbn: bookForm.isbn,
-            readStatus: bookForm.readStatus
+            readStatus: bookForm.readStatus,
         };
 
         setProgress(true);
@@ -112,7 +101,7 @@ export const AddBookPage: React.FC<{}> = (): JSX.Element => {
                     onCancel={() => setEnableIsbnScan(false)}
                 />
             ) : (
-                <div className="about">
+                <div>
                     <TopBarActions
                         showBack={true}
                         backPath={"/"}
