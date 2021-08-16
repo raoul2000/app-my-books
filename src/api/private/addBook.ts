@@ -6,6 +6,7 @@ type API_addBooks = {
     book: {
         id: string;
         title: string;
+        subtitle?: string;
         author?: string;
         isbn?: string
     }
@@ -29,6 +30,7 @@ export const addBook = (book: Omit<Book, "id">): Promise<Book> =>
             body: JSON.stringify({
                 book : {
                     title: book.title,
+                    subtitle: book.subtitle,
                     author: book.author,
                     isbn: book.isbn
                 },
@@ -45,6 +47,7 @@ export const addBook = (book: Omit<Book, "id">): Promise<Book> =>
             return {
                 id: resp.book.id,
                 title: resp.book.title,
+                subtitle: resp.book.subtitle,
                 author: resp.book.author,
                 isbn: resp.book.isbn,
                 readStatus: resp.userBook.read_status,

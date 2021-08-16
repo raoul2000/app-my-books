@@ -1,6 +1,7 @@
 export type Book = {
     id: string;
     title: string;
+    subtitle?: string;
     author?: string;
     isbn?:string;
     readStatus?:number;
@@ -20,6 +21,7 @@ export type LoadingBooksState = {
 export type AsyncOperationStatus = 'progress' | 'success' | 'error';
 export type BookFormState = {
     title: string;
+    subtitle?: string;
     author?: string;
     isbn?:string;
     readStatus?: number;
@@ -32,6 +34,7 @@ export type BookFormState = {
 
 export const createBookForm = ():BookFormState => ({
     title: "",
+    subtitle: "",
     author: "",
     isbn: "",
     readStatus:2,

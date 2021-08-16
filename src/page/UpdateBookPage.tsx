@@ -40,6 +40,7 @@ export const UpdateBookPage: React.FC<Props> = ({ id }): JSX.Element => {
         const thisBook = books.find((book) => book.id === id);
         setBookForm({
             title: thisBook?.title || "",
+            subtitle: thisBook?.subtitle || "",
             author: thisBook?.author || "",
             isbn: thisBook?.isbn || "",
             readStatus: thisBook?.readStatus || undefined,
@@ -68,6 +69,7 @@ export const UpdateBookPage: React.FC<Props> = ({ id }): JSX.Element => {
         const updatedBook: Book = {
             id,
             title: bookForm.title,
+            subtitle: bookForm.subtitle,
             author: bookForm.author,
             isbn: bookForm.isbn,
             readStatus: bookForm.readStatus,

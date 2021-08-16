@@ -30,6 +30,15 @@ export const FormBook: React.FC<Props> = ({ onIsbnSearch }): JSX.Element => {
         }));
     };
 
+    const handleBookSubtitleChange = (
+        e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+    ) => {
+        setBookFormState((state) => ({
+            ...state,
+            subtitle: e.target.value,
+        }));
+    };
+    
     const handleBookAuthorChange = (
         e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
     ) => {
@@ -73,6 +82,16 @@ export const FormBook: React.FC<Props> = ({ onIsbnSearch }): JSX.Element => {
                             required
                             fullWidth
                             error={!bookForm.validation?.title || false}
+                            disabled={bookForm.isbnSearch === "progress"}
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <TextField
+                            id="book-subtitle"
+                            label="Sub Title"
+                            value={bookForm.subtitle || ""}
+                            onChange={handleBookSubtitleChange}
+                            fullWidth
                             disabled={bookForm.isbnSearch === "progress"}
                         />
                     </Grid>

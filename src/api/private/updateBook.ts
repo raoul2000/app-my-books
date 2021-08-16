@@ -17,6 +17,7 @@ export const updateBook = (book: Book): Promise<boolean> =>
             body: JSON.stringify({
                 book: {
                     title: book.title,
+                    subtitle: book.subtitle,
                     author: book.author,
                     isbn: book.isbn,
                 },

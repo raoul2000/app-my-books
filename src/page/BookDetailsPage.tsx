@@ -108,9 +108,14 @@ export const BookDetailsPage: React.FC<Props> = ({ id }): JSX.Element => {
                         {thisBook && (
                             <Card>
                                 <CardContent>
-                                    <Typography variant="h5" component="h2">
+                                    <Typography variant="h5" component="h1">
                                         {thisBook.title}
                                     </Typography>
+                                    {thisBook.subtitle && (
+                                        <Typography  variant="h6" component="h3" color="textSecondary">
+                                            {thisBook.subtitle}
+                                        </Typography>
+                                    )}
                                     <Typography color="textSecondary">
                                         {thisBook.author}
                                     </Typography>
