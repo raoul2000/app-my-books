@@ -50,6 +50,7 @@ export const AddBookPage: React.FC<{}> = (): JSX.Element => {
             author: bookForm.author,
             isbn: bookForm.isbn,
             readStatus: bookForm.readStatus,
+            rate: bookForm.rate
         };
 
         setProgress(true);
@@ -68,11 +69,12 @@ export const AddBookPage: React.FC<{}> = (): JSX.Element => {
 
         return BookApi.fetchIsbnData(isbn)
             .then((bookData: Book) => {
-                setBookForm((old) => ({ ...old, isbnSearch: "success" }));
+//                setBookForm((old) => ({ ...old, isbnSearch: "success" }));
                 setBookForm((curState) => ({
                     ...curState,
                     ...bookData,
                     isbn,
+                    isbnSearch: "success"
                 }));
             })
             .catch((error) => {

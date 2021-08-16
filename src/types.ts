@@ -4,6 +4,7 @@ export type Book = {
     author?: string;
     isbn?:string;
     readStatus?:number;
+    rate?:number;
 }
 
 export type LoadingState = {
@@ -21,11 +22,12 @@ export type BookFormState = {
     title: string;
     author?: string;
     isbn?:string;
-    readStatus?: number,
+    readStatus?: number;
+    rate?:number;
     validation: {
         title:boolean;
-    }
-    isbnSearch : AsyncOperationStatus
+    };
+    isbnSearch : AsyncOperationStatus;
 };
 
 export const createBookForm = ():BookFormState => ({
