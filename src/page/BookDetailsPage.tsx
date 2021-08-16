@@ -17,6 +17,7 @@ import { Book } from "../types";
 import { useLocation } from "wouter";
 import BookApi from "../api/book";
 import { TopBarActions } from "@/component/TopBarActions";
+import Rating from "@material-ui/lab/Rating";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -114,8 +115,14 @@ export const BookDetailsPage: React.FC<Props> = ({ id }): JSX.Element => {
                                         {thisBook.author}
                                     </Typography>
                                     <Typography color="textSecondary">
-                                        isbn : {thisBook.isbn || ''} - status : {thisBook.readStatus || '?'}
-                                    </Typography>                                    
+                                        isbn : {thisBook.isbn || ""} - status :{" "}
+                                        {thisBook.readStatus || "?"}
+                                    </Typography>
+                                    <Rating
+                                        name="book-rate"
+                                        value={thisBook.rate || null}
+                                        readOnly={true}
+                                    />
                                 </CardContent>
                             </Card>
                         )}

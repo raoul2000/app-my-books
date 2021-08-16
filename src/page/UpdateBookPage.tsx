@@ -43,6 +43,7 @@ export const UpdateBookPage: React.FC<Props> = ({ id }): JSX.Element => {
             author: thisBook?.author || "",
             isbn: thisBook?.isbn || "",
             readStatus: thisBook?.readStatus || undefined,
+            rate: thisBook?.rate,
             validation: {
                 title: true,
             },
@@ -69,7 +70,8 @@ export const UpdateBookPage: React.FC<Props> = ({ id }): JSX.Element => {
             title: bookForm.title,
             author: bookForm.author,
             isbn: bookForm.isbn,
-            readStatus: bookForm.readStatus
+            readStatus: bookForm.readStatus,
+            rate: bookForm.rate
         };
         setProgress(true);
         setLocation(`/detail/${id}`);
@@ -117,7 +119,7 @@ export const UpdateBookPage: React.FC<Props> = ({ id }): JSX.Element => {
             searchBookByIsbn(bookForm.isbn);
         }
     };
-
+    console.log(bookForm);
     return (
         <>
             {enableIsbnScan === true ? (

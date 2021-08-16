@@ -11,6 +11,7 @@ type API_addBooks = {
     }
     userBook: {
         read_status? : number
+        rate?: number
     }
 };
 
@@ -32,7 +33,8 @@ export const addBook = (book: Omit<Book, "id">): Promise<Book> =>
                     isbn: book.isbn
                 },
                 userBook : {
-                    read_status: book.readStatus
+                    read_status: book.readStatus,
+                    rate: book.rate
                 }
             }),
         }
@@ -45,6 +47,7 @@ export const addBook = (book: Omit<Book, "id">): Promise<Book> =>
                 title: resp.book.title,
                 author: resp.book.author,
                 isbn: resp.book.isbn,
-                readStatus: resp.userBook.read_status
+                readStatus: resp.userBook.read_status,
+                rate:resp.userBook.rate
             }
         });

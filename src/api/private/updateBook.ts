@@ -22,6 +22,7 @@ export const updateBook = (book: Book): Promise<boolean> =>
                 },
                 userBook: {
                     read_status: book.readStatus,
+                    rate: book.rate
                 },
             }),
         }
