@@ -1,6 +1,11 @@
 import React from "react";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import Avatar from "@material-ui/core/Avatar";
+import ImageIcon from "@material-ui/icons/Image";
+import BookIcon from '@material-ui/icons/Book';
+
 import List from "@material-ui/core/List";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
@@ -44,10 +49,15 @@ export const ListBooks: React.FC<Props> = ({ books, loading }): JSX.Element => {
                 booksToRender.map((book) => (
                     <ListItem
                         key={book.id}
-                        divider={true}
+                        divider={false}
                         button
                         onClick={() => handleShowBookDetail(book.id)}
                     >
+                        <ListItemAvatar>
+                            <Avatar>
+                                <BookIcon />
+                            </Avatar>
+                        </ListItemAvatar>
                         <ListItemText
                             primary={book.title}
                             secondary={book.author}
@@ -56,7 +66,7 @@ export const ListBooks: React.FC<Props> = ({ books, loading }): JSX.Element => {
                 ))}
         </List>
     );
-    
+
     return (
         <>
             {loading || books.length ? (

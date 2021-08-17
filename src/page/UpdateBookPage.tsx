@@ -7,7 +7,7 @@ import useLocation from "wouter/use-location";
 
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { FormBook } from "../component/FormBook";
-import { booksState } from "../state/books";
+import { bookListState } from "../state/book-list";
 import { Book } from "../types";
 import BookApi from "../api/book";
 import { progressState } from "../state/progress";
@@ -31,7 +31,7 @@ type Props = {
 export const UpdateBookPage: React.FC<Props> = ({ id }): JSX.Element => {
     const classes = useStyles();
     const [enableIsbnScan, setEnableIsbnScan] = useState(false);
-    const [books, setBooks] = useRecoilState<Book[]>(booksState);
+    const [books, setBooks] = useRecoilState<Book[]>(bookListState);
     const [bookForm, setBookForm] = useRecoilState(bookFormState);
     const setProgress = useSetRecoilState(progressState);
     const [, setLocation] = useLocation();
@@ -40,8 +40,11 @@ export const UpdateBookPage: React.FC<Props> = ({ id }): JSX.Element => {
         const thisBook = books.find((book) => book.id === id);
         setBookForm({
             title: thisBook?.title || "",
+            subtitle: thisBook?.subtitle || "",
             author: thisBook?.author || "",
             isbn: thisBook?.isbn || "",
+            readStatus: thisBook?.readStatus || undefined,
+            rate: thisBook?.rate,
             validation: {
                 title: true,
             },
@@ -66,8 +69,11 @@ export const UpdateBookPage: React.FC<Props> = ({ id }): JSX.Element => {
         const updatedBook: Book = {
             id,
             title: bookForm.title,
+            subtitle: bookForm.subtitle,
             author: bookForm.author,
             isbn: bookForm.isbn,
+            readStatus: bookForm.readStatus,
+            rate: bookForm.rate,
         };
         setProgress(true);
         setLocation(`/detail/${id}`);
@@ -90,7 +96,7 @@ export const UpdateBookPage: React.FC<Props> = ({ id }): JSX.Element => {
     const searchBookByIsbn = (isbn: string) => {
         setBookForm((old) => ({ ...old, isbnSearch: "progress" }));
 
-        return BookApi.fetchIsbnData(isbn)
+        return BookApi.searchBookByISBN(isbn)
             .then((bookData: Book) => {
                 setBookForm((old) => ({ ...old, isbnSearch: "success" }));
                 setBookForm((curState) => ({
@@ -101,7 +107,7 @@ export const UpdateBookPage: React.FC<Props> = ({ id }): JSX.Element => {
             })
             .catch((error) => {
                 setBookForm((old) => ({ ...old, isbnSearch: "error" }));
-            });            
+            });
     };
 
     const handleIsbnScanSuccess = (isbn: string) => {
@@ -115,7 +121,7 @@ export const UpdateBookPage: React.FC<Props> = ({ id }): JSX.Element => {
             searchBookByIsbn(bookForm.isbn);
         }
     };
-
+    console.log(bookForm);
     return (
         <>
             {enableIsbnScan === true ? (
@@ -140,12 +146,7 @@ export const UpdateBookPage: React.FC<Props> = ({ id }): JSX.Element => {
                     />
                     <main>
                         <Container maxWidth="sm">
-                            <div className="update-book">
-                                <Typography variant="h5" component="h1">
-                                    Update book
-                                </Typography>
-                                <FormBook onIsbnSearch={handleIsbnSearch} />
-                            </div>
+                            <FormBook onIsbnSearch={handleIsbnSearch} />
                         </Container>
                     </main>
                     <FabScanner onClick={() => setEnableIsbnScan(true)} />

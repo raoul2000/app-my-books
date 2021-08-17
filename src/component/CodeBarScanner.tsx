@@ -63,7 +63,7 @@ export const CodeBarScanner: React.FC<Props> = ({
         };
         cleanup();
         if (scannerOn) {
-            const timer = setInterval(capture, 300);
+            const timer = setInterval(capture, 100);
             setScanTimer(timer);
         }
         return cleanup;

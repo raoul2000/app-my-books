@@ -20,7 +20,6 @@ export const FabScanner: React.FC<Props> = ({ onClick }): JSX.Element => {
 
     return (
         <Fab
-            color="primary"
             aria-label="scan"
             className={classes.fabQuickLogin}
             onClick={onClick}

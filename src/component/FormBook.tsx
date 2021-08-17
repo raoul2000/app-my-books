@@ -1,6 +1,12 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
+import InputLabel from "@material-ui/core/InputLabel";
+import Rating from "@material-ui/lab/Rating";
+
 import { useRecoilState } from "recoil";
 
 import { BookFormState } from "../types";
@@ -23,6 +29,15 @@ export const FormBook: React.FC<Props> = ({ onIsbnSearch }): JSX.Element => {
         }));
     };
 
+    const handleBookSubtitleChange = (
+        e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+    ) => {
+        setBookFormState((state) => ({
+            ...state,
+            subtitle: e.target.value,
+        }));
+    };
+    
     const handleBookAuthorChange = (
         e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
     ) => {
@@ -32,10 +47,24 @@ export const FormBook: React.FC<Props> = ({ onIsbnSearch }): JSX.Element => {
         }));
     };
 
+    const handleReadStatusChange = (readStatus: number) => {
+        setBookFormState((state) => ({
+            ...state,
+            readStatus,
+        }));
+    };
+
     const handleBookIsbnChange = (isbn: string) => {
         setBookFormState((state) => ({
             ...state,
             isbn,
+        }));
+    };
+
+    const handleRateChange = (rate: number | null) => {
+        setBookFormState((state) => ({
+            ...state,
+            rate: rate || undefined
         }));
     };
 
@@ -47,12 +76,23 @@ export const FormBook: React.FC<Props> = ({ onIsbnSearch }): JSX.Element => {
                         <TextField
                             id="book-title"
                             label="Title"
+                            multiline={true}
                             value={bookForm.title || ""}
                             onChange={handleBookTitleChange}
                             required
                             fullWidth
-                            variant="filled"
                             error={!bookForm.validation?.title || false}
+                            disabled={bookForm.isbnSearch === "progress"}
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <TextField
+                            id="book-subtitle"
+                            label="Sub Title"
+                            multiline={true}
+                            value={bookForm.subtitle || ""}
+                            onChange={handleBookSubtitleChange}
+                            fullWidth
                             disabled={bookForm.isbnSearch === "progress"}
                         />
                     </Grid>
@@ -60,10 +100,10 @@ export const FormBook: React.FC<Props> = ({ onIsbnSearch }): JSX.Element => {
                         <TextField
                             id="book-author"
                             label="Author"
+                            multiline={true}
                             value={bookForm.author || ""}
                             onChange={handleBookAuthorChange}
                             fullWidth
-                            variant="filled"
                             disabled={bookForm.isbnSearch === "progress"}
                         />
                     </Grid>
@@ -74,6 +114,39 @@ export const FormBook: React.FC<Props> = ({ onIsbnSearch }): JSX.Element => {
                             onChange={handleBookIsbnChange}
                             onStartSearch={onIsbnSearch}
                         />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Rating
+                            name="book-rate"
+                            value={bookForm.rate || null}
+                            onChange={(event, newValue) => {
+                                handleRateChange(newValue);
+                            }}
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <FormControl fullWidth>
+                            <InputLabel id="demo-simple-select-label">
+                                Read status
+                            </InputLabel>
+                            <Select
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={bookForm.readStatus || ""}
+                                onChange={(e) =>
+                                    handleReadStatusChange(
+                                        e.target.value as unknown as number
+                                    )
+                                }
+                            >
+                                <MenuItem>
+                                    <em>None</em>
+                                </MenuItem>
+                                <MenuItem value={1}>To Read</MenuItem>
+                                <MenuItem value={2}>Read</MenuItem>
+                                <MenuItem value={3}>Reading</MenuItem>
+                            </Select>
+                        </FormControl>
                     </Grid>
                 </Grid>
             </form>

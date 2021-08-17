@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import Container from "@material-ui/core/Container";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
+import CardActions from "@material-ui/core/CardActions";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
@@ -9,14 +10,20 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import IconButton from "@material-ui/core/IconButton";
+import Chip from "@material-ui/core/Chip";
+import Collapse from "@material-ui/core/Collapse";
+import clsx from "clsx";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import LinearProgress from "@material-ui/core/LinearProgress";
 
-import { useRecoilState, useSetRecoilState } from "recoil";
-import { booksState } from "../state/books";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { bookListState, bookByIdState } from "../state/book-list";
 import { progressState } from "../state/progress";
-import { Book } from "../types";
+import { Book, getReadStatusLabel } from "../types";
 import { useLocation } from "wouter";
 import BookApi from "../api/book";
 import { TopBarActions } from "@/component/TopBarActions";
+import Rating from "@material-ui/lab/Rating";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -29,6 +36,19 @@ const useStyles = makeStyles((theme: Theme) =>
         submitButton: {
             color: "white",
         },
+        chipToRead: {
+            float: "right",
+        },
+        expand: {
+            transform: "rotate(0deg)",
+            marginLeft: "auto",
+            transition: theme.transitions.create("transform", {
+                duration: theme.transitions.duration.shortest,
+            }),
+        },
+        expandOpen: {
+            transform: "rotate(180deg)",
+        },
     })
 );
 
@@ -39,14 +59,33 @@ type Props = {
 export const BookDetailsPage: React.FC<Props> = ({ id }): JSX.Element => {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const [books, setBooks] = useRecoilState<Book[]>(booksState);
+    const thisBook = useRecoilValue(bookByIdState(id));    
+    const setBooks = useSetRecoilState<Book[]>(bookListState);
     const setProgress = useSetRecoilState(progressState);
     const [, setLocation] = useLocation();
+    const [expanded, setExpanded] = useState<boolean>(false);
+    const [abstract, setAbstract] = useState<{
+        status: "progress" | "error" | "success";
+        text?: string;
+    }>({ status: "success" });
 
-    const thisBook = books.find((book) => book.id === id);
+
+    const handleExpandClick = (book:Book) => {
+        if (!expanded && abstract.text === undefined && book?.isbn) {
+            setAbstract({ status: "progress" });
+            BookApi.fetchBookDescriptionByIsbn(book.isbn)
+            .then((description) => setAbstract({
+                status: "success",
+                text: description,
+            }))
+            .catch(error => setAbstract({ status: "error" }))
+        }
+        setExpanded(!expanded);
+    };
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) =>
         setAnchorEl(event.currentTarget);
+
     const handleClose = () => setAnchorEl(null);
 
     const handleDeleteBook = (book?: Book): void => {
@@ -55,7 +94,7 @@ export const BookDetailsPage: React.FC<Props> = ({ id }): JSX.Element => {
         if (confirm(`Delete "${book.title}" ?`)) {
             setProgress(true);
             setLocation("/");
-            BookApi.deleteBookById(book.id)
+            BookApi.deleteBook(book)
                 .then(() => {
                     setBooks((oldBooks) => [
                         ...oldBooks.filter((obook) => obook.id !== book.id),
@@ -107,16 +146,70 @@ export const BookDetailsPage: React.FC<Props> = ({ id }): JSX.Element => {
                         {thisBook && (
                             <Card>
                                 <CardContent>
-                                    <Typography variant="h5" component="h2">
+                                    <Typography variant="h5" component="h1">
                                         {thisBook.title}
                                     </Typography>
+                                    {thisBook.subtitle && (
+                                        <Typography
+                                            variant="h6"
+                                            component="h3"
+                                            color="textSecondary"
+                                        >
+                                            {thisBook.subtitle}
+                                        </Typography>
+                                    )}
                                     <Typography color="textSecondary">
                                         {thisBook.author}
                                     </Typography>
-                                    <Typography color="textSecondary">
-                                        isbn : {thisBook.isbn || ''}
-                                    </Typography>                                    
+
+                                    {thisBook.readStatus && (
+                                        <Chip
+                                            className={classes.chipToRead}
+                                            size="small"
+                                            label={getReadStatusLabel(
+                                                thisBook.readStatus
+                                            )}
+                                        />
+                                    )}
+
+                                    <Rating
+                                        name="book-rate"
+                                        value={thisBook.rate || null}
+                                        readOnly={true}
+                                    />
                                 </CardContent>
+                                <CardActions>
+                                    <IconButton
+                                        className={clsx(classes.expand, {
+                                            [classes.expandOpen]: expanded,
+                                        })}
+                                        onClick={() => handleExpandClick(thisBook)}
+                                        aria-expanded={expanded}
+                                        aria-label="show more"
+                                    >
+                                        <ExpandMoreIcon />
+                                    </IconButton>
+                                </CardActions>
+                                <Collapse
+                                    in={expanded}
+                                    timeout="auto"
+                                    unmountOnExit
+                                >
+                                    <CardContent>
+                                        {abstract.text !== undefined ? (
+                                            <Typography paragraph>
+                                                {abstract.text || "no description available"}
+                                            </Typography>
+                                        ) : (
+                                            <>
+                                                <Typography paragraph>
+                                                    Loading ...
+                                                </Typography>
+                                                <LinearProgress />
+                                            </>
+                                        )}
+                                    </CardContent>
+                                </Collapse>
                             </Card>
                         )}
                     </div>

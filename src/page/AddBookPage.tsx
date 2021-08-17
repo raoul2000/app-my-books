@@ -4,9 +4,9 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import { useLocation } from "wouter";
 import { useSetRecoilState, useRecoilState } from "recoil";
-import { booksState } from "../state/books";
+import { bookListState } from "../state/book-list";
 import { progressState } from "../state/progress";
-import { Book } from "../types";
+import { Book, createBookForm } from "../types";
 import { FormBook } from "../component/FormBook";
 import BookApi from "../api/book";
 import Container from "@material-ui/core/Container";
@@ -26,22 +26,12 @@ const useStyles = makeStyles((theme: Theme) =>
 export const AddBookPage: React.FC<{}> = (): JSX.Element => {
     const classes = useStyles();
     const [enableIsbnScan, setEnableIsbnScan] = useState(false);
-    const setBooks = useSetRecoilState<Book[]>(booksState);
+    const setBooks = useSetRecoilState<Book[]>(bookListState);
     const setProgress = useSetRecoilState(progressState);
     const [bookForm, setBookForm] = useRecoilState(bookFormState);
     const [, setLocation] = useLocation();
 
-    useEffect(() => {
-        setBookForm({
-            title: "",
-            author: "",
-            isbn: "",
-            validation: {
-                title: true,
-            },
-            isbnSearch: "success",
-        });
-    }, []);
+    useEffect(() => setBookForm(createBookForm()), []);
 
     const handleSave = () => {
         if (!bookForm.title) {
@@ -57,8 +47,11 @@ export const AddBookPage: React.FC<{}> = (): JSX.Element => {
         }
         const newBook: Omit<Book, "id"> = {
             title: bookForm.title,
+            subtitle: bookForm.subtitle,
             author: bookForm.author,
             isbn: bookForm.isbn,
+            readStatus: bookForm.readStatus,
+            rate: bookForm.rate,
         };
 
         setProgress(true);
@@ -75,13 +68,14 @@ export const AddBookPage: React.FC<{}> = (): JSX.Element => {
     const searchBookByIsbn = (isbn: string) => {
         setBookForm((old) => ({ ...old, isbnSearch: "progress" }));
 
-        return BookApi.fetchIsbnData(isbn)
+        return BookApi.searchBookByISBN(isbn)
             .then((bookData: Book) => {
-                setBookForm((old) => ({ ...old, isbnSearch: "success" }));
+                //                setBookForm((old) => ({ ...old, isbnSearch: "success" }));
                 setBookForm((curState) => ({
                     ...curState,
                     ...bookData,
                     isbn,
+                    isbnSearch: "success",
                 }));
             })
             .catch((error) => {
@@ -110,7 +104,7 @@ export const AddBookPage: React.FC<{}> = (): JSX.Element => {
                     onCancel={() => setEnableIsbnScan(false)}
                 />
             ) : (
-                <div className="about">
+                <div>
                     <TopBarActions
                         showBack={true}
                         backPath={"/"}
@@ -125,12 +119,7 @@ export const AddBookPage: React.FC<{}> = (): JSX.Element => {
                     />
                     <main>
                         <Container maxWidth="sm">
-                            <div className="add-book">
-                                <Typography variant="h5" component="h1">
-                                    Add book
-                                </Typography>
-                                <FormBook onIsbnSearch={handleIsbnSearch} />
-                            </div>
+                            <FormBook onIsbnSearch={handleIsbnSearch} />
                         </Container>
                         <FabScanner onClick={() => setEnableIsbnScan(true)} />
                     </main>

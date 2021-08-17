@@ -4,13 +4,13 @@ import { nanoid } from "nanoid";
 export const apiBaseUrl =
     "https://sheet.best/api/sheets/ec2f5fbe-35fc-4ecb-b221-5a14f8cdadb0";
 
-export const getAllBooks = () => {
+export const readAllBooks = () => {
     return fetch(apiBaseUrl)
         .then((resp) => resp.json())
         .then((jsonResp) => jsonResp as unknown as Book[]);
 };
 
-export const deleteBookById = (id: string): Promise<Response> =>
+export const deleteBook = (id: string): Promise<Response> =>
     fetch(`${apiBaseUrl}/id/${id}`, {
         method: "DELETE",
     });
@@ -66,8 +66,8 @@ export const checkApiKey = () =>
     });
 
 export default {
-    getAllBooks,
-    deleteBookById,
+    readAllBooks,
+    deleteBook,
     addBook,
     updateBook,
     login,
