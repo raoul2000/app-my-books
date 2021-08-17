@@ -7,7 +7,7 @@ import useLocation from "wouter/use-location";
 
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { FormBook } from "../component/FormBook";
-import { booksState } from "../state/books";
+import { bookListState } from "../state/book-list";
 import { Book } from "../types";
 import BookApi from "../api/book";
 import { progressState } from "../state/progress";
@@ -31,7 +31,7 @@ type Props = {
 export const UpdateBookPage: React.FC<Props> = ({ id }): JSX.Element => {
     const classes = useStyles();
     const [enableIsbnScan, setEnableIsbnScan] = useState(false);
-    const [books, setBooks] = useRecoilState<Book[]>(booksState);
+    const [books, setBooks] = useRecoilState<Book[]>(bookListState);
     const [bookForm, setBookForm] = useRecoilState(bookFormState);
     const setProgress = useSetRecoilState(progressState);
     const [, setLocation] = useLocation();

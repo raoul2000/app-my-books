@@ -4,7 +4,7 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import { useLocation } from "wouter";
 import { useSetRecoilState, useRecoilState } from "recoil";
-import { booksState } from "../state/books";
+import { bookListState } from "../state/book-list";
 import { progressState } from "../state/progress";
 import { Book, createBookForm } from "../types";
 import { FormBook } from "../component/FormBook";
@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme: Theme) =>
 export const AddBookPage: React.FC<{}> = (): JSX.Element => {
     const classes = useStyles();
     const [enableIsbnScan, setEnableIsbnScan] = useState(false);
-    const setBooks = useSetRecoilState<Book[]>(booksState);
+    const setBooks = useSetRecoilState<Book[]>(bookListState);
     const setProgress = useSetRecoilState(progressState);
     const [bookForm, setBookForm] = useRecoilState(bookFormState);
     const [, setLocation] = useLocation();

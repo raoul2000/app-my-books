@@ -79,6 +79,24 @@ export const fetchIsbnData = (isbn: string) =>
             return successResponse as unknown as Book;
         });
 
+type API_BookDescr = {
+    description: string;
+};
+export const fetchBookDescriptionByIsbn = (isbn: string): Promise<string> =>
+    fetch(
+        `${apiBaseUrl}?${new URLSearchParams({
+            r: "api/isbn-service/description",
+            isbn,
+        })}`,
+        {
+            headers: { [HEADER_NAME_API_KEY]: getApiKey() },
+        }
+    )
+        .then(handleErrorJson)
+        .then((successResponse) => {
+            return (successResponse as unknown as API_BookDescr).description;
+        });
+
 export default {
     getAllBooks,
     deleteBookById,
@@ -88,4 +106,5 @@ export default {
     logout,
     checkApiKey,
     fetchIsbnData,
+    fetchBookDescriptionByIsbn
 };

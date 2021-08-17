@@ -6,13 +6,13 @@ import { useRecoilState } from "recoil";
 import { useLocation } from "wouter";
 
 import { ListBooks } from "../component/ListBooks";
-import { booksState } from "../state/books";
+import { bookListState } from "../state/book-list";
 import { loadingBooksState } from "../state/loading-books";
 import BookApi from "../api/book";
 import { FabAddBook } from "@/component/button/FabAddBook";
 
 export const BookListPage: React.FC<{}> = (): JSX.Element => {
-    const [books, setBooks] = useRecoilState(booksState);
+    const [books, setBooks] = useRecoilState(bookListState);
     const [loadingBooks, setLoadingBooks] = useRecoilState(loadingBooksState);
     const [, setLocation] = useLocation();
 
