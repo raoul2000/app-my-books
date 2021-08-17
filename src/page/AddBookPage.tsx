@@ -68,7 +68,7 @@ export const AddBookPage: React.FC<{}> = (): JSX.Element => {
     const searchBookByIsbn = (isbn: string) => {
         setBookForm((old) => ({ ...old, isbnSearch: "progress" }));
 
-        return BookApi.fetchIsbnData(isbn)
+        return BookApi.searchBookByISBN(isbn)
             .then((bookData: Book) => {
                 //                setBookForm((old) => ({ ...old, isbnSearch: "success" }));
                 setBookForm((curState) => ({

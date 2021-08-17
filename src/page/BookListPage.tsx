@@ -19,7 +19,7 @@ export const BookListPage: React.FC<{}> = (): JSX.Element => {
     useEffect(() => {
         if (loadingBooks.status === "init") {
             setLoadingBooks({ status: "loading", errorMessage: "" });
-            BookApi.getAllBooks()
+            BookApi.readAllBooks()
                 .then(setBooks)
                 .catch(() =>
                     setLoadingBooks({

@@ -9,7 +9,7 @@ type API_GetUserBooks = {
     book: Book;
 };
 
-export const getAllBooks = (): Promise<Book[]> =>
+export const readAllBooks = (): Promise<Book[]> =>
     fetch(
         `${apiBaseUrl}?${new URLSearchParams({
             r: "api/user-book",

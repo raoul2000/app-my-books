@@ -1,24 +1,11 @@
-import { Book, LoginSuccessResponse, ApiKeyCheckResponse } from "../../types";
+import { LoginSuccessResponse, ApiKeyCheckResponse } from "../../types";
 import { handleErrorJson, handleErrorNoResponse } from "./response-handler";
 import { apiBaseUrl, HEADER_NAME_API_KEY, getApiKey } from "./conf";
-import { getAllBooks } from "./getAllBooks";
+import { readAllBooks } from "./readAllBooks";
 import { updateBook } from "./updateBook";
 import { addBook } from "./addBook";
-
-export const deleteBookById = (id: string): Promise<boolean> =>
-    fetch(
-        `${apiBaseUrl}?${new URLSearchParams({
-            r: "api/user-book/delete",
-            id,
-        })}`,
-        {
-            method: "DELETE",
-            headers: {
-                "Content-Type": "application/json",
-                [HEADER_NAME_API_KEY]: getApiKey(),
-            },
-        }
-    ).then(handleErrorNoResponse);
+import { searchBookByISBN } from "./searchBookByISBN";
+import { deleteBook } from "./deleteBook";
 
 export const login = (username: string, password: string): Promise<string> =>
     fetch(
@@ -64,21 +51,6 @@ export const checkApiKey = (apiKey: string) =>
             return apiKeyCheck.isValid;
         });
 
-export const fetchIsbnData = (isbn: string) =>
-    fetch(
-        `${apiBaseUrl}?${new URLSearchParams({
-            r: "api/isbn-service/search",
-            isbn,
-        })}`,
-        {
-            headers: { [HEADER_NAME_API_KEY]: getApiKey() },
-        }
-    )
-        .then(handleErrorJson)
-        .then((successResponse) => {
-            return successResponse as unknown as Book;
-        });
-
 type API_BookDescr = {
     description: string;
 };
@@ -98,13 +70,13 @@ export const fetchBookDescriptionByIsbn = (isbn: string): Promise<string> =>
         });
 
 export default {
-    getAllBooks,
-    deleteBookById,
+    readAllBooks,
+    deleteBook,
     addBook,
     updateBook,
     login,
     logout,
     checkApiKey,
-    fetchIsbnData,
-    fetchBookDescriptionByIsbn
+    searchBookByISBN,
+    fetchBookDescriptionByIsbn,
 };

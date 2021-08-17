@@ -96,7 +96,7 @@ export const UpdateBookPage: React.FC<Props> = ({ id }): JSX.Element => {
     const searchBookByIsbn = (isbn: string) => {
         setBookForm((old) => ({ ...old, isbnSearch: "progress" }));
 
-        return BookApi.fetchIsbnData(isbn)
+        return BookApi.searchBookByISBN(isbn)
             .then((bookData: Book) => {
                 setBookForm((old) => ({ ...old, isbnSearch: "success" }));
                 setBookForm((curState) => ({

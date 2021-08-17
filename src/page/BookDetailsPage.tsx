@@ -94,7 +94,7 @@ export const BookDetailsPage: React.FC<Props> = ({ id }): JSX.Element => {
         if (confirm(`Delete "${book.title}" ?`)) {
             setProgress(true);
             setLocation("/");
-            BookApi.deleteBookById(book.id)
+            BookApi.deleteBook(book)
                 .then(() => {
                     setBooks((oldBooks) => [
                         ...oldBooks.filter((obook) => obook.id !== book.id),
