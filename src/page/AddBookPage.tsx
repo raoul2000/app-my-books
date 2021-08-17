@@ -51,7 +51,7 @@ export const AddBookPage: React.FC<{}> = (): JSX.Element => {
             author: bookForm.author,
             isbn: bookForm.isbn,
             readStatus: bookForm.readStatus,
-            rate: bookForm.rate
+            rate: bookForm.rate,
         };
 
         setProgress(true);
@@ -70,12 +70,12 @@ export const AddBookPage: React.FC<{}> = (): JSX.Element => {
 
         return BookApi.fetchIsbnData(isbn)
             .then((bookData: Book) => {
-//                setBookForm((old) => ({ ...old, isbnSearch: "success" }));
+                //                setBookForm((old) => ({ ...old, isbnSearch: "success" }));
                 setBookForm((curState) => ({
                     ...curState,
                     ...bookData,
                     isbn,
-                    isbnSearch: "success"
+                    isbnSearch: "success",
                 }));
             })
             .catch((error) => {
@@ -119,12 +119,7 @@ export const AddBookPage: React.FC<{}> = (): JSX.Element => {
                     />
                     <main>
                         <Container maxWidth="sm">
-                            <div className="add-book">
-                                <Typography variant="h5" component="h1">
-                                    Add book
-                                </Typography>
-                                <FormBook onIsbnSearch={handleIsbnSearch} />
-                            </div>
+                            <FormBook onIsbnSearch={handleIsbnSearch} />
                         </Container>
                         <FabScanner onClick={() => setEnableIsbnScan(true)} />
                     </main>

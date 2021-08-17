@@ -73,7 +73,7 @@ export const UpdateBookPage: React.FC<Props> = ({ id }): JSX.Element => {
             author: bookForm.author,
             isbn: bookForm.isbn,
             readStatus: bookForm.readStatus,
-            rate: bookForm.rate
+            rate: bookForm.rate,
         };
         setProgress(true);
         setLocation(`/detail/${id}`);
@@ -107,7 +107,7 @@ export const UpdateBookPage: React.FC<Props> = ({ id }): JSX.Element => {
             })
             .catch((error) => {
                 setBookForm((old) => ({ ...old, isbnSearch: "error" }));
-            });            
+            });
     };
 
     const handleIsbnScanSuccess = (isbn: string) => {
@@ -146,12 +146,7 @@ export const UpdateBookPage: React.FC<Props> = ({ id }): JSX.Element => {
                     />
                     <main>
                         <Container maxWidth="sm">
-                            <div className="update-book">
-                                <Typography variant="h5" component="h1">
-                                    Update book
-                                </Typography>
-                                <FormBook onIsbnSearch={handleIsbnSearch} />
-                            </div>
+                            <FormBook onIsbnSearch={handleIsbnSearch} />
                         </Container>
                     </main>
                     <FabScanner onClick={() => setEnableIsbnScan(true)} />

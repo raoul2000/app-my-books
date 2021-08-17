@@ -2,7 +2,6 @@ import React from "react";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
-import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -77,6 +76,7 @@ export const FormBook: React.FC<Props> = ({ onIsbnSearch }): JSX.Element => {
                         <TextField
                             id="book-title"
                             label="Title"
+                            multiline={true}
                             value={bookForm.title || ""}
                             onChange={handleBookTitleChange}
                             required
@@ -89,6 +89,7 @@ export const FormBook: React.FC<Props> = ({ onIsbnSearch }): JSX.Element => {
                         <TextField
                             id="book-subtitle"
                             label="Sub Title"
+                            multiline={true}
                             value={bookForm.subtitle || ""}
                             onChange={handleBookSubtitleChange}
                             fullWidth
@@ -99,6 +100,7 @@ export const FormBook: React.FC<Props> = ({ onIsbnSearch }): JSX.Element => {
                         <TextField
                             id="book-author"
                             label="Author"
+                            multiline={true}
                             value={bookForm.author || ""}
                             onChange={handleBookAuthorChange}
                             fullWidth
@@ -144,9 +146,6 @@ export const FormBook: React.FC<Props> = ({ onIsbnSearch }): JSX.Element => {
                                 <MenuItem value={2}>Read</MenuItem>
                                 <MenuItem value={3}>Reading</MenuItem>
                             </Select>
-                            <FormHelperText>
-                                Some important helper text
-                            </FormHelperText>
                         </FormControl>
                     </Grid>
                 </Grid>

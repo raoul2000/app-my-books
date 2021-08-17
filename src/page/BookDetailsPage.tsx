@@ -2,6 +2,7 @@ import React from "react";
 import Container from "@material-ui/core/Container";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
+import CardActions from "@material-ui/core/CardActions";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
@@ -9,11 +10,12 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import IconButton from "@material-ui/core/IconButton";
+import Chip from "@material-ui/core/Chip";
 
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { booksState } from "../state/books";
 import { progressState } from "../state/progress";
-import { Book } from "../types";
+import { Book, getReadStatusLabel } from "../types";
 import { useLocation } from "wouter";
 import BookApi from "../api/book";
 import { TopBarActions } from "@/component/TopBarActions";
@@ -30,6 +32,9 @@ const useStyles = makeStyles((theme: Theme) =>
         submitButton: {
             color: "white",
         },
+        chipToRead : {
+            float:"right"
+        }
     })
 );
 
@@ -112,23 +117,38 @@ export const BookDetailsPage: React.FC<Props> = ({ id }): JSX.Element => {
                                         {thisBook.title}
                                     </Typography>
                                     {thisBook.subtitle && (
-                                        <Typography  variant="h6" component="h3" color="textSecondary">
+                                        <Typography
+                                            variant="h6"
+                                            component="h3"
+                                            color="textSecondary"
+                                        >
                                             {thisBook.subtitle}
                                         </Typography>
                                     )}
                                     <Typography color="textSecondary">
                                         {thisBook.author}
                                     </Typography>
-                                    <Typography color="textSecondary">
-                                        isbn : {thisBook.isbn || ""} - status :{" "}
-                                        {thisBook.readStatus || "?"}
-                                    </Typography>
+
+                                    {thisBook.readStatus && (
+                                        <Chip
+                                            className={classes.chipToRead}
+                                            
+                                            size="small"
+                                            label={getReadStatusLabel(
+                                                thisBook.readStatus
+                                            )}
+                                        />
+                                    )}
+
                                     <Rating
                                         name="book-rate"
                                         value={thisBook.rate || null}
                                         readOnly={true}
                                     />
                                 </CardContent>
+                                <CardActions>
+                                    <Button size="small">Learn More</Button>
+                                </CardActions>
                             </Card>
                         )}
                     </div>
@@ -137,3 +157,10 @@ export const BookDetailsPage: React.FC<Props> = ({ id }): JSX.Element => {
         </>
     );
 };
+{
+    /* <Typography color="textSecondary">
+{getReadStatusLabel(
+    thisBook.readStatus
+)}
+</Typography> */
+}
