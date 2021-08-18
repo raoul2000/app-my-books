@@ -10,7 +10,7 @@ import { Book, createBookForm } from "../types";
 import { FormBook } from "../component/FormBook";
 import BookApi from "../api/book";
 import Container from "@material-ui/core/Container";
-import { TopBarActions } from "@/component/TopBarActions";
+import { TopBarActions } from "@/component/app-bar/TopBarActions";
 import { bookFormState } from "@/state/book-form";
 import { IsbnScanner } from "@/component/IsbnScanner";
 import { FabScanner } from "@/component/button/FabScanner";

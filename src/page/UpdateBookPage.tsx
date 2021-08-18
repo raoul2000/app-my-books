@@ -11,7 +11,7 @@ import { bookListState } from "../state/book-list";
 import { Book } from "../types";
 import BookApi from "../api/book";
 import { progressState } from "../state/progress";
-import { TopBarActions } from "@/component/TopBarActions";
+import { TopBarActions } from "@/component/app-bar/TopBarActions";
 import { bookFormState } from "@/state/book-form";
 import { IsbnScanner } from "@/component/IsbnScanner";
 import { FabScanner } from "@/component/button/FabScanner";
