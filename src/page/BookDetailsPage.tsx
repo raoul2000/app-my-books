@@ -5,6 +5,7 @@ import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
 import Typography from "@material-ui/core/Typography";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import ExploreIcon from "@material-ui/icons/Explore";
 
 import IconButton from "@material-ui/core/IconButton";
 import Chip from "@material-ui/core/Chip";
@@ -81,6 +82,9 @@ export const BookDetailsPage: React.FC<Props> = ({ id }): JSX.Element => {
         setExpanded(!expanded);
     };
 
+    const handleTravelClick = (book: Book) => {
+        setLocation(`/travel/${book.id}`);
+    };
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) =>
         setAnchorEl(event.currentTarget);
 
@@ -104,7 +108,7 @@ export const BookDetailsPage: React.FC<Props> = ({ id }): JSX.Element => {
         handleClose();
     };
 
-    if(!thisBook) {
+    if (!thisBook) {
         return <div>book not found</div>;
     }
 
@@ -135,7 +139,6 @@ export const BookDetailsPage: React.FC<Props> = ({ id }): JSX.Element => {
                                     <Typography color="textSecondary">
                                         {thisBook.author}
                                     </Typography>
-
                                     {thisBook.readStatus && (
                                         <Chip
                                             className={classes.chipToRead}
@@ -145,14 +148,22 @@ export const BookDetailsPage: React.FC<Props> = ({ id }): JSX.Element => {
                                             )}
                                         />
                                     )}
-
                                     <Rating
                                         name="book-rate"
                                         value={thisBook.rate || null}
                                         readOnly={true}
                                     />
                                 </CardContent>
-                                <CardActions>
+
+                                <CardActions disableSpacing>
+                                    <IconButton
+                                        aria-label="voyage"
+                                        onClick={() =>
+                                            handleTravelClick(thisBook)
+                                        }
+                                    >
+                                        <ExploreIcon />
+                                    </IconButton>
                                     <IconButton
                                         className={clsx(classes.expand, {
                                             [classes.expandOpen]: expanded,
@@ -166,6 +177,7 @@ export const BookDetailsPage: React.FC<Props> = ({ id }): JSX.Element => {
                                         <ExpandMoreIcon />
                                     </IconButton>
                                 </CardActions>
+
                                 <Collapse
                                     in={expanded}
                                     timeout="auto"

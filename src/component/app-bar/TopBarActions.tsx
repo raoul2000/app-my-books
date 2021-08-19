@@ -25,11 +25,13 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 type Props = {
-    actions: JSX.Element;
+    actions?: JSX.Element;
     showBack?: boolean;
     backPath?: string;
+    title?:string;
 };
 export const TopBarActions: React.FC<Props> = ({
+    title,
     actions,
     showBack = true,
     backPath = "/",
@@ -51,7 +53,7 @@ export const TopBarActions: React.FC<Props> = ({
                         <ArrowBackIosIcon />
                     </IconButton>
                 )}
-                <Typography className={classes.title}></Typography>
+                <Typography className={classes.title}>{title}</Typography>
                 {actions}
             </Toolbar>
         </AppBar>

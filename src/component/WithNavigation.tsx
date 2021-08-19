@@ -19,7 +19,9 @@ export const WithNavigation: React.FC<{}> = (): JSX.Element => {
             <Route path="/about" component={AboutPage} />
             <Route path="/add" component={AddBookPage} />
             <Route path="/settings" component={SettingsPage} />
-            <Route path="/travel" component={TravelPage} />
+            <Route path="/travel/:id">
+                {(params) => <TravelPage id={params.id} />}
+            </Route>
             <Route path="/update/:id">
                 {(params) => <UpdateBookPage id={params.id} />}
             </Route>

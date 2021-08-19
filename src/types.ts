@@ -77,3 +77,12 @@ export type ErrorResponse = {
     status: number;
     type: string;
 };
+
+export type TravelTicket = {
+    departureDate:Date;
+    departureTime:Date;
+    /**
+     * Departure location
+     */
+    from:string;
+}
