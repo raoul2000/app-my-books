@@ -82,7 +82,7 @@ function getStepContent(step: number) {
                 </>
             );
         case 2:
-            // TODO: allow geolocation viah device if user accepts it
+            // TODO: allow geolocation via device if user accepts it
             return (
                 <>
                     <Typography>
