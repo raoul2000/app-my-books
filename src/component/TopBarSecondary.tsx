@@ -8,26 +8,27 @@ import IconButton from "@material-ui/core/IconButton";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        backButton: {
-            color: "white",
-            marginRight: theme.spacing(2),
-        },
+        backButton : {
+            color:'white',
+            marginRight: theme.spacing(2)
+        }
     })
 );
 
-export const AboutBar: React.FC<{}> = (): JSX.Element => {
+export const TopBarSecondary: React.FC<{}> = (): JSX.Element => {
     const classes = useStyles();
     const [, setLocation] = useLocation();
+    const navigateToBookList = () => setLocation("/");
 
     return (
         <AppBar position="sticky">
             <Toolbar>
-                <IconButton
+            <IconButton
                     edge="start"
                     className={classes.backButton}
                     color="inherit"
                     aria-label="menu"
-                    onClick={() => setLocation("/")}
+                    onClick={navigateToBookList}
                 >
                     <ArrowBackIosIcon />
                 </IconButton>
