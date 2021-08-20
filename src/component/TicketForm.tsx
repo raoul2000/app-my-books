@@ -70,6 +70,7 @@ export const TicketForm: React.FC<Props> = ({
     const classes = useStyles();
     const [activeStep, setActiveStep] = React.useState(0);
     const [ticket, setTicket] = useState<TravelTicket>({
+        id: '',
         departureDate: new Date(),
         departureTime: new Date(),
         from: "",
@@ -206,12 +207,12 @@ export const TicketForm: React.FC<Props> = ({
                         <CheckCircleOutlineRoundedIcon /> Vous avez complété les
                         étapes : <br />
                         <ul>
-                            <li>Livre : <strong>{book.title}</strong></li>
+                            <li>Livre voyageur : <strong>{book.title}</strong></li>
                             <li>Date de départ : {ticket.departureDate.toISOString()} à 17h45</li>
                             <li>Lieu de Départ : Paris</li>
                         </ul>
                         Si Les informations saisies sont exactes, vous pouvez maintenant 
-                        créer le ticket de voyage
+                        créer le ticket de voyage.
                     </Typography>
                     <Button onClick={handleReset} className={classes.button}>
                         Recommencer

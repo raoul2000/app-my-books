@@ -1,0 +1,2 @@
+- fix: update skeleton in book list so to display avatar
+- add: web share API support to share books

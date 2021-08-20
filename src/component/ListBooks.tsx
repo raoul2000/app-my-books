@@ -34,6 +34,7 @@ export const ListBooks: React.FC<Props> = ({ books, loading }): JSX.Element => {
     const handleShowBookDetail = (bookId: string) =>
         setLocation(`/detail/${bookId}`);
 
+    // TODO: update skeleton to render avatar
     const renderBookList = (booksToRender: Book[]) => (
         <List className={classes.root}>
             {loading &&

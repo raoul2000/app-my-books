@@ -79,6 +79,7 @@ export type ErrorResponse = {
 };
 
 export type TravelTicket = {
+    id: string;
     departureDate:Date;
     departureTime:Date;
     /**
