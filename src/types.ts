@@ -86,4 +86,5 @@ export type TravelTicket = {
      * Departure location
      */
     from:string;
+    qrCodeUrl?: string;
 }

@@ -3,6 +3,20 @@ import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { makeStyles } from "@material-ui/core/styles";
+import Chip from "@material-ui/core/Chip";
+import Accordion from "@material-ui/core/Accordion";
+import AccordionSummary from "@material-ui/core/AccordionSummary";
+import AccordionDetails from "@material-ui/core/AccordionDetails";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import Button from "@material-ui/core/Button";
+import Card from "@material-ui/core/Card";
+import CardHeader from "@material-ui/core/CardHeader";
+import CardMedia from "@material-ui/core/CardMedia";
+import CardContent from "@material-ui/core/CardContent";
+import CardActions from "@material-ui/core/CardActions";
+import FlightTakeoffIcon from "@material-ui/icons/FlightTakeoff";
+import Avatar from "@material-ui/core/Avatar";
+import CloseIcon from "@material-ui/icons/Close";
 import { useSnackbar } from "notistack";
 
 import { TopBarActions } from "@/component/app-bar/TopBarActions";
@@ -13,10 +27,14 @@ import { bookByIdState } from "../state/book-list";
 import BookApi from "../api/book";
 import { useState } from "react";
 import { Paper } from "@material-ui/core";
+import Box from "@material-ui/core/Box";
 
 const useStyles = makeStyles((theme) => ({
     ticketContainer: {
         padding: "1em",
+    },
+    createTicketButton: {
+        width: "100%",
     },
 }));
 
@@ -33,7 +51,12 @@ export const TravelPage: React.FC<Props> = ({ id }): JSX.Element => {
     const book = useRecoilValue(bookByIdState(id));
     const [ticket, setTicket] = useState<TravelTicket | undefined>();
     const [status, setStatus] = useState<
-        "loading" | "ticket_form" | "ticket_creating" | "ticket_ready"
+        | "loading"
+        | "ticket_form"
+        | "ticket_not_found"
+        | "ticket_creating"
+        | "ticket_ready"
+        | "ticket_view"
     >("loading");
 
     if (!book) {
@@ -49,8 +72,8 @@ export const TravelPage: React.FC<Props> = ({ id }): JSX.Element => {
                 })
                 .catch((error) => {
                     if (error.status === 404) {
-                        setStatus("ticket_form");
-                        enqueueSnackbar(
+                        setStatus("ticket_not_found");
+                        /* enqueueSnackbar(
                             "Ticket introuvable : création d'un nouveau ticket",
                             {
                                 variant: "info",
@@ -59,7 +82,7 @@ export const TravelPage: React.FC<Props> = ({ id }): JSX.Element => {
                                     horizontal: "center",
                                 },
                             }
-                        );
+                        ); */
                     }
                 });
         }
@@ -90,29 +113,101 @@ export const TravelPage: React.FC<Props> = ({ id }): JSX.Element => {
         switch (status) {
             case "loading":
                 return (
-                    <Typography
-                        variant="h5"
-                        align="center"
-                        color="textSecondary"
-                    >
-                        <div>Recherche du Ticket...</div>
-                        <div>
+                    <>
+                        <Typography
+                            variant="h5"
+                            align="center"
+                            color="textSecondary"
+                            gutterBottom={true}
+                        >
+                            <div>Recherche du Ticket...</div>
+                        </Typography>
+                        <Typography align="center">
                             <CircularProgress />
-                        </div>
-                    </Typography>
+                        </Typography>
+                    </>
+                );
+            case "ticket_not_found":
+                return (
+                    <>
+                        <Card elevation={0}>
+                            <CardHeader
+                                avatar={
+                                    <Avatar>
+                                        <CloseIcon />
+                                    </Avatar>
+                                }
+                                subheader="Aucun ticket pour ce livre"
+                            />
+                            <CardActions>
+                                <Button
+                                    variant="outlined"
+                                    color="primary"
+                                    onClick={() => setStatus("ticket_form")}
+                                >
+                                    Créer Ticket
+                                </Button>
+                            </CardActions>
+                        </Card>
+                        <Accordion elevation={0}>
+                            <AccordionSummary
+                                expandIcon={<ExpandMoreIcon />}
+                                aria-controls="panel1a-content"
+                                id="panel1a-header"
+                            >
+                                <Typography>Comment ça marche ?</Typography>
+                            </AccordionSummary>
+                            <AccordionDetails>
+                                <Typography paragraph={true}>
+                                    Ce livre peut rester dans votre bibliothèque
+                                    ou bien partir en voyage à la recherche de
+                                    nouveaux lecteurs.
+                                    <br />
+                                    Donnez-le à quelqu'un, déposez-le sur un
+                                    banc public etc. pour qu'il commence son
+                                    voyage.
+                                </Typography>
+                            </AccordionDetails>
+                        </Accordion>
+                        <Accordion elevation={0}>
+                            <AccordionSummary
+                                expandIcon={<ExpandMoreIcon />}
+                                aria-controls="panel1a-content"
+                                id="panel1a-header"
+                            >
+                                <Typography>
+                                    Un ticket, pour quoi faire ?
+                                </Typography>
+                            </AccordionSummary>
+                            <AccordionDetails>
+                                <Typography paragraph={true}>
+                                    Pour voyager, ce livre a besoin d'un ticket.
+                                    Chaque lecteur dont il croisera la route
+                                    pourra grâce à ce ticket, signaler le
+                                    passage de ce livre entre ses mains.
+                                    <br />
+                                    Vous pourrez voir ces signalements et ainsi{" "}
+                                    suivre le voyage de ce livre .
+                                </Typography>
+                            </AccordionDetails>
+                        </Accordion>
+                    </>
                 );
             case "ticket_creating":
                 return (
-                    <Typography
-                        variant="h5"
-                        align="center"
-                        color="textSecondary"
-                    >
-                        <div>Création du Ticket...</div>
-                        <div>
+                    <>
+                        <Typography
+                            variant="h5"
+                            align="center"
+                            color="textSecondary"
+                            gutterBottom={true}
+                        >
+                            Création du Ticket...
+                        </Typography>
+                        <Typography align="center">
                             <CircularProgress />
-                        </div>
-                    </Typography>
+                        </Typography>
+                    </>
                 );
             case "ticket_form":
                 return (
@@ -124,7 +219,31 @@ export const TravelPage: React.FC<Props> = ({ id }): JSX.Element => {
             case "ticket_ready":
                 return (
                     <>
+                        <Card elevation={0}>
+                            <CardHeader
+                                avatar={
+                                    <Avatar>
+                                        <FlightTakeoffIcon />
+                                    </Avatar>
+                                }
+                                title="Ticket De Voyage"
+                                subheader={`réservation : ${ticket?.id}`}
+                            />
+                        </Card>
+                    </>
+                );
+            case "ticket_view":
+                return (
+                    <>
                         <Paper className={classes.ticketContainer}>
+                            {ticket?.qrCodeUrl && (
+                                <Box textAlign="center">
+                                    <img
+                                        src={ticket?.qrCodeUrl}
+                                        alt="qr code"
+                                    />
+                                </Box>
+                            )}
                             <Typography color="textSecondary" variant="button">
                                 Numéro de Réservation
                             </Typography>
@@ -137,8 +256,6 @@ export const TravelPage: React.FC<Props> = ({ id }): JSX.Element => {
                             <Typography variant="h5" gutterBottom={true}>
                                 https://ping.mariola.fr
                             </Typography>
-                        </Paper>
-                        <Paper className={classes.ticketContainer}>
                             <Typography color="textSecondary" variant="button">
                                 Passager
                             </Typography>

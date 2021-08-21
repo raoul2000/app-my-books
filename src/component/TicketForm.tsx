@@ -16,7 +16,7 @@ import CheckCircleOutlineRoundedIcon from "@material-ui/icons/CheckCircleOutline
 import {
     MuiPickersUtilsProvider,
     KeyboardDatePicker,
-    KeyboardTimePicker
+    KeyboardTimePicker,
 } from "@material-ui/pickers";
 import TextField from "@material-ui/core/TextField";
 import { Book, TravelTicket } from "@/types";
@@ -51,11 +51,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 function getSteps() {
-    return [
-        "Un ticket, pour quoi faire ?",
-        "Nom du Voyageur",
-        "Date et Lieu de Départ",
-    ];
+    return ["Nom du Voyageur", "Date de Départ", "Lieu de Départ"];
 }
 
 type Props = {
@@ -70,7 +66,7 @@ export const TicketForm: React.FC<Props> = ({
     const classes = useStyles();
     const [activeStep, setActiveStep] = React.useState(0);
     const [ticket, setTicket] = useState<TravelTicket>({
-        id: '',
+        id: "",
         departureDate: new Date(),
         departureTime: new Date(),
         from: "",
@@ -93,29 +89,40 @@ export const TicketForm: React.FC<Props> = ({
     };
 
     // TODO: validate form to prevent going to next step
-    const handleDateChange = (date: Date | null, value?: string | null | undefined) => {
-        if(date && !isNaN(date.getTime())) {
-            setTicket((old) => ({ ...old, departureDate: date}));
+    const handleDateChange = (
+        date: Date | null,
+        value?: string | null | undefined
+    ) => {
+        if (date && !isNaN(date.getTime())) {
+            setTicket((old) => ({ ...old, departureDate: date }));
         }
     };
-    const handleTimeChange = (date: Date | null, value?: string | null | undefined) => {
-        if(date && !isNaN(date.getTime())) {
-            setTicket((old) => ({ ...old, departureTime: date}));
+    const handleTimeChange = (
+        date: Date | null,
+        value?: string | null | undefined
+    ) => {
+        if (date && !isNaN(date.getTime())) {
+            setTicket((old) => ({ ...old, departureTime: date }));
         }
     };
-
 
     const getStepContent = (step: number) => {
         switch (step) {
-            case 0:
+            case 12:
                 return (
-                    <Typography>
-                        Pour voyager, ce livre a besoin d'un ticket. Chaque
-                        lecteur dont il croisera la route pourra grâce à ce
-                        ticket, signaler le passage de ce livre entre ses mains.
-                    </Typography>
+                    <>
+                        <Typography paragraph={true}>
+                            Pour voyager, ce livre a besoin d'un ticket. Chaque
+                            lecteur dont il croisera la route pourra grâce à ce
+                            ticket, signaler le passage de ce livre entre ses
+                            mains.
+                            <br />
+                            ...et vous, Vous pourrez voir ces signalements et
+                            ainsi <strong>suivre le voyage de ce livre</strong>.
+                        </Typography>
+                    </>
                 );
-            case 1:
+            case 0:
                 return (
                     <>
                         <Typography>
@@ -144,13 +151,13 @@ export const TicketForm: React.FC<Props> = ({
                         </Card>
                     </>
                 );
-            case 2:
+            case 1:
                 // TODO: allow geolocation via device if user accepts it
                 return (
                     <>
                         <Typography>
-                            Entrez la date et le lieu où le livre sera déposé
-                            pour débuter son voyage.
+                            Entrez la date à laquelle le livre sera déposé pour
+                            débuter son voyage.
                         </Typography>
                         <MuiPickersUtilsProvider
                             utils={DateFnsUtils}
@@ -182,18 +189,34 @@ export const TicketForm: React.FC<Props> = ({
                                 fullWidth
                                 required
                             />
-                            <TextField
-                                id="departure-location"
-                                label="Lieu de départ"
-                                margin="normal"
-                                value={ticket.from}
-                                onChange={(e) => setTicket((old) => ({ ...old, from: e.target.value}))}
-                                fullWidth
-                                required
-                            />
                         </MuiPickersUtilsProvider>
                     </>
                 );
+            case 2:
+                return (
+                    <>
+                        <Typography>
+                            Entrez le lieu où le livre sera déposé pour débuter
+                            son voyage.
+                        </Typography>
+
+                        <TextField
+                            id="departure-location"
+                            label="Lieu de départ"
+                            margin="normal"
+                            value={ticket.from}
+                            onChange={(e) =>
+                                setTicket((old) => ({
+                                    ...old,
+                                    from: e.target.value,
+                                }))
+                            }
+                            fullWidth
+                            required
+                        />
+                    </>
+                );
+
             default:
                 return <Typography></Typography>;
         }
@@ -207,12 +230,17 @@ export const TicketForm: React.FC<Props> = ({
                         <CheckCircleOutlineRoundedIcon /> Vous avez complété les
                         étapes : <br />
                         <ul>
-                            <li>Livre voyageur : <strong>{book.title}</strong></li>
-                            <li>Date de départ : {ticket.departureDate.toISOString()} à 17h45</li>
+                            <li>
+                                Livre voyageur : <strong>{book.title}</strong>
+                            </li>
+                            <li>
+                                Date de départ :{" "}
+                                {ticket.departureDate.toISOString()} à 17h45
+                            </li>
                             <li>Lieu de Départ : Paris</li>
                         </ul>
-                        Si Les informations saisies sont exactes, vous pouvez maintenant 
-                        créer le ticket de voyage.
+                        Si Les informations saisies sont exactes, vous pouvez
+                        maintenant créer le ticket de voyage.
                     </Typography>
                     <Button onClick={handleReset} className={classes.button}>
                         Recommencer

@@ -4,6 +4,7 @@ import { apiBaseUrl, HEADER_NAME_API_KEY, getApiKey } from "./conf";
 
 type API_ReadTicket = {
     id: string;
+    qrcode_url: string;
 };
 
 export const readBookTicket = (book: Book): Promise<TravelTicket> =>
@@ -24,5 +25,6 @@ export const readBookTicket = (book: Book): Promise<TravelTicket> =>
                 departureDate: new Date(),
                 departureTime: new Date(),
                 from: "location",
+                ...(jsonResp.qrcode_url && { qrCodeUrl: jsonResp.qrcode_url }),
             };
         });
