@@ -47,7 +47,7 @@ export const TicketView: React.FC<Props> = ({
     const handleDeleteTicket = () => onDeleteTicket(ticket);
     const handleBoarding = () => onBoarding(ticket);
     return (
-        <Card elevation={0}>
+        <Card elevation={2}>
             <CardHeader
                 avatar={
                     <Avatar>

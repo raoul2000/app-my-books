@@ -3,11 +3,6 @@ import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { makeStyles } from "@material-ui/core/styles";
-import Chip from "@material-ui/core/Chip";
-import Accordion from "@material-ui/core/Accordion";
-import AccordionSummary from "@material-ui/core/AccordionSummary";
-import AccordionDetails from "@material-ui/core/AccordionDetails";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
@@ -18,17 +13,6 @@ import FlightTakeoffIcon from "@material-ui/icons/FlightTakeoff";
 import Avatar from "@material-ui/core/Avatar";
 import CloseIcon from "@material-ui/icons/Close";
 import { useSnackbar } from "notistack";
-import DeleteIcon from "@material-ui/icons/Delete";
-import IconButton from "@material-ui/core/IconButton";
-import ShareIcon from "@material-ui/icons/Share";
-import clsx from "clsx";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
-import Collapse from "@material-ui/core/Collapse";
-import Grid from "@material-ui/core/Grid";
-import Switch from "@material-ui/core/Switch";
-import FormGroup from "@material-ui/core/FormGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormControl from "@material-ui/core/FormControl";
 
 import { TopBarActions } from "@/component/app-bar/TopBarActions";
 import { TicketForm } from "@/component/TicketForm";
@@ -38,8 +22,9 @@ import { bookByIdState } from "../state/book-list";
 import BookApi from "../api/book";
 import { useState } from "react";
 import { Paper } from "@material-ui/core";
-import Box from "@material-ui/core/Box";
 import { TicketView } from "@/component/TicketView";
+import { Boarding } from "@/component/Boarding";
+import { TicketHelp } from '@/component/TicketHelp';
 
 const useStyles = makeStyles((theme) => ({
     ticketContainer: {
@@ -111,16 +96,6 @@ export const TravelPage: React.FC<Props> = ({ id }): JSX.Element => {
                 .catch((error) => {
                     if (error.status === 404) {
                         setStatus("ticket_not_found");
-                        /* enqueueSnackbar(
-                            "Ticket introuvable : création d'un nouveau ticket",
-                            {
-                                variant: "info",
-                                anchorOrigin: {
-                                    vertical: "bottom",
-                                    horizontal: "center",
-                                },
-                            }
-                        ); */
                     }
                 });
         }
@@ -188,41 +163,9 @@ export const TravelPage: React.FC<Props> = ({ id }): JSX.Element => {
         switch (status) {
             case "pre_boarding":
                 return (
-                    <Paper elevation={0} className={classes.checklistContainer}>
-                        <Typography
-                            variant="h5"
-                            color="textSecondary"
-                            gutterBottom={true}
-                        >
-                            Embarquement Immédiat
-                        </Typography>
-                        <FormControlLabel
-                            control={<Switch />}
-                            label={
-                                <Typography
-                                    color="textSecondary"
-                                    gutterBottom={true}
-                                >
-                                    Le QR Code du ticket est collé sur la
-                                    couverture du livre
-                                </Typography>
-                            }
-                            labelPlacement="start"
-                        />
-                        <FormControlLabel
-                            control={<Switch />}
-                            label="Le numéro de réservation est inscrit sur le livre "
-                            labelPlacement="start"
-                        />
-                        <FormControlLabel
-                            control={<Switch />}
-                            label="Le CHECKPOINT est inscrit sur le livre "
-                            labelPlacement="start"
-                        />
-                        <Button variant="contained" onClick={handleBoarding}>
-                            Checkin
-                        </Button>
-                    </Paper>
+                    <Boarding 
+                        onConfirm={handleBoarding}
+                    />
                 );
             case "boarding":
                 return (
@@ -294,48 +237,7 @@ export const TravelPage: React.FC<Props> = ({ id }): JSX.Element => {
                                 </Button>
                             </CardActions>
                         </Card>
-                        <Accordion elevation={0}>
-                            <AccordionSummary
-                                expandIcon={<ExpandMoreIcon />}
-                                aria-controls="panel1a-content"
-                                id="panel1a-header"
-                            >
-                                <Typography>Comment ça marche ?</Typography>
-                            </AccordionSummary>
-                            <AccordionDetails>
-                                <Typography paragraph={true}>
-                                    Ce livre peut rester dans votre bibliothèque
-                                    ou bien partir en voyage à la rencontre de
-                                    nouveaux lecteurs.
-                                    <br />
-                                    Donnez-le à quelqu'un, déposez-le sur un
-                                    banc public ou ailleurs, pour qu'il commence
-                                    son voyage.
-                                </Typography>
-                            </AccordionDetails>
-                        </Accordion>
-                        <Accordion elevation={0}>
-                            <AccordionSummary
-                                expandIcon={<ExpandMoreIcon />}
-                                aria-controls="panel1a-content"
-                                id="panel1a-header"
-                            >
-                                <Typography>
-                                    Un ticket, pour quoi faire ?
-                                </Typography>
-                            </AccordionSummary>
-                            <AccordionDetails>
-                                <Typography paragraph={true}>
-                                    Pour voyager, ce livre a besoin d'un ticket.
-                                    Chaque lecteur dont il croisera la route
-                                    pourra grâce à ce ticket, signaler le
-                                    passage de ce livre entre ses mains.
-                                    <br />
-                                    Vous pourrez voir ces signalements et ainsi{" "}
-                                    suivre le voyage de ce livre .
-                                </Typography>
-                            </AccordionDetails>
-                        </Accordion>
+                        <TicketHelp />
                     </>
                 );
             case "ticket_creating":
@@ -372,6 +274,7 @@ export const TravelPage: React.FC<Props> = ({ id }): JSX.Element => {
                                 onBoarding={console.log}
                             />
                         )}
+                        <TicketHelp />
                     </>
                 );
             case "ticket_view":
