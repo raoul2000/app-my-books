@@ -39,6 +39,7 @@ import BookApi from "../api/book";
 import { useState } from "react";
 import { Paper } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
+import { TicketView } from "@/component/TicketView";
 
 const useStyles = makeStyles((theme) => ({
     ticketContainer: {
@@ -152,7 +153,6 @@ export const TravelPage: React.FC<Props> = ({ id }): JSX.Element => {
             setStatus("ticket_deleting");
             BookApi.deleteBookTicket(book)
                 .then(() => {
-                    
                     enqueueSnackbar("Ticket supprimé", {
                         variant: "success",
                         anchorOrigin: {
@@ -305,12 +305,12 @@ export const TravelPage: React.FC<Props> = ({ id }): JSX.Element => {
                             <AccordionDetails>
                                 <Typography paragraph={true}>
                                     Ce livre peut rester dans votre bibliothèque
-                                    ou bien partir en voyage à la recherche de
+                                    ou bien partir en voyage à la rencontre de
                                     nouveaux lecteurs.
                                     <br />
                                     Donnez-le à quelqu'un, déposez-le sur un
-                                    banc public etc. pour qu'il commence son
-                                    voyage.
+                                    banc public ou ailleurs, pour qu'il commence
+                                    son voyage.
                                 </Typography>
                             </AccordionDetails>
                         </Accordion>
@@ -364,120 +364,14 @@ export const TravelPage: React.FC<Props> = ({ id }): JSX.Element => {
             case "ticket_ready":
                 return (
                     <>
-                        <Card elevation={0}>
-                            <CardHeader
-                                avatar={
-                                    <Avatar>
-                                        <FlightTakeoffIcon />
-                                    </Avatar>
-                                }
-                                title="Ticket De Voyage"
-                                subheader={`réservation : ${ticket?.id}`}
+                        {ticket && (
+                            <TicketView
+                                ticket={ticket}
+                                book={book}
+                                onDeleteTicket={console.log}
+                                onBoarding={console.log}
                             />
-                            <CardContent>
-                                <Box
-                                    className={classes.ticketMainInfoContainer}
-                                >
-                                    <Grid container spacing={1}>
-                                        <Grid item sm={6}>
-                                            {ticket?.qrCodeUrl && (
-                                                <Box>
-                                                    <img
-                                                        src={ticket?.qrCodeUrl}
-                                                        alt="qr code"
-                                                    />
-                                                </Box>
-                                            )}
-                                        </Grid>
-                                        <Grid item sm={6}>
-                                            <Typography
-                                                color="textSecondary"
-                                                variant="button"
-                                            >
-                                                Numéro de Réservation
-                                            </Typography>
-                                            <Typography
-                                                variant="h5"
-                                                gutterBottom={true}
-                                            >
-                                                {ticket?.id}
-                                            </Typography>
-                                            <Typography
-                                                color="textSecondary"
-                                                variant="button"
-                                            >
-                                                Checkpoint
-                                            </Typography>
-                                            <Typography
-                                                variant="h5"
-                                                gutterBottom={true}
-                                            >
-                                                https://ping.mariola.fr
-                                            </Typography>
-                                        </Grid>
-                                    </Grid>
-                                </Box>
-                                <Typography
-                                    color="textSecondary"
-                                    variant="button"
-                                >
-                                    Passager
-                                </Typography>
-                                <Typography
-                                    variant="subtitle1"
-                                    gutterBottom={true}
-                                >
-                                    <strong>{book?.title}</strong>
-                                    {book?.author && (
-                                        <>
-                                            <br />
-                                            {book.author}
-                                        </>
-                                    )}
-                                </Typography>
-                                <Typography
-                                    color="textSecondary"
-                                    variant="button"
-                                >
-                                    Date Départ
-                                </Typography>
-                                <Typography
-                                    variant="subtitle1"
-                                    gutterBottom={true}
-                                >
-                                    12/02/2021 à 12h45
-                                </Typography>
-                                <Typography
-                                    color="textSecondary"
-                                    variant="button"
-                                >
-                                    Lieu de Départ
-                                </Typography>
-                                <Typography
-                                    variant="subtitle1"
-                                    gutterBottom={true}
-                                >
-                                    Paris
-                                </Typography>
-                            </CardContent>
-                            <CardActions disableSpacing>
-                                <IconButton
-                                    aria-label="share"
-                                    onClick={handleDeleteTicket}
-                                >
-                                    <DeleteIcon />
-                                </IconButton>
-                                <Button
-                                    className={classes.boardingButton}
-                                    color="primary"
-                                    variant="contained"
-                                    size="small"
-                                    onClick={() => setStatus("pre_boarding")}
-                                >
-                                    Embarquement
-                                </Button>
-                            </CardActions>
-                        </Card>
+                        )}
                     </>
                 );
             case "ticket_view":
