@@ -10,10 +10,10 @@ type API_CreateBookTicket = {
     qrcode_url: string;
 };
 
-export const createBookTicket = (bookId:string, ticket:TravelTicket ): Promise<TravelTicket> =>
+export const boardingTicket = (bookId:string, ticket:TravelTicket ): Promise<TravelTicket> =>
     fetch(
         `${apiBaseUrl}?${new URLSearchParams({
-            r: "api/ticket/create",
+            r: "api/ticket/boarding",
             id: bookId
         })}`,
         {

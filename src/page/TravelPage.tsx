@@ -18,6 +18,17 @@ import FlightTakeoffIcon from "@material-ui/icons/FlightTakeoff";
 import Avatar from "@material-ui/core/Avatar";
 import CloseIcon from "@material-ui/icons/Close";
 import { useSnackbar } from "notistack";
+import DeleteIcon from "@material-ui/icons/Delete";
+import IconButton from "@material-ui/core/IconButton";
+import ShareIcon from "@material-ui/icons/Share";
+import clsx from "clsx";
+import MoreVertIcon from "@material-ui/icons/MoreVert";
+import Collapse from "@material-ui/core/Collapse";
+import Grid from "@material-ui/core/Grid";
+import Switch from "@material-ui/core/Switch";
+import FormGroup from "@material-ui/core/FormGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FormControl from "@material-ui/core/FormControl";
 
 import { TopBarActions } from "@/component/app-bar/TopBarActions";
 import { TicketForm } from "@/component/TicketForm";
@@ -36,6 +47,28 @@ const useStyles = makeStyles((theme) => ({
     createTicketButton: {
         width: "100%",
     },
+    expand: {
+        transform: "rotate(0deg)",
+        marginLeft: "auto",
+        transition: theme.transitions.create("transform", {
+            duration: theme.transitions.duration.shortest,
+        }),
+    },
+    boardingButton: {
+        marginLeft: "auto",
+    },
+    expandOpen: {
+        transform: "rotate(180deg)",
+    },
+    ticketMainInfoContainer: {
+        backgroundColor: "#fafafa",
+        padding: "1em",
+        border: "1px dashed black",
+        marginBottom: "2em",
+    },
+    checklistContainer: {
+        padding: "1em",
+    },
 }));
 
 type Props = {
@@ -50,13 +83,17 @@ export const TravelPage: React.FC<Props> = ({ id }): JSX.Element => {
     const { enqueueSnackbar } = useSnackbar();
     const book = useRecoilValue(bookByIdState(id));
     const [ticket, setTicket] = useState<TravelTicket | undefined>();
+    const [expanded, setExpanded] = useState(false);
     const [status, setStatus] = useState<
         | "loading"
         | "ticket_form"
         | "ticket_not_found"
         | "ticket_creating"
+        | "ticket_deleting"
         | "ticket_ready"
         | "ticket_view"
+        | "pre_boarding"
+        | "boarding"
     >("loading");
 
     if (!book) {
@@ -109,8 +146,100 @@ export const TravelPage: React.FC<Props> = ({ id }): JSX.Element => {
             });
     };
 
+    const handleDeleteTicket = () => {
+        if (book) {
+            // TODO: ticket MUST NOT be used
+            setStatus("ticket_deleting");
+            BookApi.deleteBookTicket(book)
+                .then(() => {
+                    
+                    enqueueSnackbar("Ticket supprimé", {
+                        variant: "success",
+                        anchorOrigin: {
+                            vertical: "bottom",
+                            horizontal: "center",
+                        },
+                    });
+                    setStatus("ticket_not_found");
+                })
+                .catch(console.error);
+        }
+    };
+    const handleBoarding = () => {
+        setStatus("boarding");
+        if (ticket) {
+            BookApi.boardingTicket(book.id, ticket)
+                .then((updatedTicket) => {
+                    setTicket(updatedTicket);
+                    enqueueSnackbar("Embarquement Terminé : Bon voyage !", {
+                        variant: "success",
+                        anchorOrigin: {
+                            vertical: "bottom",
+                            horizontal: "center",
+                        },
+                    });
+                    setStatus("ticket_ready");
+                })
+                .catch(console.error);
+        }
+    };
+
     const renderContent = () => {
         switch (status) {
+            case "pre_boarding":
+                return (
+                    <Paper elevation={0} className={classes.checklistContainer}>
+                        <Typography
+                            variant="h5"
+                            color="textSecondary"
+                            gutterBottom={true}
+                        >
+                            Embarquement Immédiat
+                        </Typography>
+                        <FormControlLabel
+                            control={<Switch />}
+                            label={
+                                <Typography
+                                    color="textSecondary"
+                                    gutterBottom={true}
+                                >
+                                    Le QR Code du ticket est collé sur la
+                                    couverture du livre
+                                </Typography>
+                            }
+                            labelPlacement="start"
+                        />
+                        <FormControlLabel
+                            control={<Switch />}
+                            label="Le numéro de réservation est inscrit sur le livre "
+                            labelPlacement="start"
+                        />
+                        <FormControlLabel
+                            control={<Switch />}
+                            label="Le CHECKPOINT est inscrit sur le livre "
+                            labelPlacement="start"
+                        />
+                        <Button variant="contained" onClick={handleBoarding}>
+                            Checkin
+                        </Button>
+                    </Paper>
+                );
+            case "boarding":
+                return (
+                    <>
+                        <Typography
+                            variant="h5"
+                            align="center"
+                            color="textSecondary"
+                            gutterBottom={true}
+                        >
+                            <div>Embarquement en cours ...</div>
+                        </Typography>
+                        <Typography align="center">
+                            <CircularProgress />
+                        </Typography>
+                    </>
+                );
             case "loading":
                 return (
                     <>
@@ -121,6 +250,22 @@ export const TravelPage: React.FC<Props> = ({ id }): JSX.Element => {
                             gutterBottom={true}
                         >
                             <div>Recherche du Ticket...</div>
+                        </Typography>
+                        <Typography align="center">
+                            <CircularProgress />
+                        </Typography>
+                    </>
+                );
+            case "ticket_deleting":
+                return (
+                    <>
+                        <Typography
+                            variant="h5"
+                            align="center"
+                            color="textSecondary"
+                            gutterBottom={true}
+                        >
+                            <div>Suppression du ticket ...</div>
                         </Typography>
                         <Typography align="center">
                             <CircularProgress />
@@ -229,52 +374,116 @@ export const TravelPage: React.FC<Props> = ({ id }): JSX.Element => {
                                 title="Ticket De Voyage"
                                 subheader={`réservation : ${ticket?.id}`}
                             />
+                            <CardContent>
+                                <Box
+                                    className={classes.ticketMainInfoContainer}
+                                >
+                                    <Grid container spacing={1}>
+                                        <Grid item sm={6}>
+                                            {ticket?.qrCodeUrl && (
+                                                <Box>
+                                                    <img
+                                                        src={ticket?.qrCodeUrl}
+                                                        alt="qr code"
+                                                    />
+                                                </Box>
+                                            )}
+                                        </Grid>
+                                        <Grid item sm={6}>
+                                            <Typography
+                                                color="textSecondary"
+                                                variant="button"
+                                            >
+                                                Numéro de Réservation
+                                            </Typography>
+                                            <Typography
+                                                variant="h5"
+                                                gutterBottom={true}
+                                            >
+                                                {ticket?.id}
+                                            </Typography>
+                                            <Typography
+                                                color="textSecondary"
+                                                variant="button"
+                                            >
+                                                Checkpoint
+                                            </Typography>
+                                            <Typography
+                                                variant="h5"
+                                                gutterBottom={true}
+                                            >
+                                                https://ping.mariola.fr
+                                            </Typography>
+                                        </Grid>
+                                    </Grid>
+                                </Box>
+                                <Typography
+                                    color="textSecondary"
+                                    variant="button"
+                                >
+                                    Passager
+                                </Typography>
+                                <Typography
+                                    variant="subtitle1"
+                                    gutterBottom={true}
+                                >
+                                    <strong>{book?.title}</strong>
+                                    {book?.author && (
+                                        <>
+                                            <br />
+                                            {book.author}
+                                        </>
+                                    )}
+                                </Typography>
+                                <Typography
+                                    color="textSecondary"
+                                    variant="button"
+                                >
+                                    Date Départ
+                                </Typography>
+                                <Typography
+                                    variant="subtitle1"
+                                    gutterBottom={true}
+                                >
+                                    12/02/2021 à 12h45
+                                </Typography>
+                                <Typography
+                                    color="textSecondary"
+                                    variant="button"
+                                >
+                                    Lieu de Départ
+                                </Typography>
+                                <Typography
+                                    variant="subtitle1"
+                                    gutterBottom={true}
+                                >
+                                    Paris
+                                </Typography>
+                            </CardContent>
+                            <CardActions disableSpacing>
+                                <IconButton
+                                    aria-label="share"
+                                    onClick={handleDeleteTicket}
+                                >
+                                    <DeleteIcon />
+                                </IconButton>
+                                <Button
+                                    className={classes.boardingButton}
+                                    color="primary"
+                                    variant="contained"
+                                    size="small"
+                                    onClick={() => setStatus("pre_boarding")}
+                                >
+                                    Embarquement
+                                </Button>
+                            </CardActions>
                         </Card>
                     </>
                 );
             case "ticket_view":
                 return (
                     <>
-                        <Paper className={classes.ticketContainer}>
-                            {ticket?.qrCodeUrl && (
-                                <Box textAlign="center">
-                                    <img
-                                        src={ticket?.qrCodeUrl}
-                                        alt="qr code"
-                                    />
-                                </Box>
-                            )}
-                            <Typography color="textSecondary" variant="button">
-                                Numéro de Réservation
-                            </Typography>
-                            <Typography variant="h5" gutterBottom={true}>
-                                {ticket?.id}
-                            </Typography>
-                            <Typography color="textSecondary" variant="button">
-                                Checkpoint
-                            </Typography>
-                            <Typography variant="h5" gutterBottom={true}>
-                                https://ping.mariola.fr
-                            </Typography>
-                            <Typography color="textSecondary" variant="button">
-                                Passager
-                            </Typography>
-                            <Typography variant="subtitle1" gutterBottom={true}>
-                                {book?.title}
-                            </Typography>
-                            <Typography color="textSecondary" variant="button">
-                                Date Départ
-                            </Typography>
-                            <Typography variant="subtitle1" gutterBottom={true}>
-                                12/02/2021 à 12h45
-                            </Typography>
-                            <Typography color="textSecondary" variant="button">
-                                Lieu de Départ
-                            </Typography>
-                            <Typography variant="subtitle1" gutterBottom={true}>
-                                Paris
-                            </Typography>
-                        </Paper>
+                        <Paper className={classes.ticketContainer}></Paper>
                     </>
                 );
             default:
@@ -283,10 +492,7 @@ export const TravelPage: React.FC<Props> = ({ id }): JSX.Element => {
     };
     return (
         <div>
-            <TopBarActions
-                title="Ticket de Voyage"
-                backPath={`/detail/${id}`}
-            />
+            <TopBarActions title="Livre en Voyage" backPath={`/detail/${id}`} />
             <main>
                 <Container maxWidth="sm">{renderContent()}</Container>
             </main>
