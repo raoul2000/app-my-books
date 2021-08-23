@@ -24,6 +24,7 @@ export const readAllBooks = (): Promise<Book[]> =>
             return (jsonResp as unknown as API_GetUserBooks[]).map((item) => ({
                 ...item.book,
                 readStatus: item.read_status,
-                rate: item.rate
+                rate: item.rate,
+                isTicketLoaded:false
             }));
         });

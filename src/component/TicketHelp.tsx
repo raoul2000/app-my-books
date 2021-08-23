@@ -42,7 +42,7 @@ export const TicketHelp: React.FC<{}> = (): JSX.Element => {
                         partir en voyage à la rencontre de nouveaux lecteurs.
                         <br />
                         Donnez-le à quelqu'un, déposez-le sur un banc public ou
-                        ailleurs, et il pourra commencer son voyage.
+                        ailleurs et il pourra commencer son voyage.
                     </Typography>
                 </AccordionDetails>
             </Accordion>

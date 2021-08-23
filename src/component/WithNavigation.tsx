@@ -10,7 +10,8 @@ import { SettingsPage } from "../page/SettingsPage";
 
 import Storage from "../utils/storage";
 import { SignInPage } from "@/page/SignInPage";
-import { TravelPage } from "@/page/TravelPage";
+import { TicketViewPage } from "@/page/TicketViewPage";
+import { TicketFormPage } from "@/page/TicketFormPage";
 
 export const WithNavigation: React.FC<{}> = (): JSX.Element => {
     return (
@@ -20,7 +21,10 @@ export const WithNavigation: React.FC<{}> = (): JSX.Element => {
             <Route path="/add" component={AddBookPage} />
             <Route path="/settings" component={SettingsPage} />
             <Route path="/travel/:id">
-                {(params) => <TravelPage id={params.id} />}
+                {(params) => <TicketViewPage id={params.id} />}
+            </Route>
+            <Route path="/ticket-edit/:id">
+                {(params) => <TicketFormPage bookId={params.id} />}
             </Route>
             <Route path="/update/:id">
                 {(params) => <UpdateBookPage id={params.id} />}

@@ -1,30 +1,24 @@
-import React, { useEffect } from "react";
-import Typography from "@material-ui/core/Typography";
+import React, { useEffect, useState } from "react";
 import Container from "@material-ui/core/Container";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
-import CardMedia from "@material-ui/core/CardMedia";
-import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
-import FlightTakeoffIcon from "@material-ui/icons/FlightTakeoff";
 import Avatar from "@material-ui/core/Avatar";
 import CloseIcon from "@material-ui/icons/Close";
 import { useSnackbar } from "notistack";
+import { useLocation } from "wouter";
 
 import { TopBarActions } from "@/component/app-bar/TopBarActions";
-import { TicketForm } from "@/component/TicketForm";
 import { TravelTicket } from "@/types";
-import { useRecoilValue } from "recoil";
-import { bookByIdState } from "../state/book-list";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { bookByIdState, bookListState } from "../state/book-list";
 import BookApi from "../api/book";
-import { useState } from "react";
-import { Paper } from "@material-ui/core";
 import { TicketView } from "@/component/TicketView";
 import { Boarding } from "@/component/Boarding";
-import { TicketHelp } from '@/component/TicketHelp';
+import { TicketHelp } from "@/component/TicketHelp";
+import { ProgressSpinner } from "@/component/ProgressSpinner";
 
 const useStyles = makeStyles((theme) => ({
     ticketContainer: {
@@ -64,12 +58,13 @@ type Props = {
     id: string;
 };
 
-export const TravelPage: React.FC<Props> = ({ id }): JSX.Element => {
+export const TicketViewPage: React.FC<Props> = ({ id }): JSX.Element => {
     const classes = useStyles();
     const { enqueueSnackbar } = useSnackbar();
+    const setBook = useSetRecoilState(bookListState);
     const book = useRecoilValue(bookByIdState(id));
     const [ticket, setTicket] = useState<TravelTicket | undefined>();
-    const [expanded, setExpanded] = useState(false);
+    const [, setLocation] = useLocation();
     const [status, setStatus] = useState<
         | "loading"
         | "ticket_form"
@@ -77,7 +72,6 @@ export const TravelPage: React.FC<Props> = ({ id }): JSX.Element => {
         | "ticket_creating"
         | "ticket_deleting"
         | "ticket_ready"
-        | "ticket_view"
         | "pre_boarding"
         | "boarding"
     >("loading");
@@ -86,48 +80,64 @@ export const TravelPage: React.FC<Props> = ({ id }): JSX.Element => {
         return <div>book not found</div>;
     }
     useEffect(() => {
-        if (book) {
+        if (!book.isTicketLoaded) {
             BookApi.readBookTicket(book)
                 .then((newTicket) => {
-                    console.log(newTicket);
-                    setTicket(newTicket);
+                    setBook((old) =>
+                        old.map((oBook) => {
+                            if (oBook.id === book.id) {
+                                return {
+                                    ...oBook,
+                                    isTicketLoaded: true,
+                                    ticket: newTicket,
+                                };
+                            } else {
+                                return oBook;
+                            }
+                        })
+                    );
                     setStatus("ticket_ready");
                 })
                 .catch((error) => {
                     if (error.status === 404) {
+                        setBook((old) =>
+                            old.map((oBook) => {
+                                if (oBook.id === book.id) {
+                                    return {
+                                        ...oBook,
+                                        isTicketLoaded: true,
+                                    };
+                                } else {
+                                    return oBook;
+                                }
+                            })
+                        );
                         setStatus("ticket_not_found");
                     }
                 });
+        } else {
+            setStatus(book.ticket ? "ticket_ready" : "ticket_not_found");
         }
     }, []);
 
-    const handleCreateTicket = (ticketInfo: TravelTicket) => {
-        console.log(ticketInfo);
-        setStatus("ticket_creating");
-        BookApi.createBookTicket(id, ticketInfo)
-            .then((newTicket) => {
-                console.log(newTicket);
-                setTicket(newTicket);
-                setStatus("ticket_ready");
-                enqueueSnackbar("Ticket créé", {
-                    variant: "success",
-                    anchorOrigin: {
-                        vertical: "bottom",
-                        horizontal: "center",
-                    },
-                });
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    };
-
     const handleDeleteTicket = () => {
-        if (book) {
+        if (book && confirm("Etes-vous sûr de vouloir effacer ce ticket ?")) {
             // TODO: ticket MUST NOT be used
             setStatus("ticket_deleting");
             BookApi.deleteBookTicket(book)
                 .then(() => {
+                    setBook((old) =>
+                        old.map((oBook) => {
+                            if (oBook.id === book.id) {
+                                return {
+                                    ...oBook,
+                                    ticket: undefined,
+                                };
+                            } else {
+                                return oBook;
+                            }
+                        })
+                    );
                     enqueueSnackbar("Ticket supprimé", {
                         variant: "success",
                         anchorOrigin: {
@@ -162,59 +172,13 @@ export const TravelPage: React.FC<Props> = ({ id }): JSX.Element => {
     const renderContent = () => {
         switch (status) {
             case "pre_boarding":
-                return (
-                    <Boarding 
-                        onConfirm={handleBoarding}
-                    />
-                );
+                return <Boarding onConfirm={handleBoarding} />;
             case "boarding":
-                return (
-                    <>
-                        <Typography
-                            variant="h5"
-                            align="center"
-                            color="textSecondary"
-                            gutterBottom={true}
-                        >
-                            <div>Embarquement en cours ...</div>
-                        </Typography>
-                        <Typography align="center">
-                            <CircularProgress />
-                        </Typography>
-                    </>
-                );
+                return <ProgressSpinner message="Embarquement en cours..." />;
             case "loading":
-                return (
-                    <>
-                        <Typography
-                            variant="h5"
-                            align="center"
-                            color="textSecondary"
-                            gutterBottom={true}
-                        >
-                            <div>Recherche du Ticket...</div>
-                        </Typography>
-                        <Typography align="center">
-                            <CircularProgress />
-                        </Typography>
-                    </>
-                );
+                return <ProgressSpinner message="Recherche du Ticket..." />;
             case "ticket_deleting":
-                return (
-                    <>
-                        <Typography
-                            variant="h5"
-                            align="center"
-                            color="textSecondary"
-                            gutterBottom={true}
-                        >
-                            <div>Suppression du ticket ...</div>
-                        </Typography>
-                        <Typography align="center">
-                            <CircularProgress />
-                        </Typography>
-                    </>
-                );
+                return <ProgressSpinner message="Suppression du Ticket ..." />;
             case "ticket_not_found":
                 return (
                     <>
@@ -229,9 +193,12 @@ export const TravelPage: React.FC<Props> = ({ id }): JSX.Element => {
                             />
                             <CardActions>
                                 <Button
-                                    variant="outlined"
+                                    variant="contained"
                                     color="primary"
-                                    onClick={() => setStatus("ticket_form")}
+                                    fullWidth
+                                    onClick={() =>
+                                        setLocation(`/ticket-edit/${book.id}`)
+                                    }
                                 >
                                     Créer Ticket
                                 </Button>
@@ -240,47 +207,18 @@ export const TravelPage: React.FC<Props> = ({ id }): JSX.Element => {
                         <TicketHelp />
                     </>
                 );
-            case "ticket_creating":
-                return (
-                    <>
-                        <Typography
-                            variant="h5"
-                            align="center"
-                            color="textSecondary"
-                            gutterBottom={true}
-                        >
-                            Création du Ticket...
-                        </Typography>
-                        <Typography align="center">
-                            <CircularProgress />
-                        </Typography>
-                    </>
-                );
-            case "ticket_form":
-                return (
-                    <TicketForm
-                        book={book}
-                        onCreateTicket={handleCreateTicket}
-                    />
-                );
             case "ticket_ready":
                 return (
                     <>
-                        {ticket && (
+                        {book.ticket && (
                             <TicketView
-                                ticket={ticket}
+                                ticket={book.ticket}
                                 book={book}
-                                onDeleteTicket={console.log}
+                                onDeleteTicket={handleDeleteTicket}
                                 onBoarding={console.log}
                             />
                         )}
                         <TicketHelp />
-                    </>
-                );
-            case "ticket_view":
-                return (
-                    <>
-                        <Paper className={classes.ticketContainer}></Paper>
                     </>
                 );
             default:

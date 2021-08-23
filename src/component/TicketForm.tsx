@@ -64,7 +64,7 @@ export const TicketForm: React.FC<Props> = ({
     onCreateTicket,
 }): JSX.Element => {
     const classes = useStyles();
-    const [activeStep, setActiveStep] = React.useState(0);
+    const [activeStep, setActiveStep] = useState(0);
     const [ticket, setTicket] = useState<TravelTicket>({
         id: "",
         departureDate: new Date(),

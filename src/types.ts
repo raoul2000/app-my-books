@@ -1,3 +1,14 @@
+export type TravelTicket = {
+    id: string;
+    departureDate:Date;
+    departureTime:Date;
+    /**
+     * Departure location
+     */
+    from:string;
+    qrCodeUrl?: string;
+};
+
 export type Book = {
     id: string;
     title: string;
@@ -6,6 +17,8 @@ export type Book = {
     isbn?: string;
     readStatus?: number;
     rate?: number;
+    isTicketLoaded:boolean;
+    ticket?: TravelTicket;
 };
 
 export type LoadingState = {
@@ -78,13 +91,4 @@ export type ErrorResponse = {
     type: string;
 };
 
-export type TravelTicket = {
-    id: string;
-    departureDate:Date;
-    departureTime:Date;
-    /**
-     * Departure location
-     */
-    from:string;
-    qrCodeUrl?: string;
-}
+
