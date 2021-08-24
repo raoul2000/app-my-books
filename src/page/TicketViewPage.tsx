@@ -132,8 +132,8 @@ export const TicketViewPage: React.FC<Props> = ({ bookId }): JSX.Element => {
         }
     };
     return (
-        <div>
-            <TopBarActions title="Livre en Voyage" backPath={`/detail/${book.id}`} />
+        <div>            
+            <TopBarActions title="Livre en Voyage" backPath={`/detail/${book.id}`} />            
             <main>
                 <Container maxWidth="sm">{renderContent()}</Container>
             </main>

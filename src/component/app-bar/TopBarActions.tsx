@@ -22,13 +22,21 @@ const useStyles = makeStyles((theme: Theme) =>
         backButton: {
             marginRight: theme.spacing(2),
         },
+        hideOnPrint: {
+            display: "block",
+        },
+        [`@media print`]: {
+            hideOnPrint: {
+                display: "none",
+            },
+        },
     })
 );
 type Props = {
     actions?: JSX.Element;
     showBack?: boolean;
     backPath?: string;
-    title?:string;
+    title?: string;
 };
 export const TopBarActions: React.FC<Props> = ({
     title,
@@ -40,7 +48,7 @@ export const TopBarActions: React.FC<Props> = ({
     const [, setLocation] = useLocation();
 
     return (
-        <AppBar position="sticky">
+        <AppBar position="sticky" className={classes.hideOnPrint}>
             <Toolbar>
                 {showBack && (
                     <IconButton

@@ -27,10 +27,27 @@ const useStyles = makeStyles((theme) => ({
         border: "1px dashed black",
         marginBottom: "2em",
     },
-    highlightField : {
+    highlightField: {
         borderLeft: "2px solid #d8d8d8",
-        paddingLeft: "1em"
-    }
+        paddingLeft: "1em",
+    },
+    hideOnPrint: {
+        display: "flex",
+    },
+    cutHereText: {
+        display: "none",
+    },
+    [`@media print`]: {
+        hideOnPrint: {
+            display: "none",
+        },
+        cutHereText: {
+            display: "block",
+            position: "relative",
+            top: "-30px",
+            fontSize: "10px",
+        },
+    },
 }));
 type Props = {
     ticket: TravelTicket;
@@ -49,86 +66,107 @@ export const TicketView: React.FC<Props> = ({
     const handleBoarding = () => onPreBoarding(ticket);
     return (
         <>
-        <Card elevation={2}>
-            <CardHeader
-                avatar={
-                    <Avatar>
-                        <FlightTakeoffIcon />
-                    </Avatar>
-                }
-                title="Ticket De Voyage"
-                subheader={`réservation : ${ticket?.id}`}
-            />
-            <CardContent>
-                <Box className={classes.ticketMainInfoContainer}>
-                    <Grid container spacing={1}>
-                        <Grid item sm={6}>
-                            {ticket?.qrCodeUrl && (
-                                <Box>
-                                    <img
-                                        src={ticket?.qrCodeUrl}
-                                        alt="qr code"
-                                    />
-                                </Box>
-                            )}
+            <Card elevation={2}>
+                <CardHeader
+                    avatar={
+                        <Avatar>
+                            <FlightTakeoffIcon />
+                        </Avatar>
+                    }
+                    title="Ticket De Voyage"
+                    subheader={`réservation : ${ticket?.id}`}
+                />
+                <CardContent>
+                    <Box className={classes.ticketMainInfoContainer}>
+                        <Grid container spacing={1}>
+                            <Grid item sm={6}>
+                                {ticket?.qrCodeUrl && (
+                                    <Box>
+                                        <img
+                                            src={ticket?.qrCodeUrl}
+                                            alt="qr code"
+                                        />
+                                    </Box>
+                                )}
+                            </Grid>
+                            <Grid item sm={6}>
+                                <Typography
+                                    color="textSecondary"
+                                    variant="button"
+                                >
+                                    Numéro de Réservation
+                                </Typography>
+                                <Typography variant="h5" gutterBottom={true}>
+                                    {ticket?.id}
+                                </Typography>
+                                <Typography
+                                    color="textSecondary"
+                                    variant="button"
+                                >
+                                    Checkpoint
+                                </Typography>
+                                <Typography variant="h5" gutterBottom={true}>
+                                    https://ping.mariola.fr
+                                </Typography>
+                            </Grid>
                         </Grid>
-                        <Grid item sm={6}>
-                            <Typography color="textSecondary" variant="button">
-                                Numéro de Réservation
-                            </Typography>
-                            <Typography variant="h5" gutterBottom={true}>
-                                {ticket?.id}
-                            </Typography>
-                            <Typography color="textSecondary" variant="button">
-                                Checkpoint
-                            </Typography>
-                            <Typography variant="h5" gutterBottom={true}>
-                                https://ping.mariola.fr
-                            </Typography>
-                        </Grid>
-                    </Grid>
-                </Box>
-                <Typography color="textSecondary" variant="button">
-                    Passager
-                </Typography>
-                <Typography variant="subtitle1" gutterBottom={true} className={classes.highlightField}>
-                    <strong>{book?.title}</strong>
-                    {book?.author && (
-                        <>
-                            <br />
-                            {book.author}
-                        </>
-                    )}
-                </Typography>
-                <Typography color="textSecondary" variant="button">
-                    Date Départ
-                </Typography>
-                <Typography variant="subtitle1" gutterBottom={true} className={classes.highlightField}>
-                    12/02/2021 à 12h45
-                </Typography>
-                <Typography color="textSecondary" variant="button">
-                    Lieu de Départ
-                </Typography>
-                <Typography variant="subtitle1" gutterBottom={true} className={classes.highlightField}>
-                    Paris
-                </Typography>
-            </CardContent>
-            <CardActions disableSpacing>
-                <IconButton aria-label="share" onClick={handleDeleteTicket}>
-                    <DeleteIcon />
-                </IconButton>
-                <Button
-                    className={classes.boardingButton}
-                    color="primary"
-                    variant="contained"
-                    size="small"
-                    onClick={handleBoarding}
-                >
-                    Embarquement
-                </Button>
-            </CardActions>
-        </Card>
-        <TicketHelp />
+                    </Box>
+                    <div className={classes.cutHereText}>
+                        découpez suivant les pointillés ou seulement le QR-code - coller sur le livre
+                    </div>
+                    <Typography color="textSecondary" variant="button">
+                        Passager
+                    </Typography>
+                    <Typography
+                        variant="subtitle1"
+                        gutterBottom={true}
+                        className={classes.highlightField}
+                    >
+                        <strong>{book?.title}</strong>
+                        {book?.author && (
+                            <>
+                                <br />
+                                {book.author}
+                            </>
+                        )}
+                    </Typography>
+                    <Typography color="textSecondary" variant="button">
+                        Date Départ
+                    </Typography>
+                    <Typography
+                        variant="subtitle1"
+                        gutterBottom={true}
+                        className={classes.highlightField}
+                    >
+                        12/02/2021 à 12h45
+                    </Typography>
+                    <Typography color="textSecondary" variant="button">
+                        Lieu de Départ
+                    </Typography>
+                    <Typography
+                        variant="subtitle1"
+                        gutterBottom={true}
+                        className={classes.highlightField}
+                    >
+                        Paris
+                    </Typography>
+                </CardContent>
+                <CardActions disableSpacing className={classes.hideOnPrint}>
+                    <IconButton aria-label="share" onClick={handleDeleteTicket}>
+                        <DeleteIcon />
+                    </IconButton>
+                    <Button
+                        className={classes.boardingButton}
+                        color="primary"
+                        variant="contained"
+                        size="small"
+                        onClick={handleBoarding}
+                    >
+                        Embarquement
+                    </Button>
+                </CardActions>
+            </Card>
+            <TicketHelp />
         </>
     );
 };

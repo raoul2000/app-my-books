@@ -114,6 +114,7 @@ export const FormChecklist: React.FC<Props> = ({
                 <Button
                     variant="contained"
                     fullWidth
+                    color="primary"
                     onClick={handleBoarding}
                     disabled={!isChecklistComplete()}
                 >

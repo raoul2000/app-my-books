@@ -16,6 +16,14 @@ const useStyles = makeStyles((theme) => ({
     infoText: {
         marginLeft: "0.5em",
     },
+    hideOnPrint: {
+        display: "block",
+    },
+    [`@media print`]: {
+        hideOnPrint: {
+            display: "none",
+        },
+    },
 }));
 
 export const TicketHelp: React.FC<{}> = (): JSX.Element => {
@@ -28,7 +36,7 @@ export const TicketHelp: React.FC<{}> = (): JSX.Element => {
         };
 
     return (
-        <Box>
+        <Box className={classes.hideOnPrint}>
             <Box
                 display="flex"
                 alignItems="center"
@@ -118,9 +126,9 @@ export const TicketHelp: React.FC<{}> = (): JSX.Element => {
                 <AccordionDetails>
                     <Typography component={"div"}>
                         Bien préparer le livre est essentiel pour que son
-                        prochain lecteur puisse le signaler.
+                        prochain lecteur puisse le signaler et que vous puissiez le suivre.
                         <br />
-                        Deux options sont possibles :
+                        Deux options au choix:
                         <ul>
                             <li>
                                 imprimez et coller le <strong>QR Code</strong>{" "}
