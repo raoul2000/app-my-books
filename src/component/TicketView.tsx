@@ -10,6 +10,7 @@ import Avatar from "@material-ui/core/Avatar";
 import Grid from "@material-ui/core/Grid";
 import DeleteIcon from "@material-ui/icons/Delete";
 import IconButton from "@material-ui/core/IconButton";
+import PrintIcon from '@material-ui/icons/Print';
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -64,6 +65,8 @@ export const TicketView: React.FC<Props> = ({
     const classes = useStyles();
     const handleDeleteTicket = () => onDeleteTicket(ticket);
     const handleBoarding = () => onPreBoarding(ticket);
+    const handlePrintTicket = () => window.print();
+    
     return (
         <>
             <Card elevation={2}>
@@ -154,6 +157,9 @@ export const TicketView: React.FC<Props> = ({
                 <CardActions disableSpacing className={classes.hideOnPrint}>
                     <IconButton aria-label="share" onClick={handleDeleteTicket}>
                         <DeleteIcon />
+                    </IconButton>
+                    <IconButton aria-label="share" onClick={handlePrintTicket}>
+                        <PrintIcon />
                     </IconButton>
                     <Button
                         className={classes.boardingButton}
