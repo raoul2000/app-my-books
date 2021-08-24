@@ -44,7 +44,7 @@ export const TicketHelp: React.FC<{}> = (): JSX.Element => {
             >
                 <HelpOutlineIcon />
                 <Typography variant="button" className={classes.infoText}>
-                    Information voyage
+                    Assistance Voyage
                 </Typography>
             </Box>
 
