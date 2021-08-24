@@ -1,6 +1,7 @@
 import React from 'react';
 import Typography from "@material-ui/core/Typography";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import { Box } from '@material-ui/core';
 
 type Props = {
     message?:string
@@ -15,11 +16,11 @@ export const ProgressSpinner: React.FC<Props> = ({message}):JSX.Element => {
             color="textSecondary"
             gutterBottom={true}
         >
-            <div>{message || "opération en cours ..."}</div>
+            {message || "opération en cours ..."}
         </Typography>
-        <Typography align="center">
+        <Box display="flex" justifyContent="center">
             <CircularProgress />
-        </Typography>
+        </Box>
     </>
     );
 }

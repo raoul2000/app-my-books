@@ -35,17 +35,17 @@ type Props = {
     ticket: TravelTicket;
     book: Book;
     onDeleteTicket: (ticket: TravelTicket) => void;
-    onBoarding: (ticket: TravelTicket) => void;
+    onPreBoarding: (ticket: TravelTicket) => void;
 };
 export const TicketView: React.FC<Props> = ({
     ticket,
     book,
     onDeleteTicket,
-    onBoarding,
+    onPreBoarding,
 }): JSX.Element => {
     const classes = useStyles();
     const handleDeleteTicket = () => onDeleteTicket(ticket);
-    const handleBoarding = () => onBoarding(ticket);
+    const handleBoarding = () => onPreBoarding(ticket);
     return (
         <Card elevation={2}>
             <CardHeader
