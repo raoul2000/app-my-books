@@ -14,6 +14,7 @@ import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { Book, TravelTicket } from "@/types";
+import { TicketHelp } from "@/component/TicketHelp";
 
 const useStyles = makeStyles((theme) => ({
     boardingButton: {
@@ -47,6 +48,7 @@ export const TicketView: React.FC<Props> = ({
     const handleDeleteTicket = () => onDeleteTicket(ticket);
     const handleBoarding = () => onPreBoarding(ticket);
     return (
+        <>
         <Card elevation={2}>
             <CardHeader
                 avatar={
@@ -126,5 +128,7 @@ export const TicketView: React.FC<Props> = ({
                 </Button>
             </CardActions>
         </Card>
+        <TicketHelp />
+        </>
     );
 };

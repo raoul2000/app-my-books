@@ -22,7 +22,7 @@ export const WithNavigation: React.FC<{}> = (): JSX.Element => {
             <Route path="/add" component={AddBookPage} />
             <Route path="/settings" component={SettingsPage} />
             <Route path="/travel/:id">
-                {(params) => <TicketViewPage id={params.id} />}
+                {(params) => <TicketViewPage bookId={params.id} />}
             </Route>
             <Route path="/ticket-edit/:id">
                 {(params) => <TicketFormPage bookId={params.id} />}

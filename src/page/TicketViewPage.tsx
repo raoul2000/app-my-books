@@ -8,27 +8,20 @@ import { TopBarActions } from "@/component/app-bar/TopBarActions";
 import { bookByIdState, bookListState } from "../state/book-list";
 import BookApi from "../api/book";
 import { TicketView } from "@/component/TicketView";
-import { TicketHelp } from "@/component/TicketHelp";
 import { ProgressSpinner } from "@/component/ProgressSpinner";
 import { TicketNotFoundView } from "@/component/TicketNotFoundView";
 
 type Props = {
-    /**
-     * The book Id
-     */
-    id: string;
+    bookId: string;
 };
 
-export const TicketViewPage: React.FC<Props> = ({ id }): JSX.Element => {
+export const TicketViewPage: React.FC<Props> = ({ bookId }): JSX.Element => {
     const { enqueueSnackbar } = useSnackbar();
     const setBook = useSetRecoilState(bookListState);
-    const book = useRecoilValue(bookByIdState(id));
+    const book = useRecoilValue(bookByIdState(bookId));
     const [, setLocation] = useLocation();
     const [status, setStatus] = useState<
-        | "loading"
-        | "ticket_not_found"
-        | "ticket_deleting"
-        | "ticket_ready"
+        "loading" | "ticket_not_found" | "ticket_deleting" | "ticket_ready"
     >("loading");
 
     if (!book) {
@@ -114,31 +107,25 @@ export const TicketViewPage: React.FC<Props> = ({ id }): JSX.Element => {
                 return <ProgressSpinner message="Suppression du Ticket ..." />;
             case "ticket_not_found":
                 return (
-                    <>
-                        <TicketNotFoundView
-                            book={book}
-                            onCreateTicket={() =>
-                                setLocation(`/ticket-edit/${book.id}`)
-                            }
-                        />
-                        <TicketHelp />
-                    </>
+                    <TicketNotFoundView
+                        book={book}
+                        onCreateTicket={() =>
+                            setLocation(`/ticket-edit/${book.id}`)
+                        }
+                    />
                 );
             case "ticket_ready":
-                return (
-                    <>
-                        {book.ticket && (
-                            <TicketView
-                                ticket={book.ticket}
-                                book={book}
-                                onDeleteTicket={handleDeleteTicket}
-                                onPreBoarding={() =>
-                                    setLocation(`/boarding/${book.id}`)
-                                }
-                            />
-                        )}
-                        <TicketHelp />
-                    </>
+                return book.ticket ? (
+                    <TicketView
+                        ticket={book.ticket}
+                        book={book}
+                        onDeleteTicket={handleDeleteTicket}
+                        onPreBoarding={() =>
+                            setLocation(`/boarding/${book.id}`)
+                        }
+                    />
+                ) : (
+                    <div>ticket not found</div>
                 );
             default:
                 return <div></div>;
@@ -146,7 +133,7 @@ export const TicketViewPage: React.FC<Props> = ({ id }): JSX.Element => {
     };
     return (
         <div>
-            <TopBarActions title="Livre en Voyage" backPath={`/detail/${id}`} />
+            <TopBarActions title="Livre en Voyage" backPath={`/detail/${book.id}`} />
             <main>
                 <Container maxWidth="sm">{renderContent()}</Container>
             </main>

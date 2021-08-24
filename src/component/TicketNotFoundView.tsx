@@ -28,8 +28,10 @@ type Props = {
 
 export const TicketNotFoundView: React.FC<Props> = ({book, onCreateTicket}):JSX.Element => {
 
-    return ( 
-        <Card elevation={0}>
+    return (
+        <>
+        <TicketHelp />
+        <Card elevation={2}>
         <CardHeader
             avatar={
                 <Avatar>
@@ -49,5 +51,6 @@ export const TicketNotFoundView: React.FC<Props> = ({book, onCreateTicket}):JSX.
             </Button>
         </CardActions>
     </Card>
+    </>
     );
 }

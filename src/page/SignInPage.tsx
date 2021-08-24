@@ -5,7 +5,7 @@ import CropFreeIcon from "@material-ui/icons/CropFree";
 import { makeStyles } from "@material-ui/core/styles";
 import { useSnackbar } from "notistack";
 
-import { FormLogin } from "@/component/FormLogin";
+import { FormLogin } from "@/component/form/FormLogin";
 import { useLocation } from "wouter";
 import { useSetRecoilState } from "recoil";
 import Storage from "@/utils/storage";

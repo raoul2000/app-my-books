@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Typography from "@material-ui/core/Typography";
-import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
+import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
 import Box from "@material-ui/core/Box";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -14,22 +14,33 @@ const useStyles = makeStyles((theme) => ({
         marginBottom: "1em",
     },
     infoText: {
-        marginLeft:'0.5em'
-    }
+        marginLeft: "0.5em",
+    },
 }));
 
 export const TicketHelp: React.FC<{}> = (): JSX.Element => {
     const classes = useStyles();
+    const [expanded, setExpanded] = useState<string | false>(false);
+    const handleChange =
+        (panel: string) =>
+        (event: React.ChangeEvent<{}>, isExpanded: boolean) => {
+            setExpanded(isExpanded ? panel : false);
+        };
+
     return (
-        <>
-            <Box display='flex' alignItems='center' className={classes.infoHeader}>
+        <Box marginBottom="2em">
+            <Box
+                display="flex"
+                alignItems="center"
+                className={classes.infoHeader}
+            >
                 <HelpOutlineIcon />
-                <Typography variant='button' className={classes.infoText}>
+                <Typography variant="button" className={classes.infoText}>
                     Information voyage
                 </Typography>
             </Box>
 
-            <Accordion elevation={0}>
+            <Accordion elevation={0} expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     id="panel1-header"
@@ -46,7 +57,7 @@ export const TicketHelp: React.FC<{}> = (): JSX.Element => {
                     </Typography>
                 </AccordionDetails>
             </Accordion>
-            <Accordion elevation={0}>
+            <Accordion elevation={0} expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     id="panel2-header"
@@ -64,6 +75,6 @@ export const TicketHelp: React.FC<{}> = (): JSX.Element => {
                     </Typography>
                 </AccordionDetails>
             </Accordion>
-        </>
+        </Box>
     );
 };

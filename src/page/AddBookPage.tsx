@@ -7,7 +7,7 @@ import { useSetRecoilState, useRecoilState } from "recoil";
 import { bookListState } from "../state/book-list";
 import { progressState } from "../state/progress";
 import { Book, createBookForm } from "../types";
-import { FormBook } from "../component/FormBook";
+import { FormBook } from "../component/form/FormBook";
 import BookApi from "../api/book";
 import Container from "@material-ui/core/Container";
 import { TopBarActions } from "@/component/app-bar/TopBarActions";

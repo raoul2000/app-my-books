@@ -6,7 +6,7 @@ import { useLocation } from "wouter";
 
 import { bookByIdState, bookListState } from "../state/book-list";
 import { TopBarActions } from "@/component/app-bar/TopBarActions";
-import { TicketForm } from "@/component/TicketForm";
+import { FormTicket } from "@/component/form/FormTicket";
 import { TravelTicket } from "@/types";
 import BookApi from "../api/book";
 import { ProgressSpinner } from "@/component/ProgressSpinner";
@@ -64,7 +64,7 @@ export const TicketFormPage: React.FC<Props> = ({ bookId }): JSX.Element => {
                     {progress ? (
                         <ProgressSpinner message="Création du Ticket..." />
                     ) : (
-                        <TicketForm
+                        <FormTicket
                             book={book}
                             onCreateTicket={handleCreateTicket}
                         />

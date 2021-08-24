@@ -59,7 +59,7 @@ type Props = {
     onCreateTicket: (ticket: TravelTicket) => void;
 };
 
-export const TicketForm: React.FC<Props> = ({
+export const FormTicket: React.FC<Props> = ({
     book,
     onCreateTicket,
 }): JSX.Element => {
