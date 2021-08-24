@@ -12,6 +12,7 @@ import Chip from "@material-ui/core/Chip";
 import Collapse from "@material-ui/core/Collapse";
 import clsx from "clsx";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import FlightTakeoffIcon from "@material-ui/icons/FlightTakeoff";
 import LinearProgress from "@material-ui/core/LinearProgress";
 
 import { useRecoilValue, useSetRecoilState } from "recoil";
@@ -162,7 +163,7 @@ export const BookDetailsPage: React.FC<Props> = ({ id }): JSX.Element => {
                                             handleTravelClick(thisBook)
                                         }
                                     >
-                                        <ExploreIcon />
+                                        <FlightTakeoffIcon />
                                     </IconButton>
                                     <IconButton
                                         className={clsx(classes.expand, {

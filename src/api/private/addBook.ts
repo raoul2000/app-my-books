@@ -8,7 +8,8 @@ type API_addBooks = {
         title: string;
         subtitle?: string;
         author?: string;
-        isbn?: string
+        isbn?: string;
+        is_traveling:boolean
     }
     userBook: {
         read_status? : number
@@ -50,6 +51,8 @@ export const addBook = (book: Omit<Book, "id">): Promise<Book> =>
                 subtitle: resp.book.subtitle,
                 author: resp.book.author,
                 isbn: resp.book.isbn,
+                isTraveling: resp.book.is_traveling,
+                isTicketLoaded:false,
                 readStatus: resp.userBook.read_status,
                 rate:resp.userBook.rate
             }

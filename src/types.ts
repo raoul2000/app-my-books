@@ -17,6 +17,7 @@ export type Book = {
     isbn?: string;
     readStatus?: number;
     rate?: number;
+    isTraveling:boolean;
     isTicketLoaded:boolean;
     ticket?: TravelTicket;
 };

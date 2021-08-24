@@ -35,6 +35,7 @@ export const BoardingPage: React.FC<Props> = ({ bookId }): JSX.Element => {
                                 return {
                                     ...oBook,
                                     ticket: updatedTicket,
+                                    isTraveling: true
                                 };
                             } else {
                                 return oBook;

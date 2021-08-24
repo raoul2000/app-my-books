@@ -10,10 +10,10 @@ import Avatar from "@material-ui/core/Avatar";
 import Grid from "@material-ui/core/Grid";
 import DeleteIcon from "@material-ui/icons/Delete";
 import IconButton from "@material-ui/core/IconButton";
-import PrintIcon from '@material-ui/icons/Print';
+import PrintIcon from "@material-ui/icons/Print";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
-
+import { Alert } from "@material-ui/lab";
 import { Book, TravelTicket } from "@/types";
 import { TicketHelp } from "@/component/TicketHelp";
 
@@ -45,8 +45,9 @@ const useStyles = makeStyles((theme) => ({
         cutHereText: {
             display: "block",
             position: "relative",
-            top: "-30px",
+            top: "-25px",
             fontSize: "10px",
+            color: "grey",
         },
     },
 }));
@@ -66,9 +67,16 @@ export const TicketView: React.FC<Props> = ({
     const handleDeleteTicket = () => onDeleteTicket(ticket);
     const handleBoarding = () => onPreBoarding(ticket);
     const handlePrintTicket = () => window.print();
-    
+
     return (
         <>
+            {book.isTraveling && (
+                <Box marginBottom="2em">
+                    <Alert severity="info">
+                        Ticket Utilisé : ce livre voyage...
+                    </Alert>
+                </Box>
+            )}
             <Card elevation={2}>
                 <CardHeader
                     avatar={
@@ -115,7 +123,8 @@ export const TicketView: React.FC<Props> = ({
                         </Grid>
                     </Box>
                     <div className={classes.cutHereText}>
-                        découpez suivant les pointillés ou seulement le QR-code - coller sur le livre
+                        découpez suivant les pointillés ou seulement le QR-code
+                        - coller sur le livre
                     </div>
                     <Typography color="textSecondary" variant="button">
                         Passager
@@ -155,21 +164,41 @@ export const TicketView: React.FC<Props> = ({
                     </Typography>
                 </CardContent>
                 <CardActions disableSpacing className={classes.hideOnPrint}>
-                    <IconButton aria-label="share" onClick={handleDeleteTicket}>
-                        <DeleteIcon />
-                    </IconButton>
-                    <IconButton aria-label="share" onClick={handlePrintTicket}>
-                        <PrintIcon />
-                    </IconButton>
-                    <Button
-                        className={classes.boardingButton}
-                        color="primary"
-                        variant="contained"
-                        size="small"
-                        onClick={handleBoarding}
-                    >
-                        Embarquement
-                    </Button>
+                    {book.isTraveling ? (
+                        <Button
+                            color="primary"
+                            fullWidth
+                            variant="contained"
+                            size="small"
+                            onClick={console.log}
+                        >
+                            Suivre
+                        </Button>
+                    ) : (
+                        <>
+                            <IconButton
+                                aria-label="share"
+                                onClick={handleDeleteTicket}
+                            >
+                                <DeleteIcon />
+                            </IconButton>
+                            <IconButton
+                                aria-label="share"
+                                onClick={handlePrintTicket}
+                            >
+                                <PrintIcon />
+                            </IconButton>
+                            <Button
+                                className={classes.boardingButton}
+                                color="primary"
+                                variant="contained"
+                                size="small"
+                                onClick={handleBoarding}
+                            >
+                                Embarquement
+                            </Button>
+                        </>
+                    )}
                 </CardActions>
             </Card>
             <TicketHelp />
