@@ -8,7 +8,7 @@ import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListSubheader from "@material-ui/core/ListSubheader";
 import { makeStyles } from "@material-ui/core/styles";
-
+import { Alert, AlertTitle } from "@material-ui/lab";
 
 const useStyles = makeStyles((theme) => ({
     checklistText: {
@@ -53,65 +53,73 @@ export const FormChecklist: React.FC<Props> = ({
         (checklist.bookingNumberOk && checklist.checkpointOk);
 
     return (
-        <Paper elevation={0}>
-            <List
-                subheader={
-                    <ListSubheader>Checklist Embarquement</ListSubheader>
-                }
-            >
-                <ListItem>
-                    <ListItemText
-                        id="switch-qrcode"
-                        primary="Le QR Code du ticket est collé sur la
-                                        couverture du livre"
-                        className={classes.checklistText}
-                    />
-                    <ListItemSecondaryAction>
-                        <Switch
-                            edge="end"
-                            checked={checklist.qrCodeOk}
-                            onChange={() => toggleChecked("qrCodeOk")}
+        <>
+            <Alert severity="info">
+                <AlertTitle>Info</AlertTitle>
+                Une fois l'embarquement terminé le ticket n'est plus modifiable
+            </Alert>
+            <Paper elevation={0}>
+                <List
+                    subheader={
+                        <ListSubheader>Checklist Embarquement</ListSubheader>
+                    }
+                >
+                    <ListItem>
+                        <ListItemText
+                            id="switch-qrcode"
+                            primary="Le QR-CODE du ticket est collé sur la
+                                        couverture, à l'interieur du livre"
+                            className={classes.checklistText}
                         />
-                    </ListItemSecondaryAction>
-                </ListItem>
-                <ListItem>
-                    <ListItemText
-                        id="switch-booking-number"
-                        primary="Le NUMERO DE RESERVATION est inscrit sur le livre"
-                        secondary={`numéro de réservation : ${bookingId}`}
-                    />
-                    <ListItemSecondaryAction>
-                        <Switch
-                            edge="end"
-                            checked={checklist.bookingNumberOk}
-                            onChange={() => toggleChecked("bookingNumberOk")}
+                        <ListItemSecondaryAction>
+                            <Switch
+                                edge="end"
+                                checked={checklist.qrCodeOk}
+                                onChange={() => toggleChecked("qrCodeOk")}
+                            />
+                        </ListItemSecondaryAction>
+                    </ListItem>
+                    <ListItem>
+                        <ListItemText
+                            id="switch-booking-number"
+                            primary="Le NUMERO DE RESERVATION est inscrit en évidence sur le livre"
+                            secondary={`numéro de réservation : ${bookingId}`}
                         />
-                    </ListItemSecondaryAction>
-                </ListItem>
-                <ListItem>
-                    <ListItemText
-                        id="switch-checkpoint"
-                        primary="Le CHECKPOINT est inscrit sur le livre"
-                        secondary={`checkpoint : ${checkpoint}`}
-                    />
-                    <ListItemSecondaryAction>
-                        <Switch
-                            edge="end"
-                            checked={checklist.checkpointOk}
-                            onChange={() => toggleChecked("checkpointOk")}
+                        <ListItemSecondaryAction>
+                            <Switch
+                                edge="end"
+                                checked={checklist.bookingNumberOk}
+                                onChange={() =>
+                                    toggleChecked("bookingNumberOk")
+                                }
+                            />
+                        </ListItemSecondaryAction>
+                    </ListItem>
+                    <ListItem>
+                        <ListItemText
+                            id="switch-checkpoint"
+                            primary="Le CHECKPOINT est inscrit en évidence sur le livre"
+                            secondary={`checkpoint : ${checkpoint}`}
                         />
-                    </ListItemSecondaryAction>
-                </ListItem>
-            </List>
+                        <ListItemSecondaryAction>
+                            <Switch
+                                edge="end"
+                                checked={checklist.checkpointOk}
+                                onChange={() => toggleChecked("checkpointOk")}
+                            />
+                        </ListItemSecondaryAction>
+                    </ListItem>
+                </List>
 
-            <Button
-                variant="contained"
-                fullWidth
-                onClick={handleBoarding}
-                disabled={!isChecklistComplete()}
-            >
-                Terminer l'embarquement
-            </Button>
-        </Paper>
+                <Button
+                    variant="contained"
+                    fullWidth
+                    onClick={handleBoarding}
+                    disabled={!isChecklistComplete()}
+                >
+                    Terminer l'embarquement
+                </Button>
+            </Paper>
+        </>
     );
 };

@@ -28,7 +28,7 @@ export const TicketHelp: React.FC<{}> = (): JSX.Element => {
         };
 
     return (
-        <Box marginBottom="2em">
+        <Box>
             <Box
                 display="flex"
                 alignItems="center"
@@ -40,7 +40,11 @@ export const TicketHelp: React.FC<{}> = (): JSX.Element => {
                 </Typography>
             </Box>
 
-            <Accordion elevation={0} expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
+            <Accordion
+                elevation={0}
+                expanded={expanded === "panel1"}
+                onChange={handleChange("panel1")}
+            >
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     id="panel1-header"
@@ -57,7 +61,11 @@ export const TicketHelp: React.FC<{}> = (): JSX.Element => {
                     </Typography>
                 </AccordionDetails>
             </Accordion>
-            <Accordion elevation={0} expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
+            <Accordion
+                elevation={0}
+                expanded={expanded === "panel2"}
+                onChange={handleChange("panel2")}
+            >
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     id="panel2-header"
@@ -72,6 +80,61 @@ export const TicketHelp: React.FC<{}> = (): JSX.Element => {
                         <br />
                         Vous pourrez voir ces signalements et ainsi suivre le
                         voyage de ce livre .
+                    </Typography>
+                </AccordionDetails>
+            </Accordion>
+            <Accordion
+                elevation={0}
+                expanded={expanded === "panel3"}
+                onChange={handleChange("panel3")}
+            >
+                <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    id="panel3-header"
+                >
+                    <Typography>Les trois étapes</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                    <Typography>
+                        <ul>
+                            <li>Créer le ticket</li>
+                            <li>Préparer le livre</li>
+                            <li>Embarquer</li>
+                        </ul>
+                    </Typography>
+                </AccordionDetails>
+            </Accordion>
+            <Accordion
+                elevation={0}
+                expanded={expanded === "panel4"}
+                onChange={handleChange("panel4")}
+            >
+                <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    id="panel4-header"
+                >
+                    <Typography>Comment bien préparer le livre ?</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                    <Typography component={"div"}>
+                        Bien préparer le livre est essentiel pour que son
+                        prochain lecteur puisse le signaler.
+                        <br />
+                        Deux options sont possibles :
+                        <ul>
+                            <li>
+                                imprimez et coller le <strong>QR Code</strong>{" "}
+                                du ticket au dos de la couverture
+                            </li>
+                            <li>
+                                recopiez à la main, de façon lisible, le{" "}
+                                <strong>numéro de réservation</strong> ET le{" "}
+                                <strong>checkpoint</strong>
+                            </li>
+                        </ul>
+                        Vous pouvez bien sûr aussi imprimer le ticket complet
+                        (QR-Code, numéro de réservation, checkpoint) et le
+                        coller au dos de la couverture.
                     </Typography>
                 </AccordionDetails>
             </Accordion>
