@@ -12,7 +12,7 @@ type API_GetUserBooks = {
         subtitle?: string;
         author?: string;
         isbn?: string;
-        is_traveling:boolean
+        is_traveling:number;
     };
 };
 
@@ -30,7 +30,7 @@ export const readAllBooks = (): Promise<Book[]> =>
         .then((jsonResp) => {
             return (jsonResp as unknown as API_GetUserBooks[]).map((item) => ({
                 ...item.book,
-                isTraveling: item.book.is_traveling,
+                isTraveling: item.book.is_traveling === 1,
                 readStatus: item.read_status,
                 rate: item.rate,
                 isTicketLoaded:false

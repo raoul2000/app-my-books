@@ -13,6 +13,7 @@ import { SignInPage } from "@/page/SignInPage";
 import { TicketViewPage } from "@/page/TicketViewPage";
 import { TicketFormPage } from "@/page/TicketFormPage";
 import { BoardingPage } from "@/page/BoardingPage";
+import { TravelTimeline } from "@/page/TravelTimeline";
 
 export const WithNavigation: React.FC<{}> = (): JSX.Element => {
     return (
@@ -35,6 +36,9 @@ export const WithNavigation: React.FC<{}> = (): JSX.Element => {
             </Route>
             <Route path="/detail/:id">
                 {(params) => <BookDetailsPage id={params.id} />}
+            </Route>
+            <Route path="/follow-trip/:id">
+                {(params) => <TravelTimeline bookId={params.id} />}
             </Route>
             <Route>{Storage.getApiKey() ? <BookListPage /> : <div />}</Route>
         </Switch>
