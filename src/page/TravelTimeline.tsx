@@ -11,10 +11,13 @@ import FastfoodIcon from "@material-ui/icons/Fastfood";
 import LaptopMacIcon from "@material-ui/icons/LaptopMac";
 import HotelIcon from "@material-ui/icons/Hotel";
 import RepeatIcon from "@material-ui/icons/Repeat";
+import PersonPinCircleIcon from "@material-ui/icons/PersonPinCircle";
 import FlightTakeoffIcon from "@material-ui/icons/FlightTakeoff";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
+import Button from "@material-ui/core/Button";
+import IconButton from "@material-ui/core/IconButton";
 
 import { TopBarActions } from "@/component/app-bar/TopBarActions";
 
@@ -37,7 +40,7 @@ export const TravelTimeline: React.FC<Props> = ({ bookId }): JSX.Element => {
         <div>
             <TopBarActions
                 title="Livre en Voyage"
-                backPath={`/detail/${bookId}}`}
+                backPath={`/travel/${bookId}`}
             />
             <main>
                 <Container maxWidth="sm">
@@ -53,30 +56,78 @@ export const TravelTimeline: React.FC<Props> = ({ bookId }): JSX.Element => {
                                 </Typography>
                             </TimelineOppositeContent>
                             <TimelineSeparator>
-                                <TimelineDot>
+                                <TimelineDot variant="default">
                                     <FlightTakeoffIcon />
                                 </TimelineDot>
                                 <TimelineConnector />
                             </TimelineSeparator>
-
                             <TimelineContent>
-                                <Paper elevation={0} className={classes.paper}>
-                                    <Typography>début du voyage</Typography>
-                                </Paper>
+                                <Button
+                                    color="primary"
+                                    variant="outlined"
+                                    size="small"
+                                >
+                                    départ
+                                </Button>
+                            </TimelineContent>
+                        </TimelineItem>
+                        <TimelineItem>
+                            <TimelineOppositeContent>
+                                <Typography
+                                    variant="body2"
+                                    color="textSecondary"
+                                >
+                                    12/08/2021 <br />
+                                    9:30 am
+                                </Typography>
+                            </TimelineOppositeContent>
+                            <TimelineSeparator>
+                                <TimelineDot variant="default">
+                                    <PersonPinCircleIcon />
+                                </TimelineDot>
+                                <TimelineConnector />
+                            </TimelineSeparator>
+                            <TimelineContent>
+                                <Button
+                                    color="primary"
+                                    variant="outlined"
+                                    size="small"
+                                >
+                                    escale
+                                </Button>
+                            </TimelineContent>
+                        </TimelineItem>
+                        <TimelineItem>
+                            <TimelineOppositeContent>
+                                <Typography
+                                    variant="body2"
+                                    color="textSecondary"
+                                >
+                                    12/08/2021 <br />
+                                    9:30 am
+                                </Typography>
+                            </TimelineOppositeContent>
+                            <TimelineSeparator>
+                                <TimelineDot variant="default">
+                                    <PersonPinCircleIcon />
+                                </TimelineDot>
+                                <TimelineConnector />
+                            </TimelineSeparator>
+                            <TimelineContent>
+                                <Button
+                                    color="primary"
+                                    variant="outlined"
+                                    size="small"
+                                >
+                                    escale
+                                </Button>
                             </TimelineContent>
                         </TimelineItem>
                         <TimelineItem>
                             <TimelineSeparator>
                                 <TimelineDot />
-                                <TimelineConnector />
                             </TimelineSeparator>
-                            <TimelineContent>Code</TimelineContent>
-                        </TimelineItem>
-                        <TimelineItem>
-                            <TimelineSeparator>
-                                <TimelineDot />
-                            </TimelineSeparator>
-                            <TimelineContent>Sleep</TimelineContent>
+                            <TimelineContent></TimelineContent>
                         </TimelineItem>
                     </Timeline>
                 </Container>

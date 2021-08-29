@@ -126,7 +126,8 @@ export const TicketHelp: React.FC<{}> = (): JSX.Element => {
                 <AccordionDetails>
                     <Typography component={"div"}>
                         Bien préparer le livre est essentiel pour que son
-                        prochain lecteur puisse le signaler et que vous puissiez le suivre.
+                        prochain lecteur puisse le signaler et que vous puissiez
+                        le suivre.
                         <br />
                         Deux options au choix:
                         <ul>
@@ -143,6 +144,32 @@ export const TicketHelp: React.FC<{}> = (): JSX.Element => {
                         Vous pouvez bien sûr aussi imprimer le ticket complet
                         (QR-Code, numéro de réservation, checkpoint) et le
                         coller au dos de la couverture.
+                    </Typography>
+                </AccordionDetails>
+            </Accordion>
+            <Accordion
+                elevation={0}
+                expanded={expanded === "panel5"}
+                onChange={handleChange("panel5")}
+            >
+                <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    id="panel5-header"
+                >
+                    <Typography>Dernière étape: l'embarquement</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                    <Typography component={"div"}>
+                        Lorsque le livre est prêt, il est temps pour lui de
+                        commencer le voyage.
+                        <br />
+                        Donnez-le, déposez-le au coin d'une rue, dans un café,
+                        une bibliothèque, ou n'importe quel lieu de passage afin
+                        qu'il soit emporté au hasard par un lecteur curieux.
+                        <br />
+                        Vous pourrez plus tard suivre sa route au gré des
+                        signalements que feront peut-être ceux qui l'auront
+                        trouvé.
                     </Typography>
                 </AccordionDetails>
             </Accordion>

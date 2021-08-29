@@ -75,6 +75,7 @@ export const UpdateBookPage: React.FC<Props> = ({ id }): JSX.Element => {
             rate: bookForm.rate,
             isTicketLoaded:false,
             isTraveling: false,
+            tracks:[]
         };
         setProgress(true);
         setLocation(`/detail/${id}`);

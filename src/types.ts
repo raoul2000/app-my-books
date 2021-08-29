@@ -9,6 +9,12 @@ export type TravelTicket = {
     qrCodeUrl?: string;
 };
 
+export type BookTrack = {
+    email: string;
+    rate: number;
+    locationName: string;
+    text: string;
+};
 export type Book = {
     id: string;
     title: string;
@@ -20,6 +26,7 @@ export type Book = {
     isTraveling:boolean;
     isTicketLoaded:boolean;
     ticket?: TravelTicket;
+    tracks: BookTrack[]
 };
 
 export type LoadingState = {

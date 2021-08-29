@@ -52,13 +52,15 @@ export const AddBookPage: React.FC<{}> = (): JSX.Element => {
             isbn: bookForm.isbn,
             readStatus: bookForm.readStatus,
             rate: bookForm.rate,
+            isTicketLoaded: false,
+            isTraveling: false,
+            tracks: []
         };
 
         setProgress(true);
         setLocation("/");
         BookApi.addBook(newBook)
             .then((savedBook) => {
-                console.log(savedBook);
                 setBooks((oldBooks) => [savedBook, ...oldBooks]);
             })
             .catch((error) => console.error(error))
