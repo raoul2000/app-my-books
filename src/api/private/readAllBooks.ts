@@ -13,6 +13,7 @@ type API_GetUserBooks = {
         author?: string;
         isbn?: string;
         is_traveling:number;
+        ping_count:number;
     };
 };
 
@@ -33,6 +34,8 @@ export const readAllBooks = (): Promise<Book[]> =>
                 isTraveling: item.book.is_traveling === 1,
                 readStatus: item.read_status,
                 rate: item.rate,
-                isTicketLoaded:false
+                isTicketLoaded:false,
+                pingCount: item.book.ping_count,
+                tracks: []
             }));
         });

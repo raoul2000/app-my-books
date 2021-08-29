@@ -26,7 +26,8 @@ export type Book = {
     isTraveling:boolean;
     isTicketLoaded:boolean;
     ticket?: TravelTicket;
-    tracks: BookTrack[]
+    tracks: BookTrack[];
+    pingCount:number;
 };
 
 export type LoadingState = {

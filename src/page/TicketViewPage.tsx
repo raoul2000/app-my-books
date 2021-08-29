@@ -123,9 +123,6 @@ export const TicketViewPage: React.FC<Props> = ({ bookId }): JSX.Element => {
                         onPreBoarding={() =>
                             setLocation(`/boarding/${book.id}`)
                         }
-                        onFollowTrip={() =>
-                            setLocation(`/follow-trip/${book.id}`)
-                        }
                     />
                 ) : (
                     <div>ticket not found</div>

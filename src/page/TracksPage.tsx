@@ -57,18 +57,17 @@ type Props = {
 
 export const TracksPage: React.FC<Props> = ({ bookId }): JSX.Element => {
     const classes = useStyles();
-    const [expanded, setExpanded] = React.useState(false);
 
     return (
         <div>
             <TopBarActions
-                title="Livre en Voyage"
-                backPath={`/travel/${bookId}`}
+                title="Itinéraire"
+                backPath={`/detail/${bookId}`}
             />
             <main>
                 <Container maxWidth="sm">
                     <div></div>
-                    <Card className={classes.root} elevation={0}>
+                    <Card className={classes.root} elevation={1}>
                         <CardHeader
                             avatar={
                                 <Avatar
@@ -83,7 +82,7 @@ export const TracksPage: React.FC<Props> = ({ bookId }): JSX.Element => {
                         />
                     </Card>
 
-                    <Card className={classes.root} elevation={0}>
+                    <Card className={classes.root} elevation={1}>
                         <CardHeader
                             avatar={
                                 <Avatar
@@ -112,7 +111,7 @@ export const TracksPage: React.FC<Props> = ({ bookId }): JSX.Element => {
                             </Typography>
                         </CardContent>
                     </Card>
-                    <Card className={classes.root} elevation={0}>
+                    <Card className={classes.root} elevation={1}>
                         <CardHeader
                             avatar={
                                 <Avatar
@@ -130,7 +129,7 @@ export const TracksPage: React.FC<Props> = ({ bookId }): JSX.Element => {
                             }
                         />
                     </Card>
-                    <Card className={classes.root} elevation={0}>
+                    <Card className={classes.root} elevation={1}>
                         <CardHeader
                             avatar={
                                 <Avatar

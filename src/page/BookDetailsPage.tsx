@@ -6,6 +6,7 @@ import CardActions from "@material-ui/core/CardActions";
 import Typography from "@material-ui/core/Typography";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import ExploreIcon from "@material-ui/icons/Explore";
+import PersonPinCircleIcon from "@material-ui/icons/PersonPinCircle";
 
 import IconButton from "@material-ui/core/IconButton";
 import Chip from "@material-ui/core/Chip";
@@ -14,6 +15,7 @@ import clsx from "clsx";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import FlightTakeoffIcon from "@material-ui/icons/FlightTakeoff";
 import LinearProgress from "@material-ui/core/LinearProgress";
+import Badge from "@material-ui/core/Badge";
 
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { bookListState, bookByIdState } from "../state/book-list";
@@ -86,6 +88,9 @@ export const BookDetailsPage: React.FC<Props> = ({ id }): JSX.Element => {
     const handleTravelClick = (book: Book) => {
         setLocation(`/travel/${book.id}`);
     };
+    const handleTrackClick = (book: Book) =>
+        setLocation(`/follow-trip/${book.id}`);
+
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) =>
         setAnchorEl(event.currentTarget);
 
@@ -165,6 +170,23 @@ export const BookDetailsPage: React.FC<Props> = ({ id }): JSX.Element => {
                                     >
                                         <FlightTakeoffIcon />
                                     </IconButton>
+                                    {thisBook.isTraveling && (
+                                        <IconButton
+                                            aria-label="follow trip"
+                                            onClick={() =>
+                                                handleTrackClick(thisBook)
+                                            }
+                                        >
+                                            <Badge
+                                                badgeContent={
+                                                    4
+                                                }
+                                                color="secondary"
+                                            >
+                                                <PersonPinCircleIcon />
+                                            </Badge>
+                                        </IconButton>
+                                    )}
                                     <IconButton
                                         className={clsx(classes.expand, {
                                             [classes.expandOpen]: expanded,

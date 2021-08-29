@@ -9,7 +9,8 @@ type API_addBooks = {
         subtitle?: string;
         author?: string;
         isbn?: string;
-        is_traveling:boolean
+        is_traveling:boolean;
+        ping_count: number;
     }
     userBook: {
         read_status? : number
@@ -54,6 +55,8 @@ export const addBook = (book: Omit<Book, "id">): Promise<Book> =>
                 isTraveling: resp.book.is_traveling,
                 isTicketLoaded:false,
                 readStatus: resp.userBook.read_status,
-                rate:resp.userBook.rate
+                rate:resp.userBook.rate,
+                tracks: [],
+                pingCount: resp.book.ping_count
             }
         });

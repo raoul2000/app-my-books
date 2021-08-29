@@ -57,20 +57,17 @@ type Props = {
     book: Book;
     onDeleteTicket: (ticket: TravelTicket) => void;
     onPreBoarding: (ticket: TravelTicket) => void;
-    onFollowTrip: () => void;
 };
 export const TicketView: React.FC<Props> = ({
     ticket,
     book,
     onDeleteTicket,
     onPreBoarding,
-    onFollowTrip
 }): JSX.Element => {
     const classes = useStyles();
     const handleDeleteTicket = () => onDeleteTicket(ticket);
     const handleBoarding = () => onPreBoarding(ticket);
     const handlePrintTicket = () => window.print();
-    const handleFollowTrip = () => onFollowTrip();
 
     return (
         <>
@@ -168,17 +165,7 @@ export const TicketView: React.FC<Props> = ({
                     </Typography>
                 </CardContent>
                 <CardActions disableSpacing className={classes.hideOnPrint}>
-                    {book.isTraveling ? (
-                        <Button
-                            color="primary"
-                            fullWidth
-                            variant="contained"
-                            size="small"
-                            onClick={handleFollowTrip}
-                        >
-                            Suivre
-                        </Button>
-                    ) : (
+                    {!book.isTraveling && (
                         <>
                             <IconButton
                                 aria-label="share"

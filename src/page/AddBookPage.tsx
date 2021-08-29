@@ -54,7 +54,8 @@ export const AddBookPage: React.FC<{}> = (): JSX.Element => {
             rate: bookForm.rate,
             isTicketLoaded: false,
             isTraveling: false,
-            tracks: []
+            tracks: [],
+            pingCount:0
         };
 
         setProgress(true);
