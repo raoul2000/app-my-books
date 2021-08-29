@@ -46,6 +46,7 @@ export const ListBooks: React.FC<Props> = ({ books, loading }): JSX.Element => {
             {!loading &&
                 booksToRender.map((book) => (
                     <ListBookItem
+                        key={book.id}
                         book={book}
                         onSelectBook={handleShowBookDetail}
                     />

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import Card from "@material-ui/core/Card";
@@ -20,8 +20,12 @@ import FlightTakeoffIcon from "@material-ui/icons/FlightTakeoff";
 import PersonPinCircleIcon from "@material-ui/icons/PersonPinCircle";
 import Badge from "@material-ui/core/Badge";
 import Rating from "@material-ui/lab/Rating";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 
 import { TopBarActions } from "@/component/app-bar/TopBarActions";
+import { bookByIdState, bookListState } from "../state/book-list";
+import BookApi from "../api/book";
+import { ProgressSpinner } from "@/component/ProgressSpinner";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -57,16 +61,44 @@ type Props = {
 
 export const TracksPage: React.FC<Props> = ({ bookId }): JSX.Element => {
     const classes = useStyles();
+    const [loading, setLoading] = useState<boolean>(false);
+    const setBook = useSetRecoilState(bookListState);
+    const book = useRecoilValue(bookByIdState(bookId));
+    if (!book) {
+        return <div>book not found</div>;
+    }
+
+    useEffect(() => {
+        if (!book.tracks) {
+            setLoading(true);
+            BookApi.readBookTracks(book.id).then((tracks) => {
+                setBook((old) =>
+                    old.map((oBook) => {
+                        if (oBook.id === book.id) {
+                            return {
+                                ...oBook,
+                                tracks,
+                            };
+                        } else {
+                            return oBook;
+                        }
+                    })
+                );
+                setLoading(false); // TODO: handle error
+            });
+        }
+    }, []);
 
     return (
         <div>
-            <TopBarActions
-                title="Itinéraire"
-                backPath={`/detail/${bookId}`}
-            />
+            <TopBarActions title="Itinéraire" backPath={`/detail/${bookId}`} />
             <main>
                 <Container maxWidth="sm">
-                    <div></div>
+                    {loading ? (
+                        <ProgressSpinner message="Recherche du Ticket..." />
+                    ) : (
+                        book.tracks?.map((track) => <div key={track.id}>{track.id}</div>)
+                    )}
                     <Card className={classes.root} elevation={1}>
                         <CardHeader
                             avatar={
@@ -107,7 +139,8 @@ export const TracksPage: React.FC<Props> = ({ bookId }): JSX.Element => {
                         />
                         <CardContent>
                             <Typography paragraph>
-                                L'histoire est belle et la fin totalement inatendue
+                                L'histoire est belle et la fin totalement
+                                inatendue
                             </Typography>
                         </CardContent>
                     </Card>

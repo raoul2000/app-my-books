@@ -10,6 +10,7 @@ export type TravelTicket = {
 };
 
 export type BookTrack = {
+    id: string;
     email: string;
     rate: number;
     locationName: string;
@@ -26,7 +27,7 @@ export type Book = {
     isTraveling:boolean;
     isTicketLoaded:boolean;
     ticket?: TravelTicket;
-    tracks: BookTrack[];
+    tracks?: BookTrack[];
     pingCount:number;
 };
 

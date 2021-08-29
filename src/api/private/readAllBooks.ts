@@ -35,7 +35,6 @@ export const readAllBooks = (): Promise<Book[]> =>
                 readStatus: item.read_status,
                 rate: item.rate,
                 isTicketLoaded:false,
-                pingCount: item.book.ping_count,
-                tracks: []
+                pingCount: item.book.ping_count
             }));
         });

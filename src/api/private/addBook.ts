@@ -56,7 +56,6 @@ export const addBook = (book: Omit<Book, "id">): Promise<Book> =>
                 isTicketLoaded:false,
                 readStatus: resp.userBook.read_status,
                 rate:resp.userBook.rate,
-                tracks: [],
                 pingCount: resp.book.ping_count
             }
         });

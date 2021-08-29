@@ -8,6 +8,7 @@ import BookIcon from "@material-ui/icons/Book";
 import { Book } from "@/types";
 
 type Props = {
+    key:string;
     book: Book;
     onSelectBook: (bookId: string) => void;
 };
@@ -17,7 +18,6 @@ export const ListBookItem: React.FC<Props> = ({
 }): JSX.Element => {
     return (
         <ListItem
-            key={book.id}
             divider={false}
             button
             onClick={() => onSelectBook(book.id)}

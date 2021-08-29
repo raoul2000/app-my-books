@@ -179,7 +179,7 @@ export const BookDetailsPage: React.FC<Props> = ({ id }): JSX.Element => {
                                         >
                                             <Badge
                                                 badgeContent={
-                                                    4
+                                                    thisBook.pingCount
                                                 }
                                                 color="secondary"
                                             >
