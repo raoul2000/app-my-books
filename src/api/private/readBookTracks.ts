@@ -38,7 +38,7 @@ export const readBookTracks = (bookId: string): Promise<BookTrack[]> =>
                 (trackItem) => ({
                     id: trackItem.id,
                     email: trackItem.email,
-                    rate: parseInt(trackItem.rate, 10),
+                    rate: trackItem.rate ? parseInt(trackItem.rate, 10) : 0,
                     locationName: trackItem.location_name,
                     text: trackItem.text,
                 })
