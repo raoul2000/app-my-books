@@ -103,7 +103,7 @@ export const TicketHelp: React.FC<{}> = (): JSX.Element => {
                     <Typography>Les trois étapes</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                    <Typography>
+                    <Typography component="span">
                         <ul>
                             <li>Créer le ticket</li>
                             <li>Préparer le livre</li>

@@ -170,7 +170,7 @@ export const BookDetailsPage: React.FC<Props> = ({ id }): JSX.Element => {
                                     >
                                         <FlightTakeoffIcon />
                                     </IconButton>
-                                    {thisBook.isTraveling && (
+                                    {thisBook.isTraveling === true && (
                                         <IconButton
                                             aria-label="follow trip"
                                             onClick={() =>

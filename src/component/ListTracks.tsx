@@ -5,6 +5,7 @@ import FlightTakeoffIcon from "@material-ui/icons/FlightTakeoff";
 import Avatar from "@material-ui/core/Avatar";
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import { blue } from "@material-ui/core/colors";
+import { Alert } from "@material-ui/lab";
 
 import { BookTrack } from "@/types";
 import { ListTrackItem } from "./ListTrackItem";
@@ -27,9 +28,7 @@ type Props = {
 export const ListTracks: React.FC<Props> = ({ tracks }): JSX.Element => {
     const classes = useStyles();
 
-    return !tracks || tracks.length === 0 ? (
-        <div>No track</div>
-    ) : (
+    return (
         <>
             <Card className={classes.root} elevation={1}>
                 <CardHeader
@@ -45,10 +44,15 @@ export const ListTracks: React.FC<Props> = ({ tracks }): JSX.Element => {
                     subheader="September 14, 2016 - Paris"
                 />
             </Card>
-
-            {tracks.map((track) => (
-                <ListTrackItem key={track.id} track={track} />
-            ))}
+            {!tracks || tracks.length === 0 ? (
+                <Alert severity="info">
+                    Aucun signalement depuis le départ
+                </Alert>
+            ) : (
+                tracks.map((track) => (
+                    <ListTrackItem key={track.id} track={track} />
+                ))
+            )}
         </>
     );
 };

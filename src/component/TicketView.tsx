@@ -71,7 +71,7 @@ export const TicketView: React.FC<Props> = ({
 
     return (
         <>
-            {book.isTraveling && (
+            {book.isTraveling === true && (
                 <Box marginBottom="2em">
                     <Alert severity="info">
                         Ce ticket a été Utilisé, le livre voyage...

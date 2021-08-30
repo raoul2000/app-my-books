@@ -47,7 +47,7 @@ export const TracksPage: React.FC<Props> = ({ bookId }): JSX.Element => {
             <main>
                 <Container maxWidth="sm">
                     {loading ? (
-                        <ProgressSpinner message="Recherche du Ticket..." />
+                        <ProgressSpinner message="Recherche de l'itinéraire ..." />
                     ) : (
                         <ListTracks tracks={book.tracks} />
                     )}
