@@ -181,7 +181,7 @@ export const BookDetailsPage: React.FC<Props> = ({ id }): JSX.Element => {
                                                 badgeContent={
                                                     thisBook.pingCount
                                                 }
-                                                color="secondary"
+                                                color="primary"
                                             >
                                                 <PersonPinCircleIcon />
                                             </Badge>
