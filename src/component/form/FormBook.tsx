@@ -9,9 +9,9 @@ import Rating from "@material-ui/lab/Rating";
 
 import { useRecoilState } from "recoil";
 
-import { BookFormState } from "../types";
-import { bookFormState } from "../state/book-form";
-import { IsbnSearchField } from "./IsbnSearchField";
+import { BookFormState } from "../../types";
+import { bookFormState } from "../../state/book-form";
+import { IsbnSearchField } from "../IsbnSearchField";
 
 type Props = {
     onIsbnSearch: () => void;

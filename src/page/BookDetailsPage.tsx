@@ -9,12 +9,16 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
+import PersonPinCircleIcon from "@material-ui/icons/PersonPinCircle";
+
 import IconButton from "@material-ui/core/IconButton";
 import Chip from "@material-ui/core/Chip";
 import Collapse from "@material-ui/core/Collapse";
 import clsx from "clsx";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import FlightTakeoffIcon from "@material-ui/icons/FlightTakeoff";
 import LinearProgress from "@material-ui/core/LinearProgress";
+import Badge from "@material-ui/core/Badge";
 
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { bookListState, bookByIdState } from "../state/book-list";
@@ -83,6 +87,12 @@ export const BookDetailsPage: React.FC<Props> = ({ id }): JSX.Element => {
         setExpanded(!expanded);
     };
 
+    const handleTravelClick = (book: Book) => {
+        setLocation(`/travel/${book.id}`);
+    };
+    const handleTrackClick = (book: Book) =>
+        setLocation(`/follow-trip/${book.id}`);
+
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) =>
         setAnchorEl(event.currentTarget);
 
@@ -105,6 +115,10 @@ export const BookDetailsPage: React.FC<Props> = ({ id }): JSX.Element => {
         }
         handleClose();
     };
+
+    if (!thisBook) {
+        return <div>book not found</div>;
+    }
 
     return (
         <>
@@ -161,7 +175,6 @@ export const BookDetailsPage: React.FC<Props> = ({ id }): JSX.Element => {
                                     <Typography color="textSecondary">
                                         {thisBook.author}
                                     </Typography>
-
                                     {thisBook.readStatus && (
                                         <Chip
                                             className={classes.chipToRead}
@@ -171,14 +184,39 @@ export const BookDetailsPage: React.FC<Props> = ({ id }): JSX.Element => {
                                             )}
                                         />
                                     )}
-
                                     <Rating
                                         name="book-rate"
                                         value={thisBook.rate || null}
                                         readOnly={true}
                                     />
                                 </CardContent>
-                                <CardActions>
+
+                                <CardActions disableSpacing>
+                                    <IconButton
+                                        aria-label="voyage"
+                                        onClick={() =>
+                                            handleTravelClick(thisBook)
+                                        }
+                                    >
+                                        <FlightTakeoffIcon />
+                                    </IconButton>
+                                    {thisBook.isTraveling === true && (
+                                        <IconButton
+                                            aria-label="follow trip"
+                                            onClick={() =>
+                                                handleTrackClick(thisBook)
+                                            }
+                                        >
+                                            <Badge
+                                                badgeContent={
+                                                    thisBook.pingCount
+                                                }
+                                                color="primary"
+                                            >
+                                                <PersonPinCircleIcon />
+                                            </Badge>
+                                        </IconButton>
+                                    )}
                                     <IconButton
                                         className={clsx(classes.expand, {
                                             [classes.expandOpen]: expanded,
@@ -190,6 +228,7 @@ export const BookDetailsPage: React.FC<Props> = ({ id }): JSX.Element => {
                                         <ExpandMoreIcon />
                                     </IconButton>
                                 </CardActions>
+
                                 <Collapse
                                     in={expanded}
                                     timeout="auto"
