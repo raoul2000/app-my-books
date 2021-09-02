@@ -117,7 +117,7 @@ export const BookDetailsPage: React.FC<Props> = ({ id }): JSX.Element => {
     if (!thisBook) {
         return <div>book not found</div>;
     }
-
+    
     return (
         <>
             <BookDetailBar
@@ -187,41 +187,44 @@ export const BookDetailsPage: React.FC<Props> = ({ id }): JSX.Element => {
                                             </Badge>
                                         </IconButton>
                                     )}
-                                    <IconButton
-                                        className={clsx(classes.expand, {
-                                            [classes.expandOpen]: expanded,
-                                        })}
-                                        onClick={() =>
-                                            handleExpandClick(thisBook)
-                                        }
-                                        aria-expanded={expanded}
-                                        aria-label="show more"
-                                    >
-                                        <ExpandMoreIcon />
-                                    </IconButton>
+                                    {thisBook.isbn && (
+                                        <IconButton
+                                            className={clsx(classes.expand, {
+                                                [classes.expandOpen]: expanded,
+                                            })}
+                                            onClick={() =>
+                                                handleExpandClick(thisBook)
+                                            }
+                                            aria-expanded={expanded}
+                                            aria-label="show more"
+                                        >
+                                            <ExpandMoreIcon />
+                                        </IconButton>
+                                    )}
                                 </CardActions>
-
-                                <Collapse
-                                    in={expanded}
-                                    timeout="auto"
-                                    unmountOnExit
-                                >
-                                    <CardContent>
-                                        {abstract.text !== undefined ? (
-                                            <Typography paragraph>
-                                                {abstract.text ||
-                                                    "no description available"}
-                                            </Typography>
-                                        ) : (
-                                            <>
+                                {thisBook.isbn && (
+                                    <Collapse
+                                        in={expanded}
+                                        timeout="auto"
+                                        unmountOnExit
+                                    >
+                                        <CardContent>
+                                            {abstract.text !== undefined ? (
                                                 <Typography paragraph>
-                                                    Loading ...
+                                                    {abstract.text ||
+                                                        "no description available"}
                                                 </Typography>
-                                                <LinearProgress />
-                                            </>
-                                        )}
-                                    </CardContent>
-                                </Collapse>
+                                            ) : (
+                                                <>
+                                                    <Typography paragraph>
+                                                        Chargement du résumé...
+                                                    </Typography>
+                                                    <LinearProgress />
+                                                </>
+                                            )}
+                                        </CardContent>
+                                    </Collapse>
+                                )}
                             </Card>
                         )}
                     </div>
