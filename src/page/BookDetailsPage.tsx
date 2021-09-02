@@ -18,11 +18,11 @@ import LinearProgress from "@material-ui/core/LinearProgress";
 import Badge from "@material-ui/core/Badge";
 
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { bookListState, bookByIdState } from "../state/book-list";
-import { progressState } from "../state/progress";
-import { Book, getReadStatusLabel } from "../types";
+import { bookListState, bookByIdState } from "@/state/book-list";
+import { progressState } from "@/state/progress";
+import { Book, getReadStatusLabel } from "@/types";
 import { useLocation } from "wouter";
-import BookApi from "../api/book";
+import BookApi from "@/api/book";
 import Rating from "@material-ui/lab/Rating";
 import { BookDetailBar } from "@/component/app-bar/BookDetailBar";
 
