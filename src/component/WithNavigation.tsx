@@ -10,6 +10,11 @@ import { SettingsPage } from "../page/SettingsPage";
 
 import Storage from "../utils/storage";
 import { SignInPage } from "@/page/SignInPage";
+import { TicketViewPage } from "@/page/TicketViewPage";
+import { TicketFormPage } from "@/page/TicketFormPage";
+import { BoardingPage } from "@/page/BoardingPage";
+import { TravelTimeline } from "@/page/TravelTimeline";
+import { TracksPage } from "@/page/TracksPage";
 
 export const WithNavigation: React.FC<{}> = (): JSX.Element => {
     return (
@@ -18,11 +23,23 @@ export const WithNavigation: React.FC<{}> = (): JSX.Element => {
             <Route path="/about" component={AboutPage} />
             <Route path="/add" component={AddBookPage} />
             <Route path="/settings" component={SettingsPage} />
+            <Route path="/travel/:id">
+                {(params) => <TicketViewPage bookId={params.id} />}
+            </Route>
+            <Route path="/ticket-edit/:id">
+                {(params) => <TicketFormPage bookId={params.id} />}
+            </Route>
+            <Route path="/boarding/:id">
+                {(params) => <BoardingPage bookId={params.id} />}
+            </Route>
             <Route path="/update/:id">
                 {(params) => <UpdateBookPage id={params.id} />}
             </Route>
             <Route path="/detail/:id">
                 {(params) => <BookDetailsPage id={params.id} />}
+            </Route>
+            <Route path="/follow-trip/:id">
+                {(params) => <TracksPage bookId={params.id} />}
             </Route>
             <Route>{Storage.getApiKey() ? <BookListPage /> : <div />}</Route>
         </Switch>

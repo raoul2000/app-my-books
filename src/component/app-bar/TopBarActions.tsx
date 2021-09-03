@@ -22,14 +22,24 @@ const useStyles = makeStyles((theme: Theme) =>
         backButton: {
             marginRight: theme.spacing(2),
         },
+        hideOnPrint: {
+            display: "block",
+        },
+        [`@media print`]: {
+            hideOnPrint: {
+                display: "none",
+            },
+        },
     })
 );
 type Props = {
-    actions: JSX.Element;
+    actions?: JSX.Element;
     showBack?: boolean;
     backPath?: string;
+    title?: string;
 };
 export const TopBarActions: React.FC<Props> = ({
+    title,
     actions,
     showBack = true,
     backPath = "/",
@@ -38,7 +48,7 @@ export const TopBarActions: React.FC<Props> = ({
     const [, setLocation] = useLocation();
 
     return (
-        <AppBar position="sticky">
+        <AppBar position="sticky" className={classes.hideOnPrint}>
             <Toolbar>
                 {showBack && (
                     <IconButton
@@ -51,7 +61,7 @@ export const TopBarActions: React.FC<Props> = ({
                         <ArrowBackIosIcon />
                     </IconButton>
                 )}
-                <Typography className={classes.title}></Typography>
+                <Typography className={classes.title}>{title}</Typography>
                 {actions}
             </Toolbar>
         </AppBar>

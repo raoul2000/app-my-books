@@ -1,5 +1,5 @@
 import { atom } from "recoil";
-import { LoadingBooksState } from "../types";
+import { LoadingBooksState } from "@/types";
 
 export const loadingBooksState = atom<LoadingBooksState>({
     key: 'loadingBooks',

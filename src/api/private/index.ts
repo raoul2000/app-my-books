@@ -6,6 +6,11 @@ import { updateBook } from "./updateBook";
 import { addBook } from "./addBook";
 import { searchBookByISBN } from "./searchBookByISBN";
 import { deleteBook } from "./deleteBook";
+import { readBookTicket } from "./readBookTicket";
+import { createBookTicket } from "./createBookTicket";
+import { deleteBookTicket } from "./deleteBookTicket";
+import { boardingTicket } from "./boardingTicket";
+import { readBookTracks } from "./readBookTracks";
 
 export const login = (username: string, password: string): Promise<string> =>
     fetch(
@@ -79,4 +84,9 @@ export default {
     checkApiKey,
     searchBookByISBN,
     fetchBookDescriptionByIsbn,
+    readBookTicket,
+    createBookTicket,
+    deleteBookTicket,
+    boardingTicket,
+    readBookTracks
 };

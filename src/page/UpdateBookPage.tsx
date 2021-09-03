@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from "react";
-import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import useLocation from "wouter/use-location";
 
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { FormBook } from "../component/FormBook";
+import { FormBook } from "../component/form/FormBook";
 import { bookListState } from "../state/book-list";
 import { Book } from "../types";
 import BookApi from "../api/book";
 import { progressState } from "../state/progress";
-import { TopBarActions } from "@/component/TopBarActions";
+import { TopBarActions } from "@/component/app-bar/TopBarActions";
 import { bookFormState } from "@/state/book-form";
 import { IsbnScanner } from "@/component/IsbnScanner";
 import { FabScanner } from "@/component/button/FabScanner";
@@ -74,6 +73,10 @@ export const UpdateBookPage: React.FC<Props> = ({ id }): JSX.Element => {
             isbn: bookForm.isbn,
             readStatus: bookForm.readStatus,
             rate: bookForm.rate,
+            isTicketLoaded:false,
+            isTraveling: false,
+            tracks:[],
+            pingCount:0
         };
         setProgress(true);
         setLocation(`/detail/${id}`);

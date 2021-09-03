@@ -1,7 +1,7 @@
 import React  from "react";
 import useLocation from "wouter/use-location";
 import Typography from "@material-ui/core/Typography";
-import { FormSettings } from "../component/FormSettings";
+import { FormSettings } from "@/component/form/FormSettings";
 import Container from "@material-ui/core/Container";
 
 export const SettingsPage: React.FC<{}> = (): JSX.Element => {

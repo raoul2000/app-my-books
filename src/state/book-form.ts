@@ -1,5 +1,5 @@
-import { BookFormState } from "@/types";
 import { atom } from "recoil";
+import { BookFormState } from "@/types";
 
 export const bookFormState = atom<BookFormState>({
     key: 'bookForm',

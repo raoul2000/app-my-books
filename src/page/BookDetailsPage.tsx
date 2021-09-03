@@ -4,26 +4,27 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
 import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
+import ExploreIcon from "@material-ui/icons/Explore";
+import PersonPinCircleIcon from "@material-ui/icons/PersonPinCircle";
+
 import IconButton from "@material-ui/core/IconButton";
 import Chip from "@material-ui/core/Chip";
 import Collapse from "@material-ui/core/Collapse";
 import clsx from "clsx";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import FlightTakeoffIcon from "@material-ui/icons/FlightTakeoff";
 import LinearProgress from "@material-ui/core/LinearProgress";
+import Badge from "@material-ui/core/Badge";
 
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { bookListState, bookByIdState } from "../state/book-list";
-import { progressState } from "../state/progress";
-import { Book, getReadStatusLabel } from "../types";
+import { bookListState, bookByIdState } from "@/state/book-list";
+import { progressState } from "@/state/progress";
+import { Book, getReadStatusLabel } from "@/types";
 import { useLocation } from "wouter";
-import BookApi from "../api/book";
-import { TopBarActions } from "@/component/TopBarActions";
+import BookApi from "@/api/book";
 import Rating from "@material-ui/lab/Rating";
+import { BookDetailBar } from "@/component/app-bar/BookDetailBar";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -59,7 +60,7 @@ type Props = {
 export const BookDetailsPage: React.FC<Props> = ({ id }): JSX.Element => {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const thisBook = useRecoilValue(bookByIdState(id));    
+    const thisBook = useRecoilValue(bookByIdState(id));
     const setBooks = useSetRecoilState<Book[]>(bookListState);
     const setProgress = useSetRecoilState(progressState);
     const [, setLocation] = useLocation();
@@ -69,19 +70,26 @@ export const BookDetailsPage: React.FC<Props> = ({ id }): JSX.Element => {
         text?: string;
     }>({ status: "success" });
 
-
-    const handleExpandClick = (book:Book) => {
+    const handleExpandClick = (book: Book) => {
         if (!expanded && abstract.text === undefined && book?.isbn) {
             setAbstract({ status: "progress" });
             BookApi.fetchBookDescriptionByIsbn(book.isbn)
-            .then((description) => setAbstract({
-                status: "success",
-                text: description,
-            }))
-            .catch(error => setAbstract({ status: "error" }))
+                .then((description) =>
+                    setAbstract({
+                        status: "success",
+                        text: description,
+                    })
+                )
+                .catch((error) => setAbstract({ status: "error" }));
         }
         setExpanded(!expanded);
     };
+
+    const handleTravelClick = (book: Book) => {
+        setLocation(`/travel/${book.id}`);
+    };
+    const handleTrackClick = (book: Book) =>
+        setLocation(`/follow-trip/${book.id}`);
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) =>
         setAnchorEl(event.currentTarget);
@@ -106,40 +114,16 @@ export const BookDetailsPage: React.FC<Props> = ({ id }): JSX.Element => {
         handleClose();
     };
 
+    if (!thisBook) {
+        return <div>book not found</div>;
+    }
+    
     return (
         <>
-            <TopBarActions
-                actions={
-                    <>
-                        <Button
-                            className={classes.submitButton}
-                            onClick={() => setLocation(`/update/${id}`)}
-                        >
-                            Modifier
-                        </Button>
-                        <IconButton
-                            aria-label="settings"
-                            color="inherit"
-                            onClick={handleClick}
-                        >
-                            <MoreVertIcon />
-                        </IconButton>
-                        <Menu
-                            id="simple-menu"
-                            anchorEl={anchorEl}
-                            keepMounted
-                            open={Boolean(anchorEl)}
-                            onClose={handleClose}
-                        >
-                            <MenuItem
-                                onClick={() => handleDeleteBook(thisBook)}
-                            >
-                                Supprimer
-                            </MenuItem>
-                        </Menu>
-                    </>
-                }
-            ></TopBarActions>
+            <BookDetailBar
+                book={thisBook}
+                onClickDeleteBook={handleDeleteBook}
+            />
             <main>
                 <Container maxWidth="sm">
                     <div className="detail-book">
@@ -161,7 +145,6 @@ export const BookDetailsPage: React.FC<Props> = ({ id }): JSX.Element => {
                                     <Typography color="textSecondary">
                                         {thisBook.author}
                                     </Typography>
-
                                     {thisBook.readStatus && (
                                         <Chip
                                             className={classes.chipToRead}
@@ -171,45 +154,77 @@ export const BookDetailsPage: React.FC<Props> = ({ id }): JSX.Element => {
                                             )}
                                         />
                                     )}
-
                                     <Rating
                                         name="book-rate"
                                         value={thisBook.rate || null}
                                         readOnly={true}
                                     />
                                 </CardContent>
-                                <CardActions>
+
+                                <CardActions disableSpacing>
                                     <IconButton
-                                        className={clsx(classes.expand, {
-                                            [classes.expandOpen]: expanded,
-                                        })}
-                                        onClick={() => handleExpandClick(thisBook)}
-                                        aria-expanded={expanded}
-                                        aria-label="show more"
+                                        aria-label="voyage"
+                                        onClick={() =>
+                                            handleTravelClick(thisBook)
+                                        }
                                     >
-                                        <ExpandMoreIcon />
+                                        <FlightTakeoffIcon />
                                     </IconButton>
+                                    {thisBook.isTraveling === true && (
+                                        <IconButton
+                                            aria-label="follow trip"
+                                            onClick={() =>
+                                                handleTrackClick(thisBook)
+                                            }
+                                        >
+                                            <Badge
+                                                badgeContent={
+                                                    thisBook.pingCount
+                                                }
+                                                color="primary"
+                                            >
+                                                <PersonPinCircleIcon />
+                                            </Badge>
+                                        </IconButton>
+                                    )}
+                                    {thisBook.isbn && (
+                                        <IconButton
+                                            className={clsx(classes.expand, {
+                                                [classes.expandOpen]: expanded,
+                                            })}
+                                            onClick={() =>
+                                                handleExpandClick(thisBook)
+                                            }
+                                            aria-expanded={expanded}
+                                            aria-label="show more"
+                                        >
+                                            <ExpandMoreIcon />
+                                        </IconButton>
+                                    )}
                                 </CardActions>
-                                <Collapse
-                                    in={expanded}
-                                    timeout="auto"
-                                    unmountOnExit
-                                >
-                                    <CardContent>
-                                        {abstract.text !== undefined ? (
-                                            <Typography paragraph>
-                                                {abstract.text || "no description available"}
-                                            </Typography>
-                                        ) : (
-                                            <>
+                                {thisBook.isbn && (
+                                    <Collapse
+                                        in={expanded}
+                                        timeout="auto"
+                                        unmountOnExit
+                                    >
+                                        <CardContent>
+                                            {abstract.text !== undefined ? (
                                                 <Typography paragraph>
-                                                    Loading ...
+                                                    {abstract.text ||
+                                                        "no description available"}
                                                 </Typography>
-                                                <LinearProgress />
-                                            </>
-                                        )}
-                                    </CardContent>
-                                </Collapse>
+                                            ) : (
+                                                <>
+                                                    <Typography paragraph>
+                                                        Chargement du résumé...
+                                                    </Typography>
+                                                    <LinearProgress />
+                                                </>
+                                            )}
+                                        </CardContent>
+                                    </Collapse>
+                                )}
                             </Card>
                         )}
                     </div>

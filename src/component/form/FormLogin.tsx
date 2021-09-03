@@ -7,7 +7,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import LinearProgress from "@material-ui/core/LinearProgress";
 
-import BookApi from "../api/book";
+import BookApi from "@/api/book";
 
 const useStyles = makeStyles((theme) => ({
     loginFormContainer: {

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import Container from "@material-ui/core/Container";
-import { TopBar } from "@/component/TopBar";
+import { BookListBar } from "@/component/app-bar/BookListBar";
 
 import { useRecoilState } from "recoil";
 import { useLocation } from "wouter";
@@ -35,7 +35,7 @@ export const BookListPage: React.FC<{}> = (): JSX.Element => {
 
     return (
         <div>
-            <TopBar />
+            <BookListBar />
             <main>
                 <Container maxWidth="sm">
                     {loadingBooks.status === "error" && (

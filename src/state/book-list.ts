@@ -1,5 +1,5 @@
 import { atom, selectorFamily } from "recoil";
-import { Book } from "../types";
+import { Book } from "@/types";
 
 export const bookListState = atom<Book[]>({
     key: 'bookListState',
