@@ -1,6 +1,7 @@
 import { Book } from "../../types";
 import { handleErrorJson } from "./response-handler";
 import { apiBaseUrl, HEADER_NAME_API_KEY, getApiKey } from "./conf";
+import { API_Book } from "./api-types";
 
 type API_addBooks = {
     book: {
@@ -9,13 +10,13 @@ type API_addBooks = {
         subtitle?: string;
         author?: string;
         isbn?: string;
-        is_traveling:boolean;
+        is_traveling: boolean;
         ping_count: number;
-    }
+    };
     userBook: {
-        read_status? : number
-        rate?: number
-    }
+        read_status?: number;
+        rate?: number;
+    };
 };
 
 export const addBook = (book: Omit<Book, "id">): Promise<Book> =>
@@ -30,16 +31,16 @@ export const addBook = (book: Omit<Book, "id">): Promise<Book> =>
                 [HEADER_NAME_API_KEY]: getApiKey(),
             },
             body: JSON.stringify({
-                book : {
+                book: {
                     title: book.title,
                     subtitle: book.subtitle,
                     author: book.author,
-                    isbn: book.isbn
+                    isbn: book.isbn,
                 },
-                userBook : {
+                userBook: {
                     read_status: book.readStatus,
-                    rate: book.rate
-                }
+                    rate: book.rate,
+                },
             }),
         }
     )
@@ -53,9 +54,9 @@ export const addBook = (book: Omit<Book, "id">): Promise<Book> =>
                 author: resp.book.author,
                 isbn: resp.book.isbn,
                 isTraveling: resp.book.is_traveling,
-                isTicketLoaded:false,
+                isTicketLoaded: false,
                 readStatus: resp.userBook.read_status,
-                rate:resp.userBook.rate,
-                pingCount: resp.book.ping_count
-            }
+                rate: resp.userBook.rate,
+                pingCount: resp.book.ping_count,
+            };
         });
