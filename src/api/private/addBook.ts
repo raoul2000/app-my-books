@@ -1,7 +1,7 @@
 import { Book } from "../../types";
 import { handleErrorJson } from "./response-handler";
 import { apiBaseUrl, HEADER_NAME_API_KEY, getApiKey } from "./conf";
-import { API_Book } from "./api-types";
+import { API_Book } from "./types";
 
 type API_addBooks = {
     book: {
