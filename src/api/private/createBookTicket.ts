@@ -1,20 +1,17 @@
-import { Book, TravelTicket } from "../../types";
+import { TravelTicket } from "../../types";
 import { handleErrorJson } from "./response-handler";
 import { apiBaseUrl, HEADER_NAME_API_KEY, getApiKey } from "./conf";
+import { validateTicketType } from "./schema";
+import { API_Ticket } from "./types";
 
-type API_CreateBookTicket = {
-    id: string;
-    book_id: string;
-    created_at: string;
-    updated_at: string;
-    qrcode_url: string;
-};
-
-export const createBookTicket = (bookId:string, ticket:TravelTicket ): Promise<TravelTicket> =>
+export const createBookTicket = (
+    bookId: string,
+    ticketInfo: TravelTicket
+): Promise<TravelTicket> =>
     fetch(
         `${apiBaseUrl}?${new URLSearchParams({
             r: "api/ticket/create",
-            id: bookId
+            id: bookId,
         })}`,
         {
             method: "POST",
@@ -23,18 +20,23 @@ export const createBookTicket = (bookId:string, ticket:TravelTicket ): Promise<T
                 [HEADER_NAME_API_KEY]: getApiKey(),
             },
             body: JSON.stringify({
-                departureDate : 'DUMMY'
+                departureDate: "DUMMY",
             }),
         }
     )
         .then(handleErrorJson)
         .then((jsonResp) => {
-            const resp = jsonResp as unknown as API_CreateBookTicket;
+            if (!validateTicketType(jsonResp)) {
+                console.error(validateTicketType.errors);
+                throw new Error("data validation error");
+            }
+
+            const ticket = jsonResp as unknown as API_Ticket;
             return {
-                id: resp.id,
+                id: ticket.id,
                 departureDate: new Date(),
                 departureTime: new Date(),
                 from: "DUMMY LOCATION",
-                ...(jsonResp.qrcode_url && { qrCodeUrl: jsonResp.qrcode_url }),
+                ...(ticket.qrcode_url && { qrCodeUrl: ticket.qrcode_url }),
             };
         });

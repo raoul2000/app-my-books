@@ -29,7 +29,7 @@ export const TicketViewPage: React.FC<Props> = ({ bookId }): JSX.Element => {
     }
     useEffect(() => {
         if (!book.isTicketLoaded) {
-            BookApi.readBookTicket(book)
+            BookApi.readBookTicket(book.id)
                 .then((newTicket) => {
                     setBook((old) =>
                         old.map((oBook) => {

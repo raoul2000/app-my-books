@@ -30,7 +30,7 @@ export type API_Book = {
     /**
      * Flag to set this book as traveling or not
      */
-    is_traveling: boolean;
+    is_traveling: number;
     /**
      * Counter for the number of time this traveling
      * book has been pinged
@@ -127,7 +127,7 @@ export type API_UserBook = {
     /**
      * The related book
      */
-    book?: API_Book;
+    book: API_Book;
 };
 
 /**
@@ -195,7 +195,7 @@ export type API_Track = {
  * endpoints:
  * - read track list `GET api/tracker`
  */
-export type API_Tracker = {
+export type API_BookTrack = {
     book: API_Book;
     track: API_Track[];
 };
@@ -204,7 +204,7 @@ export type API_Tracker = {
  * endpoints:
  * - search book by ISBN `GET api/isbn-service/search`
  */
-export type ISBN_SearchResult = {
+export type API_ISBN_SearchResult = {
     author: string;
     title: string;
 }
