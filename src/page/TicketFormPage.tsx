@@ -14,7 +14,7 @@ import { ProgressSpinner } from "@/component/ProgressSpinner";
 type Props = {
     bookId: string;
 };
-export const TicketFormPage: React.FC<Props> = ({ bookId }): JSX.Element => {
+export const TicketFormPage: React.FC<Props> = ({ bookId }): JSX.Element | null => {
     const [progress, setProgress] = useState<boolean>(false);
     const { enqueueSnackbar } = useSnackbar();
     const book = useRecoilValue(bookByIdState(bookId));
@@ -22,7 +22,8 @@ export const TicketFormPage: React.FC<Props> = ({ bookId }): JSX.Element => {
     const [, setLocation] = useLocation();
 
     if (!book) {
-        return <div>book not found</div>;
+        setLocation('/');
+        return null;
     }
 
     const handleCreateTicket = (ticketInfo: TravelTicket) => {

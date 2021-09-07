@@ -1,23 +1,27 @@
 import React, { useState, useEffect } from "react";
 import Container from "@material-ui/core/Container";
 import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useLocation } from "wouter";
+
 import { ProgressSpinner } from "@/component/ProgressSpinner";
 import { ListTracks } from "@/component/ListTracks";
-
 import { TopBarActions } from "@/component/app-bar/TopBarActions";
-import { bookByIdState, bookListState } from "../state/book-list";
-import BookApi from "../api/book";
+import { bookByIdState, bookListState } from "@/state/book-list";
+import BookApi from "@/api/book";
 
 type Props = {
     bookId: string;
 };
 
-export const TracksPage: React.FC<Props> = ({ bookId }): JSX.Element => {
+export const TracksPage: React.FC<Props> = ({ bookId }): JSX.Element | null => {
     const [loading, setLoading] = useState<boolean>(false);
     const setBook = useSetRecoilState(bookListState);
     const book = useRecoilValue(bookByIdState(bookId));
+    const [, setLocation] = useLocation();
+
     if (!book) {
-        return <div>book not found</div>;
+        setLocation('/');
+        return null;
     }
 
     useEffect(() => {

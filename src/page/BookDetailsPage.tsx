@@ -25,6 +25,7 @@ import { useLocation } from "wouter";
 import BookApi from "@/api/book";
 import Rating from "@material-ui/lab/Rating";
 import { BookDetailBar } from "@/component/app-bar/BookDetailBar";
+import { isNullOrUndefined } from "util";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -57,7 +58,7 @@ type Props = {
     id: string;
 };
 
-export const BookDetailsPage: React.FC<Props> = ({ id }): JSX.Element => {
+export const BookDetailsPage: React.FC<Props> = ({ id }): JSX.Element|null => {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const thisBook = useRecoilValue(bookByIdState(id));
@@ -69,6 +70,11 @@ export const BookDetailsPage: React.FC<Props> = ({ id }): JSX.Element => {
         status: "progress" | "error" | "success";
         text?: string;
     }>({ status: "success" });
+
+    if (!thisBook) {
+        setLocation('/');
+        return null;
+    }
 
     const handleExpandClick = (book: Book) => {
         if (!expanded && abstract.text === undefined && book?.isbn) {
@@ -114,9 +120,7 @@ export const BookDetailsPage: React.FC<Props> = ({ id }): JSX.Element => {
         handleClose();
     };
 
-    if (!thisBook) {
-        return <div>book not found</div>;
-    }
+
     
     return (
         <>

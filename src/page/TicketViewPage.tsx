@@ -15,7 +15,7 @@ type Props = {
     bookId: string;
 };
 
-export const TicketViewPage: React.FC<Props> = ({ bookId }): JSX.Element => {
+export const TicketViewPage: React.FC<Props> = ({ bookId }): JSX.Element | null => {
     const { enqueueSnackbar } = useSnackbar();
     const setBook = useSetRecoilState(bookListState);
     const book = useRecoilValue(bookByIdState(bookId));
@@ -25,8 +25,10 @@ export const TicketViewPage: React.FC<Props> = ({ bookId }): JSX.Element => {
     >("loading");
 
     if (!book) {
-        return <div>book not found</div>;
+        setLocation('/');
+        return null;
     }
+
     useEffect(() => {
         if (!book.isTicketLoaded) {
             BookApi.readBookTicket(book.id)

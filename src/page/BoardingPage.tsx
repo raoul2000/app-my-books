@@ -13,7 +13,7 @@ import { FormChecklist } from "@/component/form/FormChecklist";
 type Props = {
     bookId: string;
 };
-export const BoardingPage: React.FC<Props> = ({ bookId }): JSX.Element => {
+export const BoardingPage: React.FC<Props> = ({ bookId }): JSX.Element | null=> {
     const book = useRecoilValue(bookByIdState(bookId));
     const setBook = useSetRecoilState(bookListState);
     const { enqueueSnackbar } = useSnackbar();
@@ -21,7 +21,8 @@ export const BoardingPage: React.FC<Props> = ({ bookId }): JSX.Element => {
     const [progress, setProgress] = useState<boolean>(false);
 
     if (!book || !book.ticket) {
-        return <div>book not found</div>;
+        setLocation('/');
+        return null;
     }
 
     const handleBoarding = () => {

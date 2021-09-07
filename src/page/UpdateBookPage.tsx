@@ -5,11 +5,11 @@ import Container from "@material-ui/core/Container";
 import useLocation from "wouter/use-location";
 
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { FormBook } from "../component/form/FormBook";
-import { bookListState } from "../state/book-list";
-import { Book } from "../types";
-import BookApi from "../api/book";
-import { progressState } from "../state/progress";
+import { FormBook } from "@/component/form/FormBook";
+import { bookListState } from "@/state/book-list";
+import { Book } from "@/types";
+import BookApi from "@/api/book";
+import { progressState } from "@/state/progress";
 import { TopBarActions } from "@/component/app-bar/TopBarActions";
 import { bookFormState } from "@/state/book-form";
 import { IsbnScanner } from "@/component/IsbnScanner";
@@ -37,22 +37,26 @@ export const UpdateBookPage: React.FC<Props> = ({ id }): JSX.Element => {
 
     useEffect(() => {
         const thisBook = books.find((book) => book.id === id);
-        setBookForm({
-            title: thisBook?.title || "",
-            subtitle: thisBook?.subtitle || "",
-            author: thisBook?.author || "",
-            isbn: thisBook?.isbn || "",
-            readStatus: thisBook?.readStatus || undefined,
-            rate: thisBook?.rate,
-            validation: {
-                title: true,
-            },
-            isbnSearch: "success",
-        });
+        if (!thisBook) {
+            setLocation("/");
+        } else {
+            setBookForm({
+                title: thisBook?.title || "",
+                subtitle: thisBook?.subtitle || "",
+                author: thisBook?.author || "",
+                isbn: thisBook?.isbn || "",
+                readStatus: thisBook?.readStatus || undefined,
+                rate: thisBook?.rate,
+                validation: {
+                    title: true,
+                },
+                isbnSearch: "success",
+            });
+        }
     }, []);
 
     const handleSave = () => {
-        console.log(bookForm);
+        
 
         if (!bookForm.title) {
             alert("please enter a title");
@@ -73,10 +77,10 @@ export const UpdateBookPage: React.FC<Props> = ({ id }): JSX.Element => {
             isbn: bookForm.isbn,
             readStatus: bookForm.readStatus,
             rate: bookForm.rate,
-            isTicketLoaded:false,
+            isTicketLoaded: false,
             isTraveling: false,
-            tracks:[],
-            pingCount:0
+            tracks: [],
+            pingCount: 0,
         };
         setProgress(true);
         setLocation(`/detail/${id}`);
@@ -124,7 +128,7 @@ export const UpdateBookPage: React.FC<Props> = ({ id }): JSX.Element => {
             searchBookByIsbn(bookForm.isbn);
         }
     };
-    console.log(bookForm);
+    
     return (
         <>
             {enableIsbnScan === true ? (
