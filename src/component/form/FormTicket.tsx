@@ -228,7 +228,9 @@ export const FormTicket: React.FC<Props> = ({
                 <Paper square elevation={0} className={classes.resetContainer}>
                     <Typography>
                         <CheckCircleOutlineRoundedIcon /> Vous avez complété les
-                        étapes : <br />
+                        étapes :{" "}
+                    </Typography>
+                    <Typography component="div">
                         <ul>
                             <li>
                                 Livre voyageur : <strong>{book.title}</strong>
@@ -239,6 +241,8 @@ export const FormTicket: React.FC<Props> = ({
                             </li>
                             <li>Lieu de Départ : Paris</li>
                         </ul>
+                    </Typography>
+                    <Typography>
                         Si Les informations saisies sont exactes, vous pouvez
                         maintenant créer le ticket de voyage.
                     </Typography>
