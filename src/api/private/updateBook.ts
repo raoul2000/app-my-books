@@ -1,12 +1,15 @@
 import { Book } from "../../types";
 import { handleErrorJson } from "./response-handler";
 import { apiBaseUrl, HEADER_NAME_API_KEY, getApiKey } from "./conf";
+import { validateUserBookType } from "./schema";
+import {API_UserBook} from './types';
 
-export const updateBook = (book: Book): Promise<boolean> =>
+export const updateBook = (book: Book): Promise<Book> =>
     fetch(
         `${apiBaseUrl}?${new URLSearchParams({
             r: "api/user-book/update",
             id: book.id,
+            expand: 'book'
         })}`,
         {
             method: "PUT",
@@ -29,4 +32,19 @@ export const updateBook = (book: Book): Promise<boolean> =>
         }
     )
         .then(handleErrorJson)
-        .then((resp) => true);
+        .then((jsonResponse) => {
+            if (!validateUserBookType(jsonResponse)) {
+                console.error(validateUserBookType.errors);
+                throw new Error('data validation error');
+            }            
+
+            const resp = jsonResponse as unknown as API_UserBook;
+            return {
+                ...resp.book,
+                isTraveling: resp.book.is_traveling === 1,
+                readStatus: resp.read_status,
+                rate: resp.rate,
+                isTicketLoaded: false,
+                pingCount: resp.book.ping_count,
+            };
+        });        

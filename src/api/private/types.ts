@@ -30,7 +30,7 @@ export type API_Book = {
     /**
      * Flag to set this book as traveling or not
      */
-    is_traveling: boolean;
+    is_traveling: number;
     /**
      * Counter for the number of time this traveling
      * book has been pinged
@@ -50,6 +50,11 @@ export type API_Book = {
     updated_at: string;
 };
 
+/**
+ * endpoints:
+ * - read ticket `GET api/ticket`
+ * - create ticket `POST api/ticket/create`
+ */
 export type API_Ticket = {
     /**
      * Ticket identifier, also called booking number
@@ -82,7 +87,13 @@ export type API_Ticket = {
      */
     qrcode_url: string;
 };
-
+/**
+ * endpoints:
+ * - get book list `GET api/user-book & expand=book`
+ * - create book  `POST api/user-book/create & expand=book`
+ * - update book  `PUT api/user-book/update & expand=book`
+ *
+ */
 export type API_UserBook = {
     /**
      * ID of the related book
@@ -118,3 +129,82 @@ export type API_UserBook = {
      */
     book: API_Book;
 };
+
+/**
+ * endpoints:
+ * - boarding `POST api/ticket/boarding`
+ */
+export type API_Boarding = {
+    book: API_Book;
+    ticket: API_Ticket;
+};
+
+export type API_Track = {
+    /**
+     * Unique Track identifier
+     */
+    id: string;
+    /**
+     * ID of the related book
+     *
+     * ex: `c2d16107-79dc-4c54-8b6c-ebcf36a13582`
+     */
+    book_id: string;
+    /**
+     * IP address of the track creator
+     */
+    user_ip: string;
+    /**
+     * Email of the track creator
+     *
+     * Empty string if not set
+     */
+    email: string;
+    /**
+     * Comment about the book by the track creator
+     *
+     * Empty string if not set
+     */
+    text: string;
+    /**
+     * Rating assigned by the track creator
+     *
+     * Null if not set other number represented as a string
+     */
+    rate?: string;
+    /**
+     * Location the track was created for
+     *
+     * Empty string if not set
+     */
+    location_name: string;
+    /**
+     * UserBook record creation date
+     *
+     * ex: 2021-09-03 23:56:19
+     */
+    created_at: string;
+    /**
+     * UserBook record last update date
+     *
+     * ex: 2021-09-03 23:56:19
+     */
+    updated_at: string;
+};
+/**
+ * endpoints:
+ * - read track list `GET api/tracker`
+ */
+export type API_BookTrack = {
+    book: API_Book;
+    track: API_Track[];
+};
+
+/**
+ * endpoints:
+ * - search book by ISBN `GET api/isbn-service/search`
+ */
+export type API_ISBN_SearchResult = {
+    author: string;
+    title: string;
+}

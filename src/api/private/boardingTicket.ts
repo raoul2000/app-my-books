@@ -1,14 +1,8 @@
-import { Book, TravelTicket } from "../../types";
+import { TravelTicket } from "../../types";
 import { handleErrorJson } from "./response-handler";
 import { apiBaseUrl, HEADER_NAME_API_KEY, getApiKey } from "./conf";
-
-type API_CreateBookTicket = {
-    id: string;
-    book_id: string;
-    created_at: string;
-    updated_at: string;
-    qrcode_url: string;
-};
+import { validateBoardingType } from "./schema";
+import { API_Boarding } from "./types";
 
 export const boardingTicket = (bookId:string, ticket:TravelTicket ): Promise<TravelTicket> =>
     fetch(
@@ -29,12 +23,16 @@ export const boardingTicket = (bookId:string, ticket:TravelTicket ): Promise<Tra
     )
         .then(handleErrorJson)
         .then((jsonResp) => {
-            const resp = jsonResp as unknown as API_CreateBookTicket;
+            if (!validateBoardingType(jsonResp)) {
+                console.error(validateBoardingType.errors);
+                throw new Error("data validation error");
+            }
+            const boarding = jsonResp as unknown as API_Boarding;
             return {
-                id: resp.id,
+                id: boarding.ticket.id,
                 departureDate: new Date(),
                 departureTime: new Date(),
                 from: "DUMMY LOCATION",
-                ...(jsonResp.qrcode_url && { qrCodeUrl: jsonResp.qrcode_url }),
+                ...(boarding.ticket.qrcode_url && { qrCodeUrl: boarding.ticket.qrcode_url }),
             };
         });
