@@ -37,17 +37,17 @@ export type API_Book = {
      */
     ping_count: number;
     /**
-     * Book record creation date
+     * Book record creation date as unix timestamp
      *
-     * ex: 2021-09-03 23:56:19
+     * ex: 1631097835
      */
-    created_at: string;
+    created_at: number;
     /**
-     * Book record last update date
+     * Book record last update date as unix timestamp
      *
-     * ex: 2021-09-03 23:56:19
+     * ex: 1631097835
      */
-    updated_at: string;
+    updated_at: number;
 };
 
 /**
@@ -69,17 +69,17 @@ export type API_Ticket = {
      */
     book_id: string;
     /**
-     * Ticket record creation date
+     * Ticket record creation date as unix timestamp
      *
-     * ex: 2021-09-03 23:56:19
+     * ex: 1631097835
      */
-    created_at: string;
+    created_at: number;
     /**
-     * Ticket record last update date
+     * Ticket record last update date as unix timestamp
      *
-     * ex: 2021-09-03 23:56:19
+     * ex: 1631097835
      */
-    updated_at: string;
+    updated_at: number;
     /**
      * URL of the QR Code's image (png) of this ticket
      *
@@ -113,17 +113,17 @@ export type API_UserBook = {
      */
     rate?: number;
     /**
-     * UserBook record creation date
+     * UserBook record creation date as unix timestamp
      *
-     * ex: 2021-09-03 23:56:19
+     * ex: 1631097835
      */
-    created_at: string;
+    created_at: number;
     /**
-     * UserBook record last update date
+     * UserBook record last update date as unix timestamp
      *
-     * ex: 2021-09-03 23:56:19
+     * ex: 1631097835
      */
-    updated_at: string;
+    updated_at: number;
     /**
      * The related book
      */
@@ -179,17 +179,17 @@ export type API_Track = {
      */
     location_name: string;
     /**
-     * UserBook record creation date
+     * UserBook record creation date as unix timestamp
      *
-     * ex: 2021-09-03 23:56:19
+     * ex: 1631097835
      */
-    created_at: string;
+    created_at: number;
     /**
-     * UserBook record last update date
+     * UserBook record last update date as unix timestamp
      *
-     * ex: 2021-09-03 23:56:19
+     * ex: 1631097835
      */
-    updated_at: string;
+    updated_at: number;
 };
 /**
  * endpoints:

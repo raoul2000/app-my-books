@@ -56,8 +56,6 @@ export const UpdateBookPage: React.FC<Props> = ({ id }): JSX.Element => {
     }, []);
 
     const handleSave = () => {
-        
-
         if (!bookForm.title) {
             alert("please enter a title");
             setBookForm((curState) => ({
@@ -83,7 +81,6 @@ export const UpdateBookPage: React.FC<Props> = ({ id }): JSX.Element => {
             pingCount: 0,
         };
         setProgress(true);
-        setLocation(`/detail/${id}`);
         BookApi.updateBook(updatedBook)
             .then(() => {
                 setBooks((oldBooks) => [
@@ -98,6 +95,8 @@ export const UpdateBookPage: React.FC<Props> = ({ id }): JSX.Element => {
             })
             .catch(console.error)
             .finally(() => setProgress(false));
+            
+        setLocation(`/detail/${id}`);
     };
 
     const searchBookByIsbn = (isbn: string) => {
@@ -128,7 +127,7 @@ export const UpdateBookPage: React.FC<Props> = ({ id }): JSX.Element => {
             searchBookByIsbn(bookForm.isbn);
         }
     };
-    
+
     return (
         <>
             {enableIsbnScan === true ? (
