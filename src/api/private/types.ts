@@ -86,6 +86,18 @@ export type API_Ticket = {
      * ex: http://localhost:8080/files/qr-codes/CJ6-BNM.png`
      */
     qrcode_url: string;
+    /**
+     * Departure DateTime as UTC ISO 8610 string
+     * 
+     * ex: "2021-09-09T17:04:36+0000"
+     */
+    departure_at: string;
+    /**
+     * Location where the book departs from
+     * 
+     * ex: "Paris"
+     */
+    from: string;
 };
 /**
  * endpoints:

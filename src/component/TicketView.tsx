@@ -151,7 +151,11 @@ export const TicketView: React.FC<Props> = ({
                         gutterBottom={true}
                         className={classes.highlightField}
                     >
-                        12/02/2021 à 12h45
+                        {ticket?.departureDateTime
+                            ? `${ticket.departureDateTime.toLocaleDateString()} à ${ticket.departureDateTime
+                                  .toLocaleTimeString()
+                                  .replace(/:..$/, "")}`
+                            : "open"}
                     </Typography>
                     <Typography color="textSecondary" variant="button">
                         Lieu de Départ
@@ -161,7 +165,7 @@ export const TicketView: React.FC<Props> = ({
                         gutterBottom={true}
                         className={classes.highlightField}
                     >
-                        Paris
+                        {ticket?.from || "indéfini"}
                     </Typography>
                 </CardContent>
                 <CardActions disableSpacing className={classes.hideOnPrint}>

@@ -55,7 +55,6 @@ export const FormChecklist: React.FC<Props> = ({
     return (
         <>
             <Alert severity="info">
-                <AlertTitle>Info</AlertTitle>
                 Une fois l'embarquement terminé le ticket n'est plus modifiable
             </Alert>
             <Paper elevation={0}>
