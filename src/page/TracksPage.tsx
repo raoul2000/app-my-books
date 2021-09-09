@@ -25,6 +25,8 @@ export const TracksPage: React.FC<Props> = ({ bookId }): JSX.Element | null => {
     }
 
     useEffect(() => {
+         // TODO: Ticket may not be loaded when this component renders but component ListTracks
+         // requires ticket to display departure datetime
         if (!book.tracks) {
             setLoading(true);
             BookApi.readBookTracks(book.id).then((tracks) => {
@@ -53,7 +55,7 @@ export const TracksPage: React.FC<Props> = ({ bookId }): JSX.Element | null => {
                     {loading ? (
                         <ProgressSpinner message="Recherche de l'itinéraire ..." />
                     ) : (
-                        <ListTracks tracks={book.tracks} />
+                        <ListTracks tracks={book.tracks} ticket={book.ticket}/>
                     )}
                 </Container>
             </main>

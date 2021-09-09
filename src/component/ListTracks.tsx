@@ -7,7 +7,7 @@ import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import { blue } from "@material-ui/core/colors";
 import { Alert } from "@material-ui/lab";
 
-import { BookTrack } from "@/types";
+import { BookTrack, TravelTicket } from "@/types";
 import { ListTrackItem } from "./ListTrackItem";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -23,9 +23,10 @@ const useStyles = makeStyles((theme: Theme) =>
 
 type Props = {
     tracks?: BookTrack[];
+    ticket?: TravelTicket; 
 };
 
-export const ListTracks: React.FC<Props> = ({ tracks }): JSX.Element => {
+export const ListTracks: React.FC<Props> = ({ tracks, ticket }): JSX.Element => {
     const classes = useStyles();
 
     return (
@@ -41,7 +42,9 @@ export const ListTracks: React.FC<Props> = ({ tracks }): JSX.Element => {
                         </Avatar>
                     }
                     title="Début du Voyage"
-                    subheader="September 14, 2016 - Paris"
+                    subheader={ticket && `${ticket.departureDateTime.toLocaleDateString()} à ${ticket.departureDateTime
+                        .toLocaleTimeString()
+                        .replace(/:..$/, "")}`}
                 />
             </Card>
             {!tracks || tracks.length === 0 ? (

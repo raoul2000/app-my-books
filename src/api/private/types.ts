@@ -155,7 +155,7 @@ export type API_Track = {
     /**
      * Unique Track identifier
      */
-    id: string;
+    id: number;
     /**
      * ID of the related book
      *
@@ -171,25 +171,25 @@ export type API_Track = {
      *
      * Empty string if not set
      */
-    email: string;
+    email: string | null;
     /**
      * Comment about the book by the track creator
      *
      * Empty string if not set
      */
-    text: string;
+    text: string | null;
     /**
      * Rating assigned by the track creator
      *
      * Null if not set other number represented as a string
      */
-    rate?: string;
+    rate: number | null;
     /**
      * Location the track was created for
      *
      * Empty string if not set
      */
-    location_name: string;
+    location_name: string | null;
     /**
      * UserBook record creation date as unix timestamp
      *

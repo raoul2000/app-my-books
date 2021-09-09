@@ -20,6 +20,7 @@ import {
 } from "@material-ui/pickers";
 import TextField from "@material-ui/core/TextField";
 import { Book, TravelTicket, createTravelTicket } from "@/types";
+import { debug } from "console";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -74,8 +75,9 @@ export const FormTicket: React.FC<Props> = ({
     const handleReset = () => setActiveStep(0);
     const handleCreateTicket = () => {
         const ticket = createTravelTicket();
-        ticket.departureDateTime.setDate(departureDate.getDate());
-        ticket.departureDateTime.setTime(departureTime.getTime());
+        ticket.departureDateTime = new Date(departureDate);
+        ticket.departureDateTime.setHours(departureTime.getHours());
+        ticket.departureDateTime.setMinutes(departureTime.getMinutes());
         ticket.from = from;
         onCreateTicket(ticket);
     };

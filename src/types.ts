@@ -13,11 +13,13 @@ export const createTravelTicket = ():TravelTicket => ({
     from: ""
 })
 export type BookTrack = {
-    id: string;
-    email: string;
-    rate: number;
-    locationName: string;
-    text: string;
+    id: number;
+    email: string | null;
+    rate: number | null;
+    locationName: string | null;
+    text: string | null;
+    createdAt: Date;
+    updatedAt: Date;
 };
 export type Book = {
     id: string;
