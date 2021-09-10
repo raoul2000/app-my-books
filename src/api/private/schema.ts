@@ -61,6 +61,7 @@ const isbnSearchResultSchema: JSONSchemaType<API_ISBN_SearchResult> = {
     properties: {
         author: { type: "string" },
         title: { type: "string" },
+        subtitle: { type: "string",  nullable: true}
     },
     required: ["author", "title"],
     additionalProperties: false,

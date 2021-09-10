@@ -21,6 +21,7 @@ export type BookTrack = {
     createdAt: Date;
     updatedAt: Date;
 };
+
 export type Book = {
     id: string;
     title: string;
@@ -34,6 +35,14 @@ export type Book = {
     ticket?: TravelTicket;
     tracks?: BookTrack[];
     pingCount: number;
+};
+/**
+ * ISBN Book search result
+ */
+export type BookResult = {
+    title: string;
+    subtitle?: string;
+    author: string;
 };
 
 export type LoadingState = {

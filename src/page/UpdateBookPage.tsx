@@ -7,7 +7,7 @@ import { useRecoilState, useSetRecoilState, useRecoilValue } from "recoil";
 
 import { FormBook } from "@/component/form/FormBook";
 import { bookListState, bookByIdState } from "@/state/book-list";
-import { Book, createBookFormState } from "@/types";
+import { Book, createBookFormState, BookResult } from "@/types";
 import BookApi from "@/api/book";
 import { progressState } from "@/state/progress";
 import { TopBarActions } from "@/component/app-bar/TopBarActions";
@@ -95,7 +95,7 @@ export const UpdateBookPage: React.FC<Props> = ({ id }): JSX.Element | null => {
         setBookForm((old) => ({ ...old, isbnSearch: "progress" }));
 
         return BookApi.searchBookByISBN(isbn)
-            .then((bookData: Book) => {
+            .then((bookData: BookResult) => {
                 setBookForm((old) => ({ ...old, isbnSearch: "success" }));
                 setBookForm((curState) => ({
                     ...curState,

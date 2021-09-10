@@ -217,6 +217,7 @@ export type API_BookTrack = {
  * - search book by ISBN `GET api/isbn-service/search`
  */
 export type API_ISBN_SearchResult = {
-    author: string;
     title: string;
+    subtitle?:string;
+    author: string;
 }

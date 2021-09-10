@@ -6,7 +6,7 @@ import { useLocation } from "wouter";
 import { useSetRecoilState, useRecoilState } from "recoil";
 import { bookListState } from "../state/book-list";
 import { progressState } from "../state/progress";
-import { Book, createBookForm } from "../types";
+import { Book, createBookForm, BookResult } from "../types";
 import { FormBook } from "../component/form/FormBook";
 import BookApi from "../api/book";
 import Container from "@material-ui/core/Container";
@@ -72,7 +72,7 @@ export const AddBookPage: React.FC<{}> = (): JSX.Element => {
         setBookForm((old) => ({ ...old, isbnSearch: "progress" }));
 
         return BookApi.searchBookByISBN(isbn)
-            .then((bookData: Book) => {
+            .then((bookData: BookResult) => {
                 //                setBookForm((old) => ({ ...old, isbnSearch: "success" }));
                 setBookForm((curState) => ({
                     ...curState,
