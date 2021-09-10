@@ -37,17 +37,17 @@ export type API_Book = {
      */
     ping_count: number;
     /**
-     * Book record creation date
+     * Book record creation date as unix timestamp
      *
-     * ex: 2021-09-03 23:56:19
+     * ex: 1631097835
      */
-    created_at: string;
+    created_at: number;
     /**
-     * Book record last update date
+     * Book record last update date as unix timestamp
      *
-     * ex: 2021-09-03 23:56:19
+     * ex: 1631097835
      */
-    updated_at: string;
+    updated_at: number;
 };
 
 /**
@@ -69,23 +69,35 @@ export type API_Ticket = {
      */
     book_id: string;
     /**
-     * Ticket record creation date
+     * Ticket record creation date as unix timestamp
      *
-     * ex: 2021-09-03 23:56:19
+     * ex: 1631097835
      */
-    created_at: string;
+    created_at: number;
     /**
-     * Ticket record last update date
+     * Ticket record last update date as unix timestamp
      *
-     * ex: 2021-09-03 23:56:19
+     * ex: 1631097835
      */
-    updated_at: string;
+    updated_at: number;
     /**
      * URL of the QR Code's image (png) of this ticket
      *
      * ex: http://localhost:8080/files/qr-codes/CJ6-BNM.png`
      */
     qrcode_url: string;
+    /**
+     * Departure DateTime as UTC ISO 8610 string
+     * 
+     * ex: "2021-09-09T17:04:36+0000"
+     */
+    departure_at: string;
+    /**
+     * Location where the book departs from
+     * 
+     * ex: "Paris"
+     */
+    from: string;
 };
 /**
  * endpoints:
@@ -113,17 +125,17 @@ export type API_UserBook = {
      */
     rate?: number;
     /**
-     * UserBook record creation date
+     * UserBook record creation date as unix timestamp
      *
-     * ex: 2021-09-03 23:56:19
+     * ex: 1631097835
      */
-    created_at: string;
+    created_at: number;
     /**
-     * UserBook record last update date
+     * UserBook record last update date as unix timestamp
      *
-     * ex: 2021-09-03 23:56:19
+     * ex: 1631097835
      */
-    updated_at: string;
+    updated_at: number;
     /**
      * The related book
      */
@@ -143,7 +155,7 @@ export type API_Track = {
     /**
      * Unique Track identifier
      */
-    id: string;
+    id: number;
     /**
      * ID of the related book
      *
@@ -159,37 +171,37 @@ export type API_Track = {
      *
      * Empty string if not set
      */
-    email: string;
+    email: string | null;
     /**
      * Comment about the book by the track creator
      *
      * Empty string if not set
      */
-    text: string;
+    text: string | null;
     /**
      * Rating assigned by the track creator
      *
      * Null if not set other number represented as a string
      */
-    rate?: string;
+    rate: number | null;
     /**
      * Location the track was created for
      *
      * Empty string if not set
      */
-    location_name: string;
+    location_name: string | null;
     /**
-     * UserBook record creation date
+     * UserBook record creation date as unix timestamp
      *
-     * ex: 2021-09-03 23:56:19
+     * ex: 1631097835
      */
-    created_at: string;
+    created_at: number;
     /**
-     * UserBook record last update date
+     * UserBook record last update date as unix timestamp
      *
-     * ex: 2021-09-03 23:56:19
+     * ex: 1631097835
      */
-    updated_at: string;
+    updated_at: number;
 };
 /**
  * endpoints:

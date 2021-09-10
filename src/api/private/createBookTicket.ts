@@ -20,7 +20,10 @@ export const createBookTicket = (
                 [HEADER_NAME_API_KEY]: getApiKey(),
             },
             body: JSON.stringify({
-                departureDate: "DUMMY",
+                ...ticketInfo,
+                departure_at: new Date(
+                    ticketInfo.departureDateTime.toUTCString()
+                ),
             }),
         }
     )
@@ -34,9 +37,8 @@ export const createBookTicket = (
             const ticket = jsonResp as unknown as API_Ticket;
             return {
                 id: ticket.id,
-                departureDate: new Date(),
-                departureTime: new Date(),
-                from: "DUMMY LOCATION",
+                departureDateTime: new Date(Date.parse(ticket.departure_at)),
+                from: ticket.from,
                 ...(ticket.qrcode_url && { qrCodeUrl: ticket.qrcode_url }),
             };
         });

@@ -110,7 +110,6 @@ export const TicketViewPage: React.FC<Props> = ({ bookId }): JSX.Element | null 
             case "ticket_not_found":
                 return (
                     <TicketNotFoundView
-                        book={book}
                         onCreateTicket={() =>
                             setLocation(`/ticket-edit/${book.id}`)
                         }

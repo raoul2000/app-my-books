@@ -1,20 +1,25 @@
 export type TravelTicket = {
     id: string;
-    departureDate:Date;
-    departureTime:Date;
+    departureDateTime:Date;
     /**
      * Departure location
      */
     from:string;
     qrCodeUrl?: string;
 };
-
+export const createTravelTicket = ():TravelTicket => ({
+    id:"",
+    departureDateTime: new Date(),
+    from: ""
+})
 export type BookTrack = {
-    id: string;
-    email: string;
-    rate: number;
-    locationName: string;
-    text: string;
+    id: number;
+    email: string | null;
+    rate: number | null;
+    locationName: string | null;
+    text: string | null;
+    createdAt: Date;
+    updatedAt: Date;
 };
 export type Book = {
     id: string;

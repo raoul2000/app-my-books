@@ -19,7 +19,8 @@ import {
     KeyboardTimePicker,
 } from "@material-ui/pickers";
 import TextField from "@material-ui/core/TextField";
-import { Book, TravelTicket } from "@/types";
+import { Book, TravelTicket, createTravelTicket } from "@/types";
+import { debug } from "console";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -50,10 +51,6 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
-function getSteps() {
-    return ["Nom du Voyageur", "Date de Départ", "Lieu de Départ"];
-}
-
 type Props = {
     book: Book;
     onCreateTicket: (ticket: TravelTicket) => void;
@@ -65,36 +62,34 @@ export const FormTicket: React.FC<Props> = ({
 }): JSX.Element => {
     const classes = useStyles();
     const [activeStep, setActiveStep] = useState(0);
-    const [ticket, setTicket] = useState<TravelTicket>({
-        id: "",
-        departureDate: new Date(),
-        departureTime: new Date(),
-        from: "",
-    });
-    const steps = getSteps();
+    const [departureDate, setDepartureDate] = useState<Date>(new Date());
+    const [departureTime, setDepartureTime] = useState<Date>(new Date());
+    const [from, setFrom] = useState<string>("");
 
-    const handleNext = () => {
+    const steps = ["Nom du Voyageur", "Date de Départ", "Lieu de Départ"];
+
+    const handleNext = () =>
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    };
-
-    const handleBack = () => {
+    const handleBack = () =>
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
-    };
-
-    const handleReset = () => {
-        setActiveStep(0);
-    };
+    const handleReset = () => setActiveStep(0);
     const handleCreateTicket = () => {
-        onCreateTicket({ ...ticket });
+        const ticket = createTravelTicket();
+        ticket.departureDateTime = new Date(departureDate);
+        ticket.departureDateTime.setHours(departureTime.getHours());
+        ticket.departureDateTime.setMinutes(departureTime.getMinutes());
+        ticket.from = from;
+        onCreateTicket(ticket);
     };
 
     // TODO: validate form to prevent going to next step
+
     const handleDateChange = (
         date: Date | null,
         value?: string | null | undefined
     ) => {
         if (date && !isNaN(date.getTime())) {
-            setTicket((old) => ({ ...old, departureDate: date }));
+            setDepartureDate(date);
         }
     };
     const handleTimeChange = (
@@ -102,26 +97,12 @@ export const FormTicket: React.FC<Props> = ({
         value?: string | null | undefined
     ) => {
         if (date && !isNaN(date.getTime())) {
-            setTicket((old) => ({ ...old, departureTime: date }));
+            setDepartureTime(date);
         }
     };
 
     const getStepContent = (step: number) => {
         switch (step) {
-            case 12:
-                return (
-                    <>
-                        <Typography paragraph={true}>
-                            Pour voyager, ce livre a besoin d'un ticket. Chaque
-                            lecteur dont il croisera la route pourra grâce à ce
-                            ticket, signaler le passage de ce livre entre ses
-                            mains.
-                            <br />
-                            ...et vous, Vous pourrez voir ces signalements et
-                            ainsi <strong>suivre le voyage de ce livre</strong>.
-                        </Typography>
-                    </>
-                );
             case 0:
                 return (
                     <>
@@ -169,7 +150,7 @@ export const FormTicket: React.FC<Props> = ({
                                 label="Date de départ"
                                 format="dd/MM/yyyy"
                                 onChange={handleDateChange}
-                                value={ticket.departureDate}
+                                value={departureDate}
                                 KeyboardButtonProps={{
                                     "aria-label": "change date",
                                 }}
@@ -180,7 +161,7 @@ export const FormTicket: React.FC<Props> = ({
                                 margin="normal"
                                 id="time-picker"
                                 label="Heure de départ"
-                                value={ticket.departureTime}
+                                value={departureTime}
                                 ampm={false}
                                 onChange={handleTimeChange}
                                 KeyboardButtonProps={{
@@ -204,13 +185,8 @@ export const FormTicket: React.FC<Props> = ({
                             id="departure-location"
                             label="Lieu de départ"
                             margin="normal"
-                            value={ticket.from}
-                            onChange={(e) =>
-                                setTicket((old) => ({
-                                    ...old,
-                                    from: e.target.value,
-                                }))
-                            }
+                            value={from}
+                            onChange={(e) => setFrom(e.target.value)}
                             fullWidth
                             required
                         />
@@ -236,8 +212,11 @@ export const FormTicket: React.FC<Props> = ({
                                 Livre voyageur : <strong>{book.title}</strong>
                             </li>
                             <li>
-                                Date de départ :{" "}
-                                {ticket.departureDate.toISOString()} à 17h45
+                                Date de départ :
+                                {departureDate.toLocaleDateString()} à{" "}
+                                {departureTime
+                                    .toLocaleTimeString()
+                                    .replace(/:..$/, "")}
                             </li>
                             <li>Lieu de Départ : Paris</li>
                         </ul>

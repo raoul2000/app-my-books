@@ -1,4 +1,4 @@
-import { Book, TravelTicket } from "../../types";
+import { TravelTicket } from "../../types";
 import { handleErrorJson } from "./response-handler";
 import { apiBaseUrl, HEADER_NAME_API_KEY, getApiKey } from "./conf";
 import { validateTicketType } from "./schema";
@@ -23,9 +23,8 @@ export const readBookTicket = (bookId: string): Promise<TravelTicket> =>
             const ticket = jsonResp as unknown as API_Ticket;
             return {
                 id: ticket.id,
-                departureDate: new Date(),
-                departureTime: new Date(),
-                from: "location",
+                departureDateTime: new Date(Date.parse(ticket.departure_at)),
+                from: ticket.from,
                 ...(ticket.qrcode_url && { qrCodeUrl: ticket.qrcode_url }),
             };
         });
