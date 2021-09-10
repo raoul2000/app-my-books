@@ -2,6 +2,7 @@ import React from "react";
 import Fab from "@material-ui/core/Fab";
 import { makeStyles } from "@material-ui/core/styles";
 import AddIcon from "@material-ui/icons/Add";
+import { green } from '@material-ui/core/colors';
 
 type Props = {
     onClick: () => void;
@@ -12,9 +13,9 @@ const useStyles = makeStyles((theme) => ({
         position: "fixed",
         bottom: "1em",
         right: "1em",
-        backgroundColor:"green",
+        backgroundColor: green[700],
         "&:hover" : {
-            backgroundColor: "#015f01"
+            backgroundColor: green[900]
         }
     },
 }));

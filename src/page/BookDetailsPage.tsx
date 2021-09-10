@@ -5,9 +5,8 @@ import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
 import Typography from "@material-ui/core/Typography";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import ExploreIcon from "@material-ui/icons/Explore";
 import PersonPinCircleIcon from "@material-ui/icons/PersonPinCircle";
-
+import { Alert } from "@material-ui/lab";
 import IconButton from "@material-ui/core/IconButton";
 import Chip from "@material-ui/core/Chip";
 import Collapse from "@material-ui/core/Collapse";
@@ -25,7 +24,6 @@ import { useLocation } from "wouter";
 import BookApi from "@/api/book";
 import Rating from "@material-ui/lab/Rating";
 import { BookDetailBar } from "@/component/app-bar/BookDetailBar";
-import { isNullOrUndefined } from "util";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -58,9 +56,11 @@ type Props = {
     id: string;
 };
 
-export const BookDetailsPage: React.FC<Props> = ({ id }): JSX.Element|null => {
+export const BookDetailsPage: React.FC<Props> = ({
+    id,
+}): JSX.Element | null => {
     const classes = useStyles();
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const [, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const thisBook = useRecoilValue(bookByIdState(id));
     const setBooks = useSetRecoilState<Book[]>(bookListState);
     const setProgress = useSetRecoilState(progressState);
@@ -72,7 +72,7 @@ export const BookDetailsPage: React.FC<Props> = ({ id }): JSX.Element|null => {
     }>({ status: "success" });
 
     if (!thisBook) {
-        setLocation('/');
+        setLocation("/");
         return null;
     }
 
@@ -91,15 +91,9 @@ export const BookDetailsPage: React.FC<Props> = ({ id }): JSX.Element|null => {
         setExpanded(!expanded);
     };
 
-    const handleTravelClick = (book: Book) => {
-        setLocation(`/travel/${book.id}`);
-    };
+    const handleTravelClick = (book: Book) => setLocation(`/travel/${book.id}`);
     const handleTrackClick = (book: Book) =>
         setLocation(`/follow-trip/${book.id}`);
-
-    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) =>
-        setAnchorEl(event.currentTarget);
-
     const handleClose = () => setAnchorEl(null);
 
     const handleDeleteBook = (book?: Book): void => {
@@ -120,8 +114,6 @@ export const BookDetailsPage: React.FC<Props> = ({ id }): JSX.Element|null => {
         handleClose();
     };
 
-
-    
     return (
         <>
             <BookDetailBar
@@ -213,18 +205,21 @@ export const BookDetailsPage: React.FC<Props> = ({ id }): JSX.Element|null => {
                                         unmountOnExit
                                     >
                                         <CardContent>
-                                            {abstract.text !== undefined ? (
-                                                <Typography paragraph>
-                                                    {abstract.text ||
-                                                        "no description available"}
-                                                </Typography>
-                                            ) : (
-                                                <>
-                                                    <Typography paragraph>
-                                                        Chargement du résumé...
-                                                    </Typography>
-                                                    <LinearProgress />
-                                                </>
+                                            <Typography paragraph>
+                                                {abstract.status ===
+                                                    "success" && abstract.text}
+                                                {abstract.status ===
+                                                    "error" && (
+                                                    <Alert severity="error">
+                                                        Résumé indisponible
+                                                    </Alert>
+                                                )}
+                                                {abstract.status ===
+                                                    "progress" &&
+                                                    "Chargement du résumé ..."}
+                                            </Typography>
+                                            {abstract.status === "progress" && (
+                                                <LinearProgress />
                                             )}
                                         </CardContent>
                                     </Collapse>

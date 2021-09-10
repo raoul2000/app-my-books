@@ -85,16 +85,16 @@ export const createBookForm = (): BookFormState => ({
     isbnSearch: "success",
 });
 
-export const getReadStatusLabel = (readStatus: number) => {
+export const getReadStatusLabel = (readStatus?: number) => {
     switch (readStatus) {
         case 1:
-            return "To read";
+            return "A Lire";
         case 2:
-            return "Read";
+            return "Lu";
         case 3:
-            return "Reading";
+            return "En Lecture";
         default:
-            return "";
+            return "Sélectionner";
     }
 };
 

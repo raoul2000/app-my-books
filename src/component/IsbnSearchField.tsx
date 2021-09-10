@@ -6,7 +6,8 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import CheckIcon from "@material-ui/icons/Check";
 import ErrorIcon from "@material-ui/icons/Error";
-import { AsyncOperationStatus } from "../types";
+
+import { AsyncOperationStatus } from "@/types";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({

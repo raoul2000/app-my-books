@@ -14,6 +14,7 @@ import { TopBarActions } from "@/component/app-bar/TopBarActions";
 import { bookFormState } from "@/state/book-form";
 import { IsbnScanner } from "@/component/IsbnScanner";
 import { FabScanner } from "@/component/button/FabScanner";
+import { useSnackbar } from "notistack";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -28,6 +29,7 @@ type Props = {
 };
 
 export const UpdateBookPage: React.FC<Props> = ({ id }): JSX.Element | null => {
+    const { enqueueSnackbar } = useSnackbar();
     const classes = useStyles();
     const [enableIsbnScan, setEnableIsbnScan] = useState(false);
 
@@ -102,6 +104,13 @@ export const UpdateBookPage: React.FC<Props> = ({ id }): JSX.Element | null => {
                 }));
             })
             .catch((error) => {
+                enqueueSnackbar("ISBN introuvable", {
+                    variant: "error",
+                    anchorOrigin: {
+                        vertical: "bottom",
+                        horizontal: "center",
+                    },
+                });
                 setBookForm((old) => ({ ...old, isbnSearch: "error" }));
             });
     };

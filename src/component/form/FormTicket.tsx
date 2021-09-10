@@ -189,6 +189,7 @@ export const FormTicket: React.FC<Props> = ({
                             onChange={(e) => setFrom(e.target.value)}
                             fullWidth
                             required
+                            autoComplete="off"
                         />
                     </>
                 );
