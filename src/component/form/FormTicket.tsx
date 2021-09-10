@@ -20,7 +20,6 @@ import {
 } from "@material-ui/pickers";
 import TextField from "@material-ui/core/TextField";
 import { Book, TravelTicket, createTravelTicket } from "@/types";
-import { debug } from "console";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -55,6 +54,7 @@ type Props = {
     book: Book;
     onCreateTicket: (ticket: TravelTicket) => void;
 };
+const steps = ["Nom du Voyageur", "Date de Départ", "Lieu de Départ"];
 
 export const FormTicket: React.FC<Props> = ({
     book,
@@ -63,13 +63,27 @@ export const FormTicket: React.FC<Props> = ({
     const classes = useStyles();
     const [activeStep, setActiveStep] = useState(0);
     const [departureDate, setDepartureDate] = useState<Date>(new Date());
+    const [departureDateError, setDepartureDateError] =
+        useState<boolean>(false);
+
     const [departureTime, setDepartureTime] = useState<Date>(new Date());
+    const [departureTimeError, setDepartureTimeError] =
+        useState<boolean>(false);
+
     const [from, setFrom] = useState<string>("");
+    const [fromError, setFromError] = useState<boolean>(false);
 
-    const steps = ["Nom du Voyageur", "Date de Départ", "Lieu de Départ"];
+    const handleNext = () => {
+        setActiveStep((prevActiveStep) => {
+            if (prevActiveStep == 2 && (fromError || !from)) {
+                setFromError(true);
+                return prevActiveStep;
+            } else {
+                return prevActiveStep + 1;
+            }
+        });
+    };
 
-    const handleNext = () =>
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
     const handleBack = () =>
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     const handleReset = () => setActiveStep(0);
@@ -82,14 +96,15 @@ export const FormTicket: React.FC<Props> = ({
         onCreateTicket(ticket);
     };
 
-    // TODO: validate form to prevent going to next step
-
     const handleDateChange = (
         date: Date | null,
         value?: string | null | undefined
     ) => {
         if (date && !isNaN(date.getTime())) {
             setDepartureDate(date);
+            setDepartureDateError(false);
+        } else {
+            setDepartureDateError(true);
         }
     };
     const handleTimeChange = (
@@ -98,6 +113,30 @@ export const FormTicket: React.FC<Props> = ({
     ) => {
         if (date && !isNaN(date.getTime())) {
             setDepartureTime(date);
+            setDepartureTimeError(false);
+        } else {
+            setDepartureTimeError(true);
+        }
+    };
+    const handleFromChange = (
+        e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+    ) => {
+        const val: string = e.target.value;
+        setFrom(val);
+        if (val && val.trim().length > 0) {
+            setFromError(false);
+        } else {
+            setFromError(true);
+        }
+    };
+    const disableNextButton = (step: number): boolean => {
+        switch (step) {
+            case 1:
+                return departureDateError || departureTimeError;
+            case 2:
+                return fromError;
+            default:
+                return false;
         }
     };
 
@@ -137,8 +176,8 @@ export const FormTicket: React.FC<Props> = ({
                 return (
                     <>
                         <Typography>
-                            Entrez la date à laquelle le livre sera déposé pour
-                            débuter son voyage.
+                            Entrez la date et l'heure à laquelle le livre sera
+                            déposé pour débuter son voyage.
                         </Typography>
                         <MuiPickersUtilsProvider
                             utils={DateFnsUtils}
@@ -156,6 +195,8 @@ export const FormTicket: React.FC<Props> = ({
                                 }}
                                 fullWidth
                                 required
+                                autoComplete="off"
+                                error={departureDateError}
                             />
                             <KeyboardTimePicker
                                 margin="normal"
@@ -169,6 +210,8 @@ export const FormTicket: React.FC<Props> = ({
                                 }}
                                 fullWidth
                                 required
+                                autoComplete="off"
+                                error={departureTimeError}
                             />
                         </MuiPickersUtilsProvider>
                     </>
@@ -186,14 +229,14 @@ export const FormTicket: React.FC<Props> = ({
                             label="Lieu de départ"
                             margin="normal"
                             value={from}
-                            onChange={(e) => setFrom(e.target.value)}
+                            onChange={handleFromChange}
                             fullWidth
                             required
                             autoComplete="off"
+                            error={fromError}
                         />
                     </>
                 );
-
             default:
                 return <Typography></Typography>;
         }
@@ -219,7 +262,7 @@ export const FormTicket: React.FC<Props> = ({
                                     .toLocaleTimeString()
                                     .replace(/:..$/, "")}
                             </li>
-                            <li>Lieu de Départ : Paris</li>
+                            <li>Lieu de Départ : {from}</li>
                         </ul>
                     </Typography>
                     <Typography>
@@ -259,6 +302,9 @@ export const FormTicket: React.FC<Props> = ({
                                             color="primary"
                                             onClick={handleNext}
                                             className={classes.button}
+                                            disabled={disableNextButton(
+                                                activeStep
+                                            )}
                                         >
                                             {activeStep === steps.length - 1
                                                 ? "Terminer"
