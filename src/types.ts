@@ -1,17 +1,17 @@
 export type TravelTicket = {
     id: string;
-    departureDateTime:Date;
+    departureDateTime: Date;
     /**
      * Departure location
      */
-    from:string;
+    from: string;
     qrCodeUrl?: string;
 };
-export const createTravelTicket = ():TravelTicket => ({
-    id:"",
+export const createTravelTicket = (): TravelTicket => ({
+    id: "",
     departureDateTime: new Date(),
-    from: ""
-})
+    from: "",
+});
 export type BookTrack = {
     id: number;
     email: string | null;
@@ -29,11 +29,11 @@ export type Book = {
     isbn?: string;
     readStatus?: number;
     rate?: number;
-    isTraveling:boolean;
-    isTicketLoaded:boolean;
+    isTraveling: boolean;
+    isTicketLoaded: boolean;
     ticket?: TravelTicket;
     tracks?: BookTrack[];
-    pingCount:number;
+    pingCount: number;
 };
 
 export type LoadingState = {
@@ -59,6 +59,19 @@ export type BookFormState = {
     };
     isbnSearch: AsyncOperationStatus;
 };
+
+export const createBookFormState = (book?: Book): BookFormState => ({
+    title: book?.title || "",
+    subtitle: book?.subtitle,
+    author: book?.author,
+    isbn: book?.isbn,
+    readStatus: book?.readStatus,
+    rate: book?.rate,
+    validation: {
+        title: true,
+    },
+    isbnSearch: "success",
+});
 
 export const createBookForm = (): BookFormState => ({
     title: "",
@@ -105,5 +118,3 @@ export type ErrorResponse = {
     status: number;
     type: string;
 };
-
-
