@@ -22,18 +22,36 @@ export const BookListPage: React.FC<{}> = (): JSX.Element => {
             setLoadingBooks({ status: "loading", errorMessage: "" });
             BookApi.readAllBooks()
                 .then(setBooks)
-                .catch(() => {
-                    enqueueSnackbar("Erreur lors du chargement de la liste des livres", {
-                        variant: "error",
-                        anchorOrigin: {
-                            vertical: "bottom",
-                            horizontal: "center",
-                        },
-                    });
-                    setLoadingBooks({
-                        status: "error",
-                        errorMessage: "failed to load book list",
-                    });
+                .catch((error) => {
+                    console.log(error);
+                    if (error.status === 401) {
+                        enqueueSnackbar(
+                            "Echec lors de l'identification: veuillez vous authentifier",
+                            {
+                                variant: "error",
+                                anchorOrigin: {
+                                    vertical: "bottom",
+                                    horizontal: "center",
+                                },
+                            }
+                        );
+                        setLocation("/signin");
+                    } else {
+                        enqueueSnackbar(
+                            "Erreur lors du chargement de la liste des livres",
+                            {
+                                variant: "error",
+                                anchorOrigin: {
+                                    vertical: "bottom",
+                                    horizontal: "center",
+                                },
+                            }
+                        );
+                        setLoadingBooks({
+                            status: "error",
+                            errorMessage: "failed to load book list",
+                        });
+                    }
                 })
                 .finally(() =>
                     setLoadingBooks({ status: "success", errorMessage: "" })

@@ -100,19 +100,19 @@ export const BookDetailsPage: React.FC<Props> = ({
     const handleClose = () => setAnchorEl(null);
     const handleWebShareClick = (book: Book) => {
         let text = book.title + "\n";
-        if(book.subtitle) {
+        if (book.subtitle) {
             text += book.subtitle + "\n";
         }
-        if(book.author) {
+        if (book.author) {
             text += `par ${book.author}\n`;
         }
         share({
             title: book.title,
             text,
-            url: `https://www.google.com/search?q=${book.title}+${book.author}`
+            url: `https://www.google.com/search?q=${book.title}+${book.author}`,
             // TODO: add a book url
         });
-    }
+    };
 
     const handleDeleteBook = (book?: Book): void => {
         if (!book) return;
@@ -176,7 +176,7 @@ export const BookDetailsPage: React.FC<Props> = ({
                                 </CardContent>
 
                                 <CardActions disableSpacing>
-                                    {!loading  && isSupported && (
+                                    {!loading && isSupported && (
                                         <IconButton
                                             aria-label="web share"
                                             onClick={() =>
@@ -234,19 +234,21 @@ export const BookDetailsPage: React.FC<Props> = ({
                                         unmountOnExit
                                     >
                                         <CardContent>
-                                            <Typography paragraph>
-                                                {abstract.status ===
-                                                    "success" && abstract.text}
-                                                {abstract.status ===
-                                                    "error" && (
-                                                    <Alert severity="error">
-                                                        Résumé indisponible
-                                                    </Alert>
-                                                )}
-                                                {abstract.status ===
-                                                    "progress" &&
-                                                    "Chargement du résumé ..."}
-                                            </Typography>
+                                            {abstract.status === "success" && (
+                                                <Typography paragraph>
+                                                    {abstract.text}
+                                                </Typography>
+                                            )}
+                                            {abstract.status === "error" && (
+                                                <Alert severity="error">
+                                                    Résumé indisponible
+                                                </Alert>
+                                            )}
+                                            {abstract.status === "progress" && (
+                                                <Typography paragraph>
+                                                    Chargement du résumé ...
+                                                </Typography>
+                                            )}
                                             {abstract.status === "progress" && (
                                                 <LinearProgress />
                                             )}
