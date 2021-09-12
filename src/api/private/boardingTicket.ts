@@ -30,9 +30,8 @@ export const boardingTicket = (bookId:string, ticket:TravelTicket ): Promise<Tra
             const boarding = jsonResp as unknown as API_Boarding;
             return {
                 id: boarding.ticket.id,
-                departureDate: new Date(),
-                departureTime: new Date(),
-                from: "DUMMY LOCATION",
+                departureDateTime: new Date(Date.parse(boarding.ticket.departure_at)),
+                from: boarding.ticket.from,
                 ...(boarding.ticket.qrcode_url && { qrCodeUrl: boarding.ticket.qrcode_url }),
             };
         });
