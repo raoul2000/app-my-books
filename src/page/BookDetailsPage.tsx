@@ -16,7 +16,7 @@ import FlightTakeoffIcon from "@material-ui/icons/FlightTakeoff";
 import ShareIcon from "@material-ui/icons/Share";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import Badge from "@material-ui/core/Badge";
-import useWebShare from "react-use-web-share";
+//import useWebShare from "react-use-web-share";
 
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { bookListState, bookByIdState } from "@/state/book-list";
@@ -62,7 +62,7 @@ export const BookDetailsPage: React.FC<Props> = ({
     id,
 }): JSX.Element | null => {
     const classes = useStyles();
-    const { isSupported, loading, share } = useWebShare();
+    //const { isSupported, loading, share } = useWebShare();
     const [, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const thisBook = useRecoilValue(bookByIdState(id));
     const setBooks = useSetRecoilState<Book[]>(bookListState);
@@ -98,6 +98,7 @@ export const BookDetailsPage: React.FC<Props> = ({
     const handleTrackClick = (book: Book) =>
         setLocation(`/follow-trip/${book.id}`);
     const handleClose = () => setAnchorEl(null);
+    /* 
     const handleWebShareClick = (book: Book) => {
         let text = book.title + "\n";
         if (book.subtitle) {
@@ -112,7 +113,20 @@ export const BookDetailsPage: React.FC<Props> = ({
             url: `https://www.google.com/search?q=${book.title}+${book.author}`,
             // TODO: add a book url
         });
-    };
+    }; */
+    /*
+                                        {!loading && isSupported && (
+                                        <IconButton
+                                            aria-label="web share"
+                                            onClick={() =>
+                                                handleWebShareClick(thisBook)
+                                            }
+                                        >
+                                            <ShareIcon />
+                                        </IconButton>
+                                    )}
+
+                                    */
 
     const handleDeleteBook = (book?: Book): void => {
         if (!book) return;
@@ -176,16 +190,6 @@ export const BookDetailsPage: React.FC<Props> = ({
                                 </CardContent>
 
                                 <CardActions disableSpacing>
-                                    {!loading && isSupported && (
-                                        <IconButton
-                                            aria-label="web share"
-                                            onClick={() =>
-                                                handleWebShareClick(thisBook)
-                                            }
-                                        >
-                                            <ShareIcon />
-                                        </IconButton>
-                                    )}
                                     <IconButton
                                         aria-label="voyage"
                                         onClick={() =>
