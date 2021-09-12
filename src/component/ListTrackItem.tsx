@@ -37,11 +37,11 @@ export const ListTrackItem: React.FC<Props> = ({ track }): JSX.Element => {
                         <PersonPinCircleIcon />
                     </Avatar>
                 }
-                title="Vincennes"
+                title={track.locationName ? track.locationName : "non renseigné"}
                 subheader={
                     <>
-                        <Typography>September 21, 2018</Typography>
-                        {track.rate > 0 && (
+                        <Typography>{track.createdAt.toLocaleDateString()} à {track.createdAt.toLocaleTimeString()}</Typography>
+                        {track.rate && (
                             <Rating
                                 name="book-rate"
                                 value={track.rate}

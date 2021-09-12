@@ -77,11 +77,8 @@ export const FormLogin: React.FC<Props> = ({onSuccess, onError}):JSX.Element => 
             BookApi.login(username, password)
                 .then(onSuccess)
                 .catch((err) => {
-                    console.error(err);
+                    setLoginInProgress(false)
                     onError();
-                })
-                .finally(() => {
-                    setLoginInProgress(false);
                 });
         }
     };
@@ -106,7 +103,7 @@ export const FormLogin: React.FC<Props> = ({onSuccess, onError}):JSX.Element => 
                         id="username"
                         label="User name"
                         name="username"
-                        autoComplete="username"
+                        autoComplete="off"
                         autoFocus
                         disabled={loginInProgress}
                         error={formError.username}
@@ -121,7 +118,7 @@ export const FormLogin: React.FC<Props> = ({onSuccess, onError}):JSX.Element => 
                         label="Password"
                         type="password"
                         id="password"
-                        autoComplete="current-password"
+                        autoComplete="off"
                         disabled={loginInProgress}
                         error={formError.password}
                         onChange={(e) => setpassword(e.target.value)}

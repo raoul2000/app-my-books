@@ -5,17 +5,18 @@ import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
 import Typography from "@material-ui/core/Typography";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import ExploreIcon from "@material-ui/icons/Explore";
 import PersonPinCircleIcon from "@material-ui/icons/PersonPinCircle";
-
+import { Alert } from "@material-ui/lab";
 import IconButton from "@material-ui/core/IconButton";
 import Chip from "@material-ui/core/Chip";
 import Collapse from "@material-ui/core/Collapse";
 import clsx from "clsx";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import FlightTakeoffIcon from "@material-ui/icons/FlightTakeoff";
+import ShareIcon from "@material-ui/icons/Share";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import Badge from "@material-ui/core/Badge";
+import useWebShare from "react-use-web-share";
 
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { bookListState, bookByIdState } from "@/state/book-list";
@@ -57,9 +58,12 @@ type Props = {
     id: string;
 };
 
-export const BookDetailsPage: React.FC<Props> = ({ id }): JSX.Element => {
+export const BookDetailsPage: React.FC<Props> = ({
+    id,
+}): JSX.Element | null => {
     const classes = useStyles();
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const { isSupported, loading, share } = useWebShare();
+    const [, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const thisBook = useRecoilValue(bookByIdState(id));
     const setBooks = useSetRecoilState<Book[]>(bookListState);
     const setProgress = useSetRecoilState(progressState);
@@ -69,6 +73,11 @@ export const BookDetailsPage: React.FC<Props> = ({ id }): JSX.Element => {
         status: "progress" | "error" | "success";
         text?: string;
     }>({ status: "success" });
+
+    if (!thisBook) {
+        setLocation("/");
+        return null;
+    }
 
     const handleExpandClick = (book: Book) => {
         if (!expanded && abstract.text === undefined && book?.isbn) {
@@ -85,16 +94,25 @@ export const BookDetailsPage: React.FC<Props> = ({ id }): JSX.Element => {
         setExpanded(!expanded);
     };
 
-    const handleTravelClick = (book: Book) => {
-        setLocation(`/travel/${book.id}`);
-    };
+    const handleTravelClick = (book: Book) => setLocation(`/travel/${book.id}`);
     const handleTrackClick = (book: Book) =>
         setLocation(`/follow-trip/${book.id}`);
-
-    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) =>
-        setAnchorEl(event.currentTarget);
-
     const handleClose = () => setAnchorEl(null);
+    const handleWebShareClick = (book: Book) => {
+        let text = book.title + "\n";
+        if (book.subtitle) {
+            text += book.subtitle + "\n";
+        }
+        if (book.author) {
+            text += `par ${book.author}\n`;
+        }
+        share({
+            title: book.title,
+            text,
+            url: `https://www.google.com/search?q=${book.title}+${book.author}`,
+            // TODO: add a book url
+        });
+    };
 
     const handleDeleteBook = (book?: Book): void => {
         if (!book) return;
@@ -114,10 +132,6 @@ export const BookDetailsPage: React.FC<Props> = ({ id }): JSX.Element => {
         handleClose();
     };
 
-    if (!thisBook) {
-        return <div>book not found</div>;
-    }
-    
     return (
         <>
             <BookDetailBar
@@ -162,6 +176,16 @@ export const BookDetailsPage: React.FC<Props> = ({ id }): JSX.Element => {
                                 </CardContent>
 
                                 <CardActions disableSpacing>
+                                    {!loading && isSupported && (
+                                        <IconButton
+                                            aria-label="web share"
+                                            onClick={() =>
+                                                handleWebShareClick(thisBook)
+                                            }
+                                        >
+                                            <ShareIcon />
+                                        </IconButton>
+                                    )}
                                     <IconButton
                                         aria-label="voyage"
                                         onClick={() =>
@@ -170,6 +194,7 @@ export const BookDetailsPage: React.FC<Props> = ({ id }): JSX.Element => {
                                     >
                                         <FlightTakeoffIcon />
                                     </IconButton>
+
                                     {thisBook.isTraveling === true && (
                                         <IconButton
                                             aria-label="follow trip"
@@ -209,18 +234,23 @@ export const BookDetailsPage: React.FC<Props> = ({ id }): JSX.Element => {
                                         unmountOnExit
                                     >
                                         <CardContent>
-                                            {abstract.text !== undefined ? (
+                                            {abstract.status === "success" && (
                                                 <Typography paragraph>
-                                                    {abstract.text ||
-                                                        "no description available"}
+                                                    {abstract.text}
                                                 </Typography>
-                                            ) : (
-                                                <>
-                                                    <Typography paragraph>
-                                                        Chargement du résumé...
-                                                    </Typography>
-                                                    <LinearProgress />
-                                                </>
+                                            )}
+                                            {abstract.status === "error" && (
+                                                <Alert severity="error">
+                                                    Résumé indisponible
+                                                </Alert>
+                                            )}
+                                            {abstract.status === "progress" && (
+                                                <Typography paragraph>
+                                                    Chargement du résumé ...
+                                                </Typography>
+                                            )}
+                                            {abstract.status === "progress" && (
+                                                <LinearProgress />
                                             )}
                                         </CardContent>
                                     </Collapse>

@@ -1,21 +1,27 @@
 export type TravelTicket = {
     id: string;
-    departureDate:Date;
-    departureTime:Date;
+    departureDateTime: Date;
     /**
      * Departure location
      */
-    from:string;
+    from: string;
     qrCodeUrl?: string;
 };
-
+export const createTravelTicket = (): TravelTicket => ({
+    id: "",
+    departureDateTime: new Date(),
+    from: "",
+});
 export type BookTrack = {
-    id: string;
-    email: string;
-    rate: number;
-    locationName: string;
-    text: string;
+    id: number;
+    email: string | null;
+    rate: number | null;
+    locationName: string | null;
+    text: string | null;
+    createdAt: Date;
+    updatedAt: Date;
 };
+
 export type Book = {
     id: string;
     title: string;
@@ -24,11 +30,19 @@ export type Book = {
     isbn?: string;
     readStatus?: number;
     rate?: number;
-    isTraveling:boolean;
-    isTicketLoaded:boolean;
+    isTraveling: boolean;
+    isTicketLoaded: boolean;
     ticket?: TravelTicket;
     tracks?: BookTrack[];
-    pingCount:number;
+    pingCount: number;
+};
+/**
+ * ISBN Book search result
+ */
+export type BookResult = {
+    title: string;
+    subtitle?: string;
+    author: string;
 };
 
 export type LoadingState = {
@@ -55,6 +69,19 @@ export type BookFormState = {
     isbnSearch: AsyncOperationStatus;
 };
 
+export const createBookFormState = (book?: Book): BookFormState => ({
+    title: book?.title || "",
+    subtitle: book?.subtitle,
+    author: book?.author,
+    isbn: book?.isbn,
+    readStatus: book?.readStatus,
+    rate: book?.rate,
+    validation: {
+        title: true,
+    },
+    isbnSearch: "success",
+});
+
 export const createBookForm = (): BookFormState => ({
     title: "",
     subtitle: "",
@@ -67,16 +94,16 @@ export const createBookForm = (): BookFormState => ({
     isbnSearch: "success",
 });
 
-export const getReadStatusLabel = (readStatus: number) => {
+export const getReadStatusLabel = (readStatus?: number) => {
     switch (readStatus) {
         case 1:
-            return "To read";
+            return "A Lire";
         case 2:
-            return "Read";
+            return "Lu";
         case 3:
-            return "Reading";
+            return "En Lecture";
         default:
-            return "";
+            return "Sélectionner";
     }
 };
 
@@ -100,5 +127,3 @@ export type ErrorResponse = {
     status: number;
     type: string;
 };
-
-

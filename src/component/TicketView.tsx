@@ -74,7 +74,7 @@ export const TicketView: React.FC<Props> = ({
             {book.isTraveling === true && (
                 <Box marginBottom="2em">
                     <Alert severity="info">
-                        Ce ticket a été Utilisé, le livre voyage...
+                        Ticket  Utilisé: ce livre est en voyage...
                     </Alert>
                 </Box>
             )}
@@ -151,7 +151,11 @@ export const TicketView: React.FC<Props> = ({
                         gutterBottom={true}
                         className={classes.highlightField}
                     >
-                        12/02/2021 à 12h45
+                        {ticket?.departureDateTime
+                            ? `${ticket.departureDateTime.toLocaleDateString()} à ${ticket.departureDateTime
+                                  .toLocaleTimeString()
+                                  .replace(/:..$/, "")}`
+                            : "open"}
                     </Typography>
                     <Typography color="textSecondary" variant="button">
                         Lieu de Départ
@@ -161,7 +165,7 @@ export const TicketView: React.FC<Props> = ({
                         gutterBottom={true}
                         className={classes.highlightField}
                     >
-                        Paris
+                        {ticket?.from || "indéfini"}
                     </Typography>
                 </CardContent>
                 <CardActions disableSpacing className={classes.hideOnPrint}>

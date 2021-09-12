@@ -6,12 +6,11 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import Rating from "@material-ui/lab/Rating";
-
 import { useRecoilState } from "recoil";
 
-import { BookFormState } from "../../types";
-import { bookFormState } from "../../state/book-form";
-import { IsbnSearchField } from "../IsbnSearchField";
+import { BookFormState, getReadStatusLabel } from "@/types";
+import { bookFormState } from "@/state/book-form";
+import { IsbnSearchField } from "@/component/IsbnSearchField";
 
 type Props = {
     onIsbnSearch: () => void;
@@ -75,7 +74,7 @@ export const FormBook: React.FC<Props> = ({ onIsbnSearch }): JSX.Element => {
                     <Grid item xs={12}>
                         <TextField
                             id="book-title"
-                            label="Title"
+                            label="Titre"
                             multiline={true}
                             value={bookForm.title || ""}
                             onChange={handleBookTitleChange}
@@ -88,7 +87,7 @@ export const FormBook: React.FC<Props> = ({ onIsbnSearch }): JSX.Element => {
                     <Grid item xs={12}>
                         <TextField
                             id="book-subtitle"
-                            label="Sub Title"
+                            label="Sous Titre"
                             multiline={true}
                             value={bookForm.subtitle || ""}
                             onChange={handleBookSubtitleChange}
@@ -99,7 +98,7 @@ export const FormBook: React.FC<Props> = ({ onIsbnSearch }): JSX.Element => {
                     <Grid item xs={12}>
                         <TextField
                             id="book-author"
-                            label="Author"
+                            label="Auteur"
                             multiline={true}
                             value={bookForm.author || ""}
                             onChange={handleBookAuthorChange}
@@ -127,7 +126,7 @@ export const FormBook: React.FC<Props> = ({ onIsbnSearch }): JSX.Element => {
                     <Grid item xs={12}>
                         <FormControl fullWidth>
                             <InputLabel id="demo-simple-select-label">
-                                Read status
+                                Status de Lecture
                             </InputLabel>
                             <Select
                                 labelId="demo-simple-select-label"
@@ -140,11 +139,11 @@ export const FormBook: React.FC<Props> = ({ onIsbnSearch }): JSX.Element => {
                                 }
                             >
                                 <MenuItem>
-                                    <em>None</em>
+                                    <em>{getReadStatusLabel()}</em>
                                 </MenuItem>
-                                <MenuItem value={1}>To Read</MenuItem>
-                                <MenuItem value={2}>Read</MenuItem>
-                                <MenuItem value={3}>Reading</MenuItem>
+                                <MenuItem value={1}>{getReadStatusLabel(1)}</MenuItem>
+                                <MenuItem value={2}>{getReadStatusLabel(2)}</MenuItem>
+                                <MenuItem value={3}>{getReadStatusLabel(3)}</MenuItem>
                             </Select>
                         </FormControl>
                     </Grid>

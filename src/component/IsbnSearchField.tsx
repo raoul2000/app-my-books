@@ -4,9 +4,10 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import IconButton from "@material-ui/core/IconButton";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import CheckIcon from "@material-ui/icons/Check";
 import ErrorIcon from "@material-ui/icons/Error";
-import { AsyncOperationStatus } from "../types";
+import SearchIcon from '@material-ui/icons/Search';
+
+import { AsyncOperationStatus } from "@/types";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -38,7 +39,7 @@ export const IsbnSearchField: React.FC<Props> = ({
                 case "error":
                     return <ErrorIcon />;
                 default:
-                    return <CheckIcon />;
+                    return <SearchIcon />;
             }
         };
         return (
