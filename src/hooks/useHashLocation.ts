@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Router, Route } from "wouter";
+import { Router, Route, BaseLocationHook } from "wouter";
 
 // returns the current hash location in a normalized form
 // (excluding the leading '#' symbol)
@@ -9,7 +9,7 @@ const currentLocation = () => {
 
 const navigate = (to:string) => (window.location.hash = to);
 
-export const useHashLocation = () => {
+export const useHashLocation:BaseLocationHook = () => {
     const [loc, setLoc] = useState(currentLocation());
 
     useEffect(() => {
