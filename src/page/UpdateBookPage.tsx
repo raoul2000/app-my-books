@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Button from "@material-ui/core/Button";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import useLocation from "wouter/use-location";
+import {useLocation} from "wouter";
 import { useRecoilState, useSetRecoilState, useRecoilValue } from "recoil";
 
 import { FormBook } from "@/component/form/FormBook";
@@ -60,6 +60,8 @@ export const UpdateBookPage: React.FC<Props> = ({ id }): JSX.Element | null => {
             return;
         }
         setProgress(true);
+        setLocation(`/detail/${id}`);
+        
         BookApi.updateBook({
             ...thisBook,
             title: bookForm.title,
@@ -84,11 +86,10 @@ export const UpdateBookPage: React.FC<Props> = ({ id }): JSX.Element | null => {
                         }
                     }),
                 ]);
+                
             })
             .catch(console.error)
             .finally(() => setProgress(false));
-
-        setLocation(`/detail/${id}`);
     };
 
     const searchBookByIsbn = (isbn: string) => {

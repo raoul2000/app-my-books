@@ -8,12 +8,12 @@ import { Router } from "wouter";
 
 ReactDOM.render(
     <React.StrictMode>
-        <RecoilRoot>
-            <CssBaseline />
-            <Router hook={useHashLocation}>
+        <Router hook={useHashLocation}>
+            <RecoilRoot>
+                <CssBaseline />
                 <App />
-            </Router>
-        </RecoilRoot>
+            </RecoilRoot>
+        </Router>
     </React.StrictMode>,
     document.getElementById("root")
 );

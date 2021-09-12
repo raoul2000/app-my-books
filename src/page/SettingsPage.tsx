@@ -1,5 +1,5 @@
-import React  from "react";
-import useLocation from "wouter/use-location";
+import React from "react";
+import { useLocation } from "wouter";
 import Typography from "@material-ui/core/Typography";
 import { FormSettings } from "@/component/form/FormSettings";
 import Container from "@material-ui/core/Container";
