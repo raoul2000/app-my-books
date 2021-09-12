@@ -11,7 +11,6 @@ import { apiKeyState } from "./state/api-key";
 import { SnackbarProvider } from "notistack";
 
 function App() {
-    
     const [apiKey, setApiKey] = useRecoilState(apiKeyState);
     const [, setLocation] = useLocation();
 
