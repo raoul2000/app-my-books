@@ -13,10 +13,8 @@ import Collapse from "@material-ui/core/Collapse";
 import clsx from "clsx";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import FlightTakeoffIcon from "@material-ui/icons/FlightTakeoff";
-import ShareIcon from "@material-ui/icons/Share";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import Badge from "@material-ui/core/Badge";
-//import useWebShare from "react-use-web-share";
 
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { bookListState, bookByIdState } from "@/state/book-list";
@@ -26,6 +24,7 @@ import { useLocation } from "wouter";
 import BookApi from "@/api/book";
 import Rating from "@material-ui/lab/Rating";
 import { BookDetailBar } from "@/component/app-bar/BookDetailBar";
+import { WebShareBookButton } from "@/component/button/WebShareBookButton";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -98,35 +97,6 @@ export const BookDetailsPage: React.FC<Props> = ({
     const handleTrackClick = (book: Book) =>
         setLocation(`/follow-trip/${book.id}`);
     const handleClose = () => setAnchorEl(null);
-    /* 
-    const handleWebShareClick = (book: Book) => {
-        let text = book.title + "\n";
-        if (book.subtitle) {
-            text += book.subtitle + "\n";
-        }
-        if (book.author) {
-            text += `par ${book.author}\n`;
-        }
-        share({
-            title: book.title,
-            text,
-            url: `https://www.google.com/search?q=${book.title}+${book.author}`,
-            // TODO: add a book url
-        });
-    }; */
-    /*
-                                        {!loading && isSupported && (
-                                        <IconButton
-                                            aria-label="web share"
-                                            onClick={() =>
-                                                handleWebShareClick(thisBook)
-                                            }
-                                        >
-                                            <ShareIcon />
-                                        </IconButton>
-                                    )}
-
-                                    */
 
     const handleDeleteBook = (book?: Book): void => {
         if (!book) return;
@@ -190,6 +160,7 @@ export const BookDetailsPage: React.FC<Props> = ({
                                 </CardContent>
 
                                 <CardActions disableSpacing>
+                                    <WebShareBookButton book={thisBook} />
                                     <IconButton
                                         aria-label="voyage"
                                         onClick={() =>

@@ -23,7 +23,7 @@
     "notistack": "^1.0.10",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
-    "react-use-web-share": "^1.0.2",
+    "react-web-share-api": "0.0.2",
     "react-webcam": "^5.2.4",
     "recoil": "^0.3.1",
     "wouter": "^2.7.4"
