@@ -35,7 +35,11 @@ export const BookDetailBar: React.FC<Props> = ({
         setAnchorEl(event.currentTarget);
 
     const handleCloseMenu = () => setAnchorEl(null);
-
+    const handleClickDelete = () => {
+        if (!book.isTraveling) {
+            onClickDeleteBook(book);
+        }
+    };
     return (
         <TopBarActions
             actions={
@@ -46,24 +50,31 @@ export const BookDetailBar: React.FC<Props> = ({
                     >
                         Modifier
                     </Button>
-                    <IconButton
-                        aria-label="settings"
-                        color="inherit"
-                        onClick={handleOpenMenu}
-                    >
-                        <MoreVertIcon />
-                    </IconButton>
-                    <Menu
-                        id="simple-menu"
-                        anchorEl={anchorEl}
-                        keepMounted
-                        open={Boolean(anchorEl)}
-                        onClose={handleCloseMenu}
-                    >
-                        <MenuItem onClick={() => onClickDeleteBook(book)}>
-                            Supprimer
-                        </MenuItem>
-                    </Menu>
+
+                    {book.isTraveling === false && (
+                        <>
+                            <IconButton
+                                aria-label="settings"
+                                color="inherit"
+                                onClick={handleOpenMenu}
+                            >
+                                <MoreVertIcon />
+                            </IconButton>
+                            <Menu
+                                id="simple-menu"
+                                anchorEl={anchorEl}
+                                keepMounted
+                                open={Boolean(anchorEl)}
+                                onClose={handleCloseMenu}
+                            >
+                                <MenuItem
+                                    onClick={() => onClickDeleteBook(book)}
+                                >
+                                    Supprimer
+                                </MenuItem>
+                            </Menu>
+                        </>
+                    )}
                 </>
             }
         ></TopBarActions>

@@ -61,7 +61,6 @@ export const BookDetailsPage: React.FC<Props> = ({
     id,
 }): JSX.Element | null => {
     const classes = useStyles();
-    //const { isSupported, loading, share } = useWebShare();
     const [, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const thisBook = useRecoilValue(bookByIdState(id));
     const setBooks = useSetRecoilState<Book[]>(bookListState);
