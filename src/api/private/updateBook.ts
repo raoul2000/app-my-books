@@ -2,14 +2,29 @@ import { Book } from "../../types";
 import { handleErrorJson } from "./response-handler";
 import { apiBaseUrl, HEADER_NAME_API_KEY, getApiKey } from "./conf";
 import { validateUserBookType } from "./schema";
-import {API_UserBook} from './types';
+import { API_UserBook } from "./types";
 
-export const updateBook = (book: Book): Promise<Book> =>
-    fetch(
+export const updateBook = (book: Book): Promise<Book> => {
+    let payload:any = {
+        userBook: {
+            read_status: book.readStatus,
+            rate: book.rate,
+        }
+    };
+    // it is forbidden to update a traveling book (only useBook can be modified)
+    if(!book.isTraveling) {
+        payload.book = {
+            title: book.title,
+            subtitle: book.subtitle,
+            author: book.author,
+            isbn: book.isbn,
+        };
+    }
+    return fetch(
         `${apiBaseUrl}?${new URLSearchParams({
             r: "api/user-book/update",
             id: book.id,
-            expand: 'book'
+            expand: "book",
         })}`,
         {
             method: "PUT",
@@ -17,26 +32,15 @@ export const updateBook = (book: Book): Promise<Book> =>
                 "Content-Type": "application/json",
                 [HEADER_NAME_API_KEY]: getApiKey(),
             },
-            body: JSON.stringify({
-                book: {
-                    title: book.title,
-                    subtitle: book.subtitle,
-                    author: book.author,
-                    isbn: book.isbn,
-                },
-                userBook: {
-                    read_status: book.readStatus,
-                    rate: book.rate
-                },
-            }),
+            body: JSON.stringify(payload),
         }
     )
         .then(handleErrorJson)
         .then((jsonResponse) => {
             if (!validateUserBookType(jsonResponse)) {
                 console.error(validateUserBookType.errors);
-                throw new Error('data validation error');
-            }            
+                throw new Error("data validation error");
+            }
 
             const resp = jsonResponse as unknown as API_UserBook;
             return {
@@ -47,4 +51,5 @@ export const updateBook = (book: Book): Promise<Book> =>
                 isTicketLoaded: false,
                 pingCount: resp.book.ping_count,
             };
-        });        
+        });
+};

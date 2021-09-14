@@ -8,6 +8,7 @@ import ErrorIcon from "@material-ui/icons/Error";
 import SearchIcon from '@material-ui/icons/Search';
 
 import { AsyncOperationStatus } from "@/types";
+import { SyncDisabledTwoTone } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -20,12 +21,14 @@ const useStyles = makeStyles((theme: Theme) =>
 type Props = {
     value: string;
     status: AsyncOperationStatus;
+    disabled: boolean;
     onChange: (v: string) => void;
     onStartSearch: () => void;
 };
 export const IsbnSearchField: React.FC<Props> = ({
     value,
     status,
+    disabled,
     onChange,
     onStartSearch
 }): JSX.Element => {
@@ -46,7 +49,7 @@ export const IsbnSearchField: React.FC<Props> = ({
             <IconButton
                 aria-label="search by ISBN"
                 onClick={onStartSearch}
-                disabled={status === "progress"}
+                disabled={disabled}
             >
                 {renderButtonContent()}
             </IconButton>
@@ -69,7 +72,7 @@ export const IsbnSearchField: React.FC<Props> = ({
                 ),
             }}
             variant="outlined"
-            disabled={status === "progress"}
+            disabled={disabled}
         />
     );
 };

@@ -1,5 +1,7 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
+import Box from "@material-ui/core/Box";
+import { Alert } from "@material-ui/lab";
 import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
@@ -36,7 +38,7 @@ export const FormBook: React.FC<Props> = ({ onIsbnSearch }): JSX.Element => {
             subtitle: e.target.value,
         }));
     };
-    
+
     const handleBookAuthorChange = (
         e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
     ) => {
@@ -63,12 +65,19 @@ export const FormBook: React.FC<Props> = ({ onIsbnSearch }): JSX.Element => {
     const handleRateChange = (rate: number | null) => {
         setBookFormState((state) => ({
             ...state,
-            rate: rate || undefined
+            rate: rate || undefined,
         }));
     };
 
     return (
         <div className="form-book">
+            {bookForm.isTraveling && (
+                <Box marginBottom="2em">
+                    <Alert severity="info">
+                        Ce livre voyage, modification limitée
+                    </Alert>
+                </Box>
+            )}
             <form autoComplete="off">
                 <Grid container spacing={2}>
                     <Grid item xs={12}>
@@ -81,7 +90,10 @@ export const FormBook: React.FC<Props> = ({ onIsbnSearch }): JSX.Element => {
                             required
                             fullWidth
                             error={!bookForm.validation?.title || false}
-                            disabled={bookForm.isbnSearch === "progress"}
+                            disabled={
+                                bookForm.isbnSearch === "progress" ||
+                                bookForm.isTraveling
+                            }
                         />
                     </Grid>
                     <Grid item xs={12}>
@@ -92,7 +104,10 @@ export const FormBook: React.FC<Props> = ({ onIsbnSearch }): JSX.Element => {
                             value={bookForm.subtitle || ""}
                             onChange={handleBookSubtitleChange}
                             fullWidth
-                            disabled={bookForm.isbnSearch === "progress"}
+                            disabled={
+                                bookForm.isbnSearch === "progress" ||
+                                bookForm.isTraveling
+                            }
                         />
                     </Grid>
                     <Grid item xs={12}>
@@ -103,7 +118,10 @@ export const FormBook: React.FC<Props> = ({ onIsbnSearch }): JSX.Element => {
                             value={bookForm.author || ""}
                             onChange={handleBookAuthorChange}
                             fullWidth
-                            disabled={bookForm.isbnSearch === "progress"}
+                            disabled={
+                                bookForm.isbnSearch === "progress" ||
+                                bookForm.isTraveling
+                            }
                         />
                     </Grid>
                     <Grid item xs={12}>
@@ -112,6 +130,10 @@ export const FormBook: React.FC<Props> = ({ onIsbnSearch }): JSX.Element => {
                             status={bookForm.isbnSearch}
                             onChange={handleBookIsbnChange}
                             onStartSearch={onIsbnSearch}
+                            disabled={
+                                bookForm.isbnSearch === "progress" ||
+                                bookForm.isTraveling
+                            }
                         />
                     </Grid>
                     <Grid item xs={12}>
@@ -141,9 +163,15 @@ export const FormBook: React.FC<Props> = ({ onIsbnSearch }): JSX.Element => {
                                 <MenuItem>
                                     <em>{getReadStatusLabel()}</em>
                                 </MenuItem>
-                                <MenuItem value={1}>{getReadStatusLabel(1)}</MenuItem>
-                                <MenuItem value={2}>{getReadStatusLabel(2)}</MenuItem>
-                                <MenuItem value={3}>{getReadStatusLabel(3)}</MenuItem>
+                                <MenuItem value={1}>
+                                    {getReadStatusLabel(1)}
+                                </MenuItem>
+                                <MenuItem value={2}>
+                                    {getReadStatusLabel(2)}
+                                </MenuItem>
+                                <MenuItem value={3}>
+                                    {getReadStatusLabel(3)}
+                                </MenuItem>
                             </Select>
                         </FormControl>
                     </Grid>
