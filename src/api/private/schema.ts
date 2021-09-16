@@ -100,6 +100,7 @@ const trackSchema: JSONSchemaType<API_Track> = {
     properties: {
         id: { type: "number" },
         book_id: { type: "string" },
+        is_boarding: { type: "number", enum: [0, 1] },
         user_ip: { type: "string" },
         email: { type: "string", nullable: true  },
         text: { type: "string", nullable: true  },
