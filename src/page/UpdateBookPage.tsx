@@ -88,7 +88,22 @@ export const UpdateBookPage: React.FC<Props> = ({ id }): JSX.Element | null => {
                 ]);
                 
             })
-            .catch(console.error)
+            .catch((error) => {
+                console.error(error);
+                if(error.status === 401) {
+                    enqueueSnackbar(
+                        "Echec lors de l'identification: veuillez vous authentifier",
+                        {
+                            variant: "error",
+                            anchorOrigin: {
+                                vertical: "bottom",
+                                horizontal: "center",
+                            },
+                        }
+                    );
+                    setLocation("/signin");
+                }
+            })
             .finally(() => setProgress(false));
     };
 

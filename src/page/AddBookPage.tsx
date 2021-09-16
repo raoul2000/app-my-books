@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Typography from "@material-ui/core/Typography";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
+import { useSnackbar } from "notistack";
 import { useLocation } from "wouter";
 import { useSetRecoilState, useRecoilState } from "recoil";
 import { bookListState } from "../state/book-list";
@@ -24,6 +25,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export const AddBookPage: React.FC<{}> = (): JSX.Element => {
+    const { enqueueSnackbar } = useSnackbar();
     const classes = useStyles();
     const [enableIsbnScan, setEnableIsbnScan] = useState(false);
     const setBooks = useSetRecoilState<Book[]>(bookListState);
@@ -64,7 +66,22 @@ export const AddBookPage: React.FC<{}> = (): JSX.Element => {
             .then((savedBook) => {
                 setBooks((oldBooks) => [savedBook, ...oldBooks]);
             })
-            .catch((error) => console.error(error))
+            .catch((error) => {
+                console.error(error);
+                if(error.status === 401) {
+                    enqueueSnackbar(
+                        "Echec lors de l'identification: veuillez vous authentifier",
+                        {
+                            variant: "error",
+                            anchorOrigin: {
+                                vertical: "bottom",
+                                horizontal: "center",
+                            },
+                        }
+                    );
+                    setLocation("/signin");
+                }
+            })
             .finally(() => setProgress(false));
     };
 
@@ -73,7 +90,6 @@ export const AddBookPage: React.FC<{}> = (): JSX.Element => {
 
         return BookApi.searchBookByISBN(isbn)
             .then((bookData: BookResult) => {
-                //                setBookForm((old) => ({ ...old, isbnSearch: "success" }));
                 setBookForm((curState) => ({
                     ...curState,
                     ...bookData,
