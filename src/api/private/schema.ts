@@ -132,11 +132,9 @@ const bookTrackSchema: JSONSchemaType<API_BookTrack> = {
     $id: "http://example.com/schemas/book-track.json",
     type: "object",
     properties: {
-        book: { $ref: "book.json" },
         track: { $ref: "track-list.json"}
     },
     required: [
-        "book",
         "track",
     ],
     additionalProperties: false,

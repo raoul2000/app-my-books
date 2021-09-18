@@ -212,7 +212,6 @@ export type API_Track = {
  * - read track list `GET api/tracker`
  */
 export type API_BookTrack = {
-    book: API_Book;
     track: API_Track[];
 };
 
