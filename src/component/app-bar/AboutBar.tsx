@@ -1,10 +1,10 @@
 import React from "react";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import { createStyles, makeStyles, Theme } from "@mui/styles";
 import { useLocation } from "wouter";
-import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
-import IconButton from "@material-ui/core/IconButton";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import IconButton from "@mui/material/IconButton";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({

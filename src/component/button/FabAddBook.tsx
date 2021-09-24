@@ -1,8 +1,8 @@
 import React from "react";
-import Fab from "@material-ui/core/Fab";
-import { makeStyles } from "@material-ui/core/styles";
-import AddIcon from "@material-ui/icons/Add";
-import { green } from '@material-ui/core/colors';
+import Fab from "@mui/material/Fab";
+import { makeStyles } from "@mui/styles";
+import AddIcon from "@mui/icons-material/Add";
+import { green } from '@mui/material/colors';
 
 type Props = {
     onClick: () => void;

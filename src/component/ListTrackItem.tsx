@@ -1,13 +1,13 @@
 import React from "react";
-import Card from "@material-ui/core/Card";
-import CardHeader from "@material-ui/core/CardHeader";
-import CardContent from "@material-ui/core/CardContent";
-import Avatar from "@material-ui/core/Avatar";
-import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
-import { green } from "@material-ui/core/colors";
-import PersonPinCircleIcon from "@material-ui/icons/PersonPinCircle";
-import Rating from "@material-ui/lab/Rating";
-import Typography from "@material-ui/core/Typography";
+import Card from "@mui/material/Card";
+import CardHeader from "@mui/material/CardHeader";
+import CardContent from "@mui/material/CardContent";
+import Avatar from "@mui/material/Avatar";
+import { makeStyles, Theme, createStyles } from "@mui/styles";
+import { green } from "@mui/material/colors";
+import PersonPinCircleIcon from "@mui/icons-material/PersonPinCircle";
+import Rating from "@mui/material/Rating";
+import Typography from "@mui/material/Typography";
 
 import { BookTrack } from "@/types";
 

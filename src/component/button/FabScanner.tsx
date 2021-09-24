@@ -1,7 +1,7 @@
 import React from "react";
-import Fab from "@material-ui/core/Fab";
-import { makeStyles } from "@material-ui/core/styles";
-import CropFreeIcon from "@material-ui/icons/CropFree";
+import Fab from "@mui/material/Fab";
+import { makeStyles } from "@mui/styles";
+import CropFreeIcon from "@mui/icons-material/CropFree";
 
 type Props = {
     onClick: () => void;

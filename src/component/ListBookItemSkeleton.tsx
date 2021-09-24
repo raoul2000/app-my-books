@@ -1,8 +1,8 @@
 import React from "react";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import Skeleton from "@material-ui/lab/Skeleton";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
+import ListItemAvatar from "@mui/material/ListItemAvatar";
+import Skeleton from "@mui/material/Skeleton";
 
 export const ListBookItemSkeleton: React.FC<{}> = (): JSX.Element => {
     return (
@@ -10,10 +10,10 @@ export const ListBookItemSkeleton: React.FC<{}> = (): JSX.Element => {
             {Array.from(new Array(10)).map((book, index) => (
                 <ListItem key={index} divider={true}>
                     <ListItemAvatar>
-                        <Skeleton variant="circle" width={40} height={40} />
+                        <Skeleton variant="circular" width={40} height={40} />
                     </ListItemAvatar>
                     <ListItemText
-                        primary={<Skeleton variant="rect" height="1em" />}
+                        primary={<Skeleton variant="rectangular" height="1em" />}
                         secondary={<Skeleton variant="text" />}
                     />
                 </ListItem>

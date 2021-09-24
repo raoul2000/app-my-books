@@ -1,24 +1,24 @@
 import React, { useState } from "react";
-import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
-import Stepper from "@material-ui/core/Stepper";
-import Step from "@material-ui/core/Step";
-import StepLabel from "@material-ui/core/StepLabel";
-import StepContent from "@material-ui/core/StepContent";
-import Button from "@material-ui/core/Button";
-import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
+import { makeStyles, Theme, createStyles } from "@mui/styles";
+import Stepper from "@mui/material/Stepper";
+import Step from "@mui/material/Step";
+import StepLabel from "@mui/material/StepLabel";
+import StepContent from "@mui/material/StepContent";
+import Button from "@mui/material/Button";
+import Paper from "@mui/material/Paper";
+import Typography from "@mui/material/Typography";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
 import DateFnsUtils from "@date-io/date-fns";
 import frLocale from "date-fns/locale/fr";
-import CheckCircleOutlineRoundedIcon from "@material-ui/icons/CheckCircleOutlineRounded";
+import CheckCircleOutlineRoundedIcon from "@mui/icons-material/CheckCircleOutlineRounded";
 
 import {
     MuiPickersUtilsProvider,
     KeyboardDatePicker,
     KeyboardTimePicker,
-} from "@material-ui/pickers";
-import TextField from "@material-ui/core/TextField";
+} from "@mui/pickers";
+import TextField from "@mui/material/TextField";
 import { Book, TravelTicket, createTravelTicket } from "@/types";
 
 const useStyles = makeStyles((theme: Theme) =>

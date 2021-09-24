@@ -1,13 +1,13 @@
 import React from "react";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import Avatar from "@material-ui/core/Avatar";
-import BookIcon from "@material-ui/icons/Book";
-import FlightTakeoffIcon from "@material-ui/icons/FlightTakeoff";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
+import ListItemAvatar from "@mui/material/ListItemAvatar";
+import Avatar from "@mui/material/Avatar";
+import BookIcon from "@mui/icons-material/Book";
+import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
 import clsx from "clsx";
-import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
-import { blue } from "@material-ui/core/colors";
+import { makeStyles, Theme, createStyles } from "@mui/styles";
+import { blue } from "@mui/material/colors";
 
 import { Book } from "@/types";
 

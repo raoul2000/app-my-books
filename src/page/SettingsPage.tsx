@@ -1,8 +1,8 @@
 import React from "react";
 import { useLocation } from "wouter";
-import Typography from "@material-ui/core/Typography";
+import Typography from "@mui/material/Typography";
 import { FormSettings } from "@/component/form/FormSettings";
-import Container from "@material-ui/core/Container";
+import Container from "@mui/material/Container";
 
 export const SettingsPage: React.FC<{}> = (): JSX.Element => {
     const [, setLocation] = useLocation();

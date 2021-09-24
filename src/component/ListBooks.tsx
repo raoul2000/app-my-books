@@ -1,7 +1,7 @@
 import React from "react";
-import List from "@material-ui/core/List";
-import Typography from "@material-ui/core/Typography";
-import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
+import List from "@mui/material/List";
+import Typography from "@mui/material/Typography";
+import { makeStyles, Theme, createStyles } from "@mui/styles";
 import { useLocation } from "wouter";
 
 import { Book } from "@/types";

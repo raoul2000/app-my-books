@@ -1,14 +1,14 @@
 import React from "react";
-import TextField from "@material-ui/core/TextField";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import IconButton from "@material-ui/core/IconButton";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import ErrorIcon from "@material-ui/icons/Error";
-import SearchIcon from '@material-ui/icons/Search';
+import TextField from "@mui/material/TextField";
+import InputAdornment from "@mui/material/InputAdornment";
+import IconButton from "@mui/material/IconButton";
+import CircularProgress from "@mui/material/CircularProgress";
+import { createStyles, makeStyles, Theme } from "@mui/styles";
+import ErrorIcon from "@mui/icons-material/Error";
+import SearchIcon from '@mui/icons-material/Search';
 
 import { AsyncOperationStatus } from "@/types";
-import { SyncDisabledTwoTone } from "@material-ui/icons";
+import { SyncDisabledTwoTone } from "@mui/icons";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({

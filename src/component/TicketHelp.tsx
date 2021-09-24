@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import Accordion from "@material-ui/core/Accordion";
-import AccordionSummary from "@material-ui/core/AccordionSummary";
-import AccordionDetails from "@material-ui/core/AccordionDetails";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import Typography from "@material-ui/core/Typography";
-import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
-import Box from "@material-ui/core/Box";
-import { makeStyles } from "@material-ui/core/styles";
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import Typography from "@mui/material/Typography";
+import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+import Box from "@mui/material/Box";
+import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles((theme) => ({
     infoHeader: {

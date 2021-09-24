@@ -1,11 +1,11 @@
 import React from "react";
-import Card from "@material-ui/core/Card";
-import CardHeader from "@material-ui/core/CardHeader";
-import FlightTakeoffIcon from "@material-ui/icons/FlightTakeoff";
-import Avatar from "@material-ui/core/Avatar";
-import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
-import { blue } from "@material-ui/core/colors";
-import { Alert } from "@material-ui/lab";
+import Card from "@mui/material/Card";
+import CardHeader from "@mui/material/CardHeader";
+import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
+import Avatar from "@mui/material/Avatar";
+import { makeStyles, Theme, createStyles } from "@mui/styles";
+import { blue } from "@mui/material/colors";
+import Alert from '@mui/material/Alert';
 
 import { BookTrack, TravelTicket } from "@/types";
 import { ListTrackItem } from "./ListTrackItem";

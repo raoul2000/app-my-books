@@ -1,10 +1,10 @@
 import React from "react";
-import AppBar from "@material-ui/core/AppBar";
-import Typography from "@material-ui/core/Typography";
-import Toolbar from "@material-ui/core/Toolbar";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import AppBar from "@mui/material/AppBar";
+import Typography from "@mui/material/Typography";
+import Toolbar from "@mui/material/Toolbar";
+import { createStyles, makeStyles, Theme } from "@mui/styles";
 import MainMenu from "../MainMenu";
-import CircularProgress from "@material-ui/core/CircularProgress";
+import CircularProgress from "@mui/material/CircularProgress";
 import { progressState } from "../../state/progress";
 import { useRecoilValue } from "recoil";
 import { useLocation } from "wouter";

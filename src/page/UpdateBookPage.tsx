@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import Button from "@material-ui/core/Button";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
+import Button from "@mui/material/Button";
+import { createStyles, makeStyles, Theme } from "@mui/styles";
+import Container from "@mui/material/Container";
 import {useLocation} from "wouter";
 import { useRecoilState, useSetRecoilState, useRecoilValue } from "recoil";
 
