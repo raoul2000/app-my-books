@@ -23,7 +23,6 @@ export const FormLogin: React.FC<Props> = ({
     onSuccess,
     onError,
 }): JSX.Element => {
-
     const [loginInProgress, setLoginInProgress] = React.useState(false);
     const [formError, setFormError] = useState<FormError>({
         username: false,
@@ -130,9 +129,11 @@ export const FormLogin: React.FC<Props> = ({
                     >
                         Sign In
                     </Button>
-                    <Box sx={{ width: "100%" }}>
-                        <LinearProgress hidden={!loginInProgress} />
-                    </Box>
+                    {loginInProgress && (
+                        <Box>
+                            <LinearProgress />
+                        </Box>
+                    )}
                 </Box>
             </Box>
         </Container>

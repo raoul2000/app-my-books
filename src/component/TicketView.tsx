@@ -13,7 +13,7 @@ import IconButton from "@mui/material/IconButton";
 import PrintIcon from "@mui/icons-material/Print";
 import Button from "@mui/material/Button";
 import { makeStyles } from "@mui/styles";
-import Alert from '@mui/material/Alert';
+import Alert from "@mui/material/Alert";
 import { Book, TravelTicket } from "@/types";
 import { TicketHelp } from "@/component/TicketHelp";
 
@@ -74,7 +74,7 @@ export const TicketView: React.FC<Props> = ({
             {book.isTraveling === true && (
                 <Box marginBottom="2em">
                     <Alert severity="info">
-                        Ticket  Utilisé: ce livre est en voyage...
+                        Ticket Utilisé: ce livre est en voyage...
                     </Alert>
                 </Box>
             )}

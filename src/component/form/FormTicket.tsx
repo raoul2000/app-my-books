@@ -9,13 +9,11 @@ import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import DateFnsUtils from "@date-io/date-fns";
 import frLocale from "date-fns/locale/fr";
 import CheckCircleOutlineRoundedIcon from "@mui/icons-material/CheckCircleOutlineRounded";
 
 import DateAdapter from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
-import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import MobileDatePicker from "@mui/lab/MobileDatePicker";
 import TimePicker from "@mui/lab/TimePicker";
 
@@ -36,11 +34,9 @@ export const FormTicket: React.FC<Props> = ({
     const [departureDate, setDepartureDate] = useState<Date>(new Date());
     const [departureDateError, setDepartureDateError] =
         useState<boolean>(false);
-
     const [departureTime, setDepartureTime] = useState<Date>(new Date());
     const [departureTimeError, setDepartureTimeError] =
         useState<boolean>(false);
-
     const [from, setFrom] = useState<string>("");
     const [fromError, setFromError] = useState<boolean>(false);
 
@@ -120,17 +116,13 @@ export const FormTicket: React.FC<Props> = ({
                             Vérifiez que les informations suivantes sont
                             correctes :
                         </Typography>
-                        <Card
-                            variant="outlined"
-                        >
+                        <Card elevation={0}>
                             <CardContent>
                                 <Typography>
-                                    {book.title}
+                                    <strong>{book.title}</strong>
                                 </Typography>
                                 {book.subtitle && (
-                                    <Typography>
-                                        {book.subtitle}
-                                    </Typography>
+                                    <Typography>{book.subtitle}</Typography>
                                 )}
                                 {book.author && (
                                     <Typography color="textSecondary">
@@ -154,23 +146,33 @@ export const FormTicket: React.FC<Props> = ({
                             dateAdapter={DateAdapter}
                             locale={frLocale}
                         >
-                            <MobileDatePicker
-                                label="Date de départ"
-                                inputFormat="dd/MM/yyyy"
-                                value={departureDate}
-                                onChange={handleDateChange}
-                                renderInput={(params) => (
-                                    <TextField {...params} />
-                                )}
-                            />
-                            <TimePicker
-                                label="Heure de départ"
-                                value={departureTime}
-                                onChange={handleTimeChange}
-                                renderInput={(params) => (
-                                    <TextField {...params} />
-                                )}
-                            />
+                            <Box padding="1em">
+                                <MobileDatePicker
+                                    label="Date de départ"
+                                    inputFormat="dd/MM/yyyy"
+                                    value={departureDate}
+                                    onChange={handleDateChange}
+                                    renderInput={(params) => (
+                                        <TextField
+                                            {...params}
+                                            variant="standard"
+                                        />
+                                    )}
+                                />
+                            </Box>
+                            <Box padding="1em">
+                                <TimePicker
+                                    label="Heure de départ"
+                                    value={departureTime}
+                                    onChange={handleTimeChange}
+                                    renderInput={(params) => (
+                                        <TextField
+                                            {...params}
+                                            variant="standard"
+                                        />
+                                    )}
+                                />
+                            </Box>
                         </LocalizationProvider>
                     </>
                 );
@@ -186,6 +188,7 @@ export const FormTicket: React.FC<Props> = ({
                             id="departure-location"
                             label="Lieu de départ"
                             margin="normal"
+                            variant="standard"
                             value={from}
                             onChange={handleFromChange}
                             fullWidth
@@ -201,7 +204,7 @@ export const FormTicket: React.FC<Props> = ({
     };
 
     return (
-        <Box sx={{ width: "100%"}}>
+        <Box>
             {activeStep === steps.length ? (
                 <Paper square elevation={0}>
                     <Typography>
@@ -227,16 +230,16 @@ export const FormTicket: React.FC<Props> = ({
                         Si Les informations saisies sont exactes, vous pouvez
                         maintenant créer le ticket de voyage.
                     </Typography>
-                    <Button onClick={handleReset}>
-                        Recommencer
-                    </Button>
-                    <Button
-                        onClick={handleCreateTicket}
-                        variant="contained"
-                        color="primary"
-                    >
-                        Créer Ticket
-                    </Button>
+                    <Box marginTop="1em">
+                        <Button onClick={handleReset}>Recommencer</Button>
+                        <Button
+                            onClick={handleCreateTicket}
+                            variant="contained"
+                            color="primary"
+                        >
+                            Créer Ticket
+                        </Button>
+                    </Box>
                 </Paper>
             ) : (
                 <Stepper activeStep={activeStep} orientation="vertical">
@@ -245,28 +248,24 @@ export const FormTicket: React.FC<Props> = ({
                             <StepLabel>{label}</StepLabel>
                             <StepContent>
                                 {getStepContent(index)}
-                                <div>
-                                    <div>
-                                        <Button
-                                            disabled={activeStep === 0}
-                                            onClick={handleBack}
-                                        >
-                                            Précédent
-                                        </Button>
-                                        <Button
-                                            variant="contained"
-                                            color="primary"
-                                            onClick={handleNext}
-                                            disabled={disableNextButton(
-                                                activeStep
-                                            )}
-                                        >
-                                            {activeStep === steps.length - 1
-                                                ? "Terminer"
-                                                : "Suivant"}
-                                        </Button>
-                                    </div>
-                                </div>
+                                <Box marginTop="1em">
+                                    <Button
+                                        disabled={activeStep === 0}
+                                        onClick={handleBack}
+                                    >
+                                        Précédent
+                                    </Button>
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                        onClick={handleNext}
+                                        disabled={disableNextButton(activeStep)}
+                                    >
+                                        {activeStep === steps.length - 1
+                                            ? "Terminer"
+                                            : "Suivant"}
+                                    </Button>
+                                </Box>
                             </StepContent>
                         </Step>
                     ))}
@@ -275,41 +274,3 @@ export const FormTicket: React.FC<Props> = ({
         </Box>
     );
 };
-
-/*
-                        <MuiPickersUtilsProvider
-                            utils={DateFnsUtils}
-                            locale={frLocale}
-                        >
-                            <KeyboardDatePicker
-                                margin="normal"
-                                id="date-picker-dialog"
-                                label="Date de départ"
-                                format="dd/MM/yyyy"
-                                onChange={handleDateChange}
-                                value={departureDate}
-                                KeyboardButtonProps={{
-                                    "aria-label": "change date",
-                                }}
-                                fullWidth
-                                required
-                                autoComplete="off"
-                                error={departureDateError}
-                            />
-                            <KeyboardTimePicker
-                                margin="normal"
-                                id="time-picker"
-                                label="Heure de départ"
-                                value={departureTime}
-                                ampm={false}
-                                onChange={handleTimeChange}
-                                KeyboardButtonProps={{
-                                    "aria-label": "change time",
-                                }}
-                                fullWidth
-                                required
-                                autoComplete="off"
-                                error={departureTimeError}
-                            />
-                        </MuiPickersUtilsProvider>
-                        */

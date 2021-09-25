@@ -9,7 +9,6 @@ import ListItemText from "@mui/material/ListItemText";
 import ListSubheader from "@mui/material/ListSubheader";
 import { makeStyles } from "@mui/styles";
 import Alert from '@mui/material/Alert';
-import AlertTitle from '@mui/material/AlertTitle';
 
 const useStyles = makeStyles((theme) => ({
     checklistText: {

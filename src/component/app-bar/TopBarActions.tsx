@@ -24,7 +24,7 @@ export const TopBarActions: React.FC<Props> = ({
     return (
         <AppBar
             position="sticky"
-            sx={{ display: "none", displayPrint: "block" }}
+            sx={{ display: "block", displayPrint: "none" }}
         >
             <Toolbar>
                 {showBack && (

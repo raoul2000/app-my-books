@@ -85,6 +85,7 @@ export const FormBook: React.FC<Props> = ({ onIsbnSearch }): JSX.Element => {
                             id="book-title"
                             label="Titre"
                             multiline={true}
+                            variant="standard"
                             value={bookForm.title || ""}
                             onChange={handleBookTitleChange}
                             required
@@ -101,6 +102,7 @@ export const FormBook: React.FC<Props> = ({ onIsbnSearch }): JSX.Element => {
                             id="book-subtitle"
                             label="Sous Titre"
                             multiline={true}
+                            variant="standard"
                             value={bookForm.subtitle || ""}
                             onChange={handleBookSubtitleChange}
                             fullWidth
@@ -115,6 +117,7 @@ export const FormBook: React.FC<Props> = ({ onIsbnSearch }): JSX.Element => {
                             id="book-author"
                             label="Auteur"
                             multiline={true}
+                            variant="standard"
                             value={bookForm.author || ""}
                             onChange={handleBookAuthorChange}
                             fullWidth
@@ -139,6 +142,7 @@ export const FormBook: React.FC<Props> = ({ onIsbnSearch }): JSX.Element => {
                     <Grid item xs={12}>
                         <Rating
                             name="book-rate"
+                            size="large"
                             value={bookForm.rate || null}
                             onChange={(event, newValue) => {
                                 handleRateChange(newValue);
@@ -146,7 +150,7 @@ export const FormBook: React.FC<Props> = ({ onIsbnSearch }): JSX.Element => {
                         />
                     </Grid>
                     <Grid item xs={12}>
-                        <FormControl fullWidth>
+                        <FormControl variant="standard" fullWidth>
                             <InputLabel id="demo-simple-select-label">
                                 Status de Lecture
                             </InputLabel>
