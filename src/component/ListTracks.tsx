@@ -3,48 +3,40 @@ import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
 import Avatar from "@mui/material/Avatar";
-import { makeStyles, Theme, createStyles } from "@mui/styles";
 import { blue } from "@mui/material/colors";
-import Alert from '@mui/material/Alert';
+import Alert from "@mui/material/Alert";
 
 import { BookTrack, TravelTicket } from "@/types";
 import { ListTrackItem } from "./ListTrackItem";
 
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        root: {
-            marginBottom: "1em",
-        },
-        iconTakeOff: {
-            backgroundColor: blue[500],
-        },
-    })
-);
-
 type Props = {
     tracks?: BookTrack[];
-    ticket?: TravelTicket; 
+    ticket?: TravelTicket;
 };
 
-export const ListTracks: React.FC<Props> = ({ tracks, ticket }): JSX.Element => {
-    const classes = useStyles();
-
+export const ListTracks: React.FC<Props> = ({
+    tracks,
+    ticket,
+}): JSX.Element => {
     return (
         <>
-            <Card className={classes.root} elevation={1}>
+            <Card sx={{ marginBottom: "1em" }}>
                 <CardHeader
                     avatar={
                         <Avatar
                             aria-label="take off"
-                            className={classes.iconTakeOff}
+                            sx={{ backgroundColor: blue[500] }}
                         >
                             <FlightTakeoffIcon />
                         </Avatar>
                     }
                     title="Début du Voyage"
-                    subheader={ticket && `${ticket.departureDateTime.toLocaleDateString()} à ${ticket.departureDateTime
-                        .toLocaleTimeString()
-                        .replace(/:..$/, "")}`}
+                    subheader={
+                        ticket &&
+                        `${ticket.departureDateTime.toLocaleDateString()} à ${ticket.departureDateTime
+                            .toLocaleTimeString()
+                            .replace(/:..$/, "")}`
+                    }
                 />
             </Card>
             {!tracks || tracks.length === 0 ? (

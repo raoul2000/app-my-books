@@ -1,37 +1,12 @@
 import React from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
-import { createStyles, makeStyles, Theme } from "@mui/styles";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 
 import { useLocation } from "wouter";
 
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        title: {
-            flex: 1,
-            justifyContent: "flex-end",
-            color: "white",
-            textAlign: "center",
-        },
-        submitButton: {
-            color: "white",
-        },
-        backButton: {
-            marginRight: theme.spacing(2),
-        },
-        hideOnPrint: {
-            display: "block",
-        },
-        [`@media print`]: {
-            hideOnPrint: {
-                display: "none",
-            },
-        },
-    })
-);
 type Props = {
     actions?: JSX.Element;
     showBack?: boolean;
@@ -44,16 +19,17 @@ export const TopBarActions: React.FC<Props> = ({
     showBack = true,
     backPath = "/",
 }): JSX.Element => {
-    const classes = useStyles();
     const [, setLocation] = useLocation();
 
     return (
-        <AppBar position="sticky" className={classes.hideOnPrint}>
+        <AppBar
+            position="sticky"
+            sx={{ display: "none", displayPrint: "block" }}
+        >
             <Toolbar>
                 {showBack && (
                     <IconButton
                         edge="start"
-                        className={classes.backButton}
                         color="inherit"
                         aria-label="menu"
                         onClick={() => setLocation(backPath)}
@@ -61,7 +37,16 @@ export const TopBarActions: React.FC<Props> = ({
                         <ArrowBackIosIcon />
                     </IconButton>
                 )}
-                <Typography className={classes.title}>{title}</Typography>
+                <Typography
+                    sx={{
+                        flex: 1,
+                        justifyContent: "flex-end",
+                        color: "white",
+                        textAlign: "center",
+                    }}
+                >
+                    {title}
+                </Typography>
                 {actions}
             </Toolbar>
         </AppBar>

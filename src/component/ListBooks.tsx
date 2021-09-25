@@ -1,20 +1,11 @@
 import React from "react";
+import Box from '@mui/material/Box';
 import List from "@mui/material/List";
 import Typography from "@mui/material/Typography";
-import { makeStyles, Theme, createStyles } from "@mui/styles";
 import { useLocation } from "wouter";
-
 import { Book } from "@/types";
 import { ListBookItem } from "./ListBookItem";
 import { ListBookItemSkeleton } from "./ListBookItemSkeleton";
-
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        root: {
-            backgroundColor: theme.palette.background.paper,
-        },
-    })
-);
 
 type Props = {
     books: Book[];
@@ -22,14 +13,13 @@ type Props = {
 };
 
 export const ListBooks: React.FC<Props> = ({ books, loading }): JSX.Element => {
-    const classes = useStyles();
     const [, setLocation] = useLocation();
-
     const handleShowBookDetail = (bookId: string) =>
         setLocation(`/detail/${bookId}`);
 
     const renderBookList = (booksToRender: Book[]) => (
-        <List className={classes.root}>
+        <Box sx={{bgcolor: 'background.paper'}}>
+        <List>
             {loading ? (
                 <ListBookItemSkeleton />
             ) : (
@@ -42,6 +32,7 @@ export const ListBooks: React.FC<Props> = ({ books, loading }): JSX.Element => {
                 ))
             )}
         </List>
+        </Box>
     );
 
     return (

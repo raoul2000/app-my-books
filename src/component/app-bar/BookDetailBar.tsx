@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-
 import Button from "@mui/material/Button";
-import { createStyles, makeStyles, Theme } from "@mui/styles";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
@@ -15,19 +13,11 @@ type Props = {
     book: Book;
     onClickDeleteBook: (book: Book) => void;
 };
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        updateButton: {
-            color: "white",
-        },
-    })
-);
 
 export const BookDetailBar: React.FC<Props> = ({
     book,
     onClickDeleteBook,
 }): JSX.Element => {
-    const classes = useStyles();
     const [, setLocation] = useLocation();
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -45,7 +35,7 @@ export const BookDetailBar: React.FC<Props> = ({
             actions={
                 <>
                     <Button
-                        className={classes.updateButton}
+                        sx={{ color: "white" }}
                         onClick={() => setLocation(`/update/${book.id}`)}
                     >
                         Modifier

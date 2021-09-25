@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Typography from "@mui/material/Typography";
-import { createStyles, makeStyles, Theme } from "@mui/styles";
 import Button from "@mui/material/Button";
 import { useSnackbar } from "notistack";
 import { useLocation } from "wouter";
@@ -16,17 +14,8 @@ import { bookFormState } from "@/state/book-form";
 import { IsbnScanner } from "@/component/IsbnScanner";
 import { FabScanner } from "@/component/button/FabScanner";
 
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        submitButton: {
-            color: "white",
-        },
-    })
-);
-
 export const AddBookPage: React.FC<{}> = (): JSX.Element => {
     const { enqueueSnackbar } = useSnackbar();
-    const classes = useStyles();
     const [enableIsbnScan, setEnableIsbnScan] = useState(false);
     const setBooks = useSetRecoilState<Book[]>(bookListState);
     const setProgress = useSetRecoilState(progressState);
@@ -57,7 +46,7 @@ export const AddBookPage: React.FC<{}> = (): JSX.Element => {
             isTicketLoaded: false,
             isTraveling: false,
             tracks: [],
-            pingCount:0
+            pingCount: 0,
         };
 
         setProgress(true);
@@ -68,7 +57,7 @@ export const AddBookPage: React.FC<{}> = (): JSX.Element => {
             })
             .catch((error) => {
                 console.error(error);
-                if(error.status === 401) {
+                if (error.status === 401) {
                     enqueueSnackbar(
                         "Echec lors de l'identification: veuillez vous authentifier",
                         {
@@ -129,7 +118,7 @@ export const AddBookPage: React.FC<{}> = (): JSX.Element => {
                         backPath={"/"}
                         actions={
                             <Button
-                                className={classes.submitButton}
+                                sx={{ color: "white" }}
                                 onClick={handleSave}
                             >
                                 Enregistrer

@@ -10,6 +10,7 @@ export const bookFormState = atom<BookFormState>({
         validation: {
             title:true
         },
-        isbnSearch: 'success'
+        isbnSearch: 'success',
+        isTraveling: false
     }
 });

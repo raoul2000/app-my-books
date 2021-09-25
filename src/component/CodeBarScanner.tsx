@@ -1,20 +1,7 @@
 import React, { useCallback, useRef, useState, useEffect } from "react";
-import { createStyles, makeStyles, Theme } from "@mui/styles";
-import {
-    BarcodeFormat,
-    BrowserMultiFormatReader,
-} from "@zxing/library";
+import { BarcodeFormat, BrowserMultiFormatReader } from "@zxing/library";
 import Webcam from "react-webcam";
-
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        webcamContainer: {
-            marginTop: "2em",
-            border: "5px solid #e2e2e2",
-            padding: "1em",
-        },
-    })
-);
+import Box from "@mui/material/Box";
 
 export type BarcodeResult = {
     text: string;
@@ -32,7 +19,6 @@ export const CodeBarScanner: React.FC<Props> = ({
     height,
     onScanResult,
 }): JSX.Element => {
-    const classes = useStyles();
     const webcamRef = useRef<Webcam & HTMLVideoElement>(null);
     const [scannerOn, setScannerOn] = useState<boolean>(true);
     const [scanTimer, setScanTimer] = useState<NodeJS.Timer>();
@@ -71,7 +57,13 @@ export const CodeBarScanner: React.FC<Props> = ({
 
     return (
         <>
-            <div className={classes.webcamContainer}>
+            <Box
+                sx={{
+                    marginTop: "2em",
+                    border: "5px solid #e2e2e2",
+                    padding: "1em",
+                }}
+            >
                 <Webcam
                     width={width}
                     height={height}
@@ -81,7 +73,7 @@ export const CodeBarScanner: React.FC<Props> = ({
                         facingMode: "environment",
                     }}
                 />
-            </div>
+            </Box>
         </>
     );
 };
