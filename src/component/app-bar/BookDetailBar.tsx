@@ -20,16 +20,10 @@ export const BookDetailBar: React.FC<Props> = ({
 }): JSX.Element => {
     const [, setLocation] = useLocation();
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-
     const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>) =>
         setAnchorEl(event.currentTarget);
-
     const handleCloseMenu = () => setAnchorEl(null);
-    const handleClickDelete = () => {
-        if (!book.isTraveling) {
-            onClickDeleteBook(book);
-        }
-    };
+
     return (
         <TopBarActions
             actions={

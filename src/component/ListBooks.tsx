@@ -1,5 +1,5 @@
 import React from "react";
-import Box from '@mui/material/Box';
+import Box from "@mui/material/Box";
 import List from "@mui/material/List";
 import Typography from "@mui/material/Typography";
 import { useLocation } from "wouter";
@@ -18,20 +18,20 @@ export const ListBooks: React.FC<Props> = ({ books, loading }): JSX.Element => {
         setLocation(`/detail/${bookId}`);
 
     const renderBookList = (booksToRender: Book[]) => (
-        <Box sx={{bgcolor: 'background.paper'}}>
-        <List>
-            {loading ? (
-                <ListBookItemSkeleton />
-            ) : (
-                booksToRender.map((book) => (
-                    <ListBookItem
-                        key={book.id}
-                        book={book}
-                        onSelectBook={handleShowBookDetail}
-                    />
-                ))
-            )}
-        </List>
+        <Box sx={{ bgcolor: "background.paper" }}>
+            <List>
+                {loading ? (
+                    <ListBookItemSkeleton />
+                ) : (
+                    booksToRender.map((book) => (
+                        <ListBookItem
+                            key={book.id}
+                            book={book}
+                            onSelectBook={handleShowBookDetail}
+                        />
+                    ))
+                )}
+            </List>
         </Box>
     );
 

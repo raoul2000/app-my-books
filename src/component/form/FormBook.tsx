@@ -157,7 +157,7 @@ export const FormBook: React.FC<Props> = ({ onIsbnSearch }): JSX.Element => {
                             <Select
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
-                                value={bookForm.readStatus || ""}
+                                value={bookForm.readStatus}
                                 onChange={(e) =>
                                     handleReadStatusChange(
                                         e.target.value as unknown as number

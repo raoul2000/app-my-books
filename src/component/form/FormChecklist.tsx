@@ -7,14 +7,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemSecondaryAction from "@mui/material/ListItemSecondaryAction";
 import ListItemText from "@mui/material/ListItemText";
 import ListSubheader from "@mui/material/ListSubheader";
-import { makeStyles } from "@mui/styles";
-import Alert from '@mui/material/Alert';
-
-const useStyles = makeStyles((theme) => ({
-    checklistText: {
-        marginRight: "2em",
-    },
-}));
+import Alert from "@mui/material/Alert";
 
 type Checklist = {
     qrCodeOk: boolean;
@@ -33,7 +26,6 @@ export const FormChecklist: React.FC<Props> = ({
     checkpoint,
     onConfirm,
 }): JSX.Element => {
-    const classes = useStyles();
     const [checklist, setChecklist] = useState<Checklist>({
         qrCodeOk: false,
         bookingNumberOk: false,
@@ -66,9 +58,9 @@ export const FormChecklist: React.FC<Props> = ({
                     <ListItem>
                         <ListItemText
                             id="switch-qrcode"
+                            sx={{ marginRight: "2em" }}
                             primary="Le QR-CODE du ticket est collé sur la
                                         couverture, à l'interieur du livre"
-                            className={classes.checklistText}
                         />
                         <ListItemSecondaryAction>
                             <Switch
