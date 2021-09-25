@@ -9,6 +9,7 @@ import { blue } from "@mui/material/colors";
 
 import { Book } from "@/types";
 import { SxProps } from "@mui/system";
+import { Theme } from "@mui/material";
 
 type Props = {
     key: string;

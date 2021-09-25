@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { makeStyles, Theme, createStyles } from "@mui/styles";
 import Stepper from "@mui/material/Stepper";
+import Box from "@mui/material/Box";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import StepContent from "@mui/material/StepContent";
@@ -13,42 +13,14 @@ import DateFnsUtils from "@date-io/date-fns";
 import frLocale from "date-fns/locale/fr";
 import CheckCircleOutlineRoundedIcon from "@mui/icons-material/CheckCircleOutlineRounded";
 
-import {
-    MuiPickersUtilsProvider,
-    KeyboardDatePicker,
-    KeyboardTimePicker,
-} from "@mui/pickers";
+import DateAdapter from "@mui/lab/AdapterDateFns";
+import LocalizationProvider from "@mui/lab/LocalizationProvider";
+import AdapterDateFns from "@mui/lab/AdapterDateFns";
+import MobileDatePicker from "@mui/lab/MobileDatePicker";
+import TimePicker from "@mui/lab/TimePicker";
+
 import TextField from "@mui/material/TextField";
 import { Book, TravelTicket, createTravelTicket } from "@/types";
-
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        root: {
-            width: "100%",
-        },
-        button: {
-            marginTop: theme.spacing(1),
-            marginRight: theme.spacing(1),
-        },
-        actionsContainer: {
-            marginTop: theme.spacing(2),
-            marginBottom: theme.spacing(2),
-        },
-        resetContainer: {
-            padding: theme.spacing(3),
-        },
-        cardContainer: {
-            marginTop: "2em",
-            marginBottom: "2em",
-        },
-        title: {
-            fontWeight: "bold",
-        },
-        subtitle: {
-            fontSize: "1em",
-        },
-    })
-);
 
 type Props = {
     book: Book;
@@ -60,7 +32,6 @@ export const FormTicket: React.FC<Props> = ({
     book,
     onCreateTicket,
 }): JSX.Element => {
-    const classes = useStyles();
     const [activeStep, setActiveStep] = useState(0);
     const [departureDate, setDepartureDate] = useState<Date>(new Date());
     const [departureDateError, setDepartureDateError] =
@@ -151,14 +122,13 @@ export const FormTicket: React.FC<Props> = ({
                         </Typography>
                         <Card
                             variant="outlined"
-                            className={classes.cardContainer}
                         >
                             <CardContent>
-                                <Typography className={classes.title}>
+                                <Typography>
                                     {book.title}
                                 </Typography>
                                 {book.subtitle && (
-                                    <Typography className={classes.subtitle}>
+                                    <Typography>
                                         {book.subtitle}
                                     </Typography>
                                 )}
@@ -179,6 +149,134 @@ export const FormTicket: React.FC<Props> = ({
                             Entrez la date et l'heure à laquelle le livre sera
                             déposé pour débuter son voyage.
                         </Typography>
+
+                        <LocalizationProvider
+                            dateAdapter={DateAdapter}
+                            locale={frLocale}
+                        >
+                            <MobileDatePicker
+                                label="Date de départ"
+                                inputFormat="dd/MM/yyyy"
+                                value={departureDate}
+                                onChange={handleDateChange}
+                                renderInput={(params) => (
+                                    <TextField {...params} />
+                                )}
+                            />
+                            <TimePicker
+                                label="Heure de départ"
+                                value={departureTime}
+                                onChange={handleTimeChange}
+                                renderInput={(params) => (
+                                    <TextField {...params} />
+                                )}
+                            />
+                        </LocalizationProvider>
+                    </>
+                );
+            case 2:
+                return (
+                    <>
+                        <Typography>
+                            Entrez le lieu où le livre sera déposé pour débuter
+                            son voyage.
+                        </Typography>
+
+                        <TextField
+                            id="departure-location"
+                            label="Lieu de départ"
+                            margin="normal"
+                            value={from}
+                            onChange={handleFromChange}
+                            fullWidth
+                            required
+                            autoComplete="off"
+                            error={fromError}
+                        />
+                    </>
+                );
+            default:
+                return <Typography></Typography>;
+        }
+    };
+
+    return (
+        <Box sx={{ width: "100%"}}>
+            {activeStep === steps.length ? (
+                <Paper square elevation={0}>
+                    <Typography>
+                        <CheckCircleOutlineRoundedIcon /> Vous avez complété les
+                        étapes :{" "}
+                    </Typography>
+                    <Typography component="div">
+                        <ul>
+                            <li>
+                                Livre voyageur : <strong>{book.title}</strong>
+                            </li>
+                            <li>
+                                Date de départ :
+                                {departureDate.toLocaleDateString()} à{" "}
+                                {departureTime
+                                    .toLocaleTimeString()
+                                    .replace(/:..$/, "")}
+                            </li>
+                            <li>Lieu de Départ : {from}</li>
+                        </ul>
+                    </Typography>
+                    <Typography>
+                        Si Les informations saisies sont exactes, vous pouvez
+                        maintenant créer le ticket de voyage.
+                    </Typography>
+                    <Button onClick={handleReset}>
+                        Recommencer
+                    </Button>
+                    <Button
+                        onClick={handleCreateTicket}
+                        variant="contained"
+                        color="primary"
+                    >
+                        Créer Ticket
+                    </Button>
+                </Paper>
+            ) : (
+                <Stepper activeStep={activeStep} orientation="vertical">
+                    {steps.map((label, index) => (
+                        <Step key={label}>
+                            <StepLabel>{label}</StepLabel>
+                            <StepContent>
+                                {getStepContent(index)}
+                                <div>
+                                    <div>
+                                        <Button
+                                            disabled={activeStep === 0}
+                                            onClick={handleBack}
+                                        >
+                                            Précédent
+                                        </Button>
+                                        <Button
+                                            variant="contained"
+                                            color="primary"
+                                            onClick={handleNext}
+                                            disabled={disableNextButton(
+                                                activeStep
+                                            )}
+                                        >
+                                            {activeStep === steps.length - 1
+                                                ? "Terminer"
+                                                : "Suivant"}
+                                        </Button>
+                                    </div>
+                                </div>
+                            </StepContent>
+                        </Step>
+                    ))}
+                </Stepper>
+            )}
+        </Box>
+    );
+};
+
+/*
                         <MuiPickersUtilsProvider
                             utils={DateFnsUtils}
                             locale={frLocale}
@@ -214,109 +312,4 @@ export const FormTicket: React.FC<Props> = ({
                                 error={departureTimeError}
                             />
                         </MuiPickersUtilsProvider>
-                    </>
-                );
-            case 2:
-                return (
-                    <>
-                        <Typography>
-                            Entrez le lieu où le livre sera déposé pour débuter
-                            son voyage.
-                        </Typography>
-
-                        <TextField
-                            id="departure-location"
-                            label="Lieu de départ"
-                            margin="normal"
-                            value={from}
-                            onChange={handleFromChange}
-                            fullWidth
-                            required
-                            autoComplete="off"
-                            error={fromError}
-                        />
-                    </>
-                );
-            default:
-                return <Typography></Typography>;
-        }
-    };
-
-    return (
-        <div className={classes.root}>
-            {activeStep === steps.length ? (
-                <Paper square elevation={0} className={classes.resetContainer}>
-                    <Typography>
-                        <CheckCircleOutlineRoundedIcon /> Vous avez complété les
-                        étapes :{" "}
-                    </Typography>
-                    <Typography component="div">
-                        <ul>
-                            <li>
-                                Livre voyageur : <strong>{book.title}</strong>
-                            </li>
-                            <li>
-                                Date de départ :
-                                {departureDate.toLocaleDateString()} à{" "}
-                                {departureTime
-                                    .toLocaleTimeString()
-                                    .replace(/:..$/, "")}
-                            </li>
-                            <li>Lieu de Départ : {from}</li>
-                        </ul>
-                    </Typography>
-                    <Typography>
-                        Si Les informations saisies sont exactes, vous pouvez
-                        maintenant créer le ticket de voyage.
-                    </Typography>
-                    <Button onClick={handleReset} className={classes.button}>
-                        Recommencer
-                    </Button>
-                    <Button
-                        onClick={handleCreateTicket}
-                        className={classes.button}
-                        variant="contained"
-                        color="primary"
-                    >
-                        Créer Ticket
-                    </Button>
-                </Paper>
-            ) : (
-                <Stepper activeStep={activeStep} orientation="vertical">
-                    {steps.map((label, index) => (
-                        <Step key={label}>
-                            <StepLabel>{label}</StepLabel>
-                            <StepContent>
-                                {getStepContent(index)}
-                                <div className={classes.actionsContainer}>
-                                    <div>
-                                        <Button
-                                            disabled={activeStep === 0}
-                                            onClick={handleBack}
-                                            className={classes.button}
-                                        >
-                                            Précédent
-                                        </Button>
-                                        <Button
-                                            variant="contained"
-                                            color="primary"
-                                            onClick={handleNext}
-                                            className={classes.button}
-                                            disabled={disableNextButton(
-                                                activeStep
-                                            )}
-                                        >
-                                            {activeStep === steps.length - 1
-                                                ? "Terminer"
-                                                : "Suivant"}
-                                        </Button>
-                                    </div>
-                                </div>
-                            </StepContent>
-                        </Step>
-                    ))}
-                </Stepper>
-            )}
-        </div>
-    );
-};
+                        */

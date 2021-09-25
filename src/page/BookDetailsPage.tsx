@@ -1,16 +1,15 @@
 import React, { useState } from "react";
+import { styled } from "@mui/material/styles";
 import Container from "@mui/material/Container";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import Typography from "@mui/material/Typography";
-import { createStyles, makeStyles, Theme } from "@mui/styles";
 import PersonPinCircleIcon from "@mui/icons-material/PersonPinCircle";
-import Alert from '@mui/material/Alert';
-import IconButton from "@mui/material/IconButton";
+import Alert from "@mui/material/Alert";
+import IconButton, { IconButtonProps } from "@mui/material/IconButton";
 import Chip from "@mui/material/Chip";
 import Collapse from "@mui/material/Collapse";
-import clsx from "clsx";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
 import LinearProgress from "@mui/material/LinearProgress";
@@ -26,32 +25,20 @@ import Rating from "@mui/material/Rating";
 import { BookDetailBar } from "@/component/app-bar/BookDetailBar";
 import { WebShareBookButton } from "@/component/button/WebShareBookButton";
 
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        title: {
-            flex: 1,
-            justifyContent: "flex-end",
-            color: "white",
-            textAlign: "center",
-        },
-        submitButton: {
-            color: "white",
-        },
-        chipToRead: {
-            float: "right",
-        },
-        expand: {
-            transform: "rotate(0deg)",
-            marginLeft: "auto",
-            transition: theme.transitions.create("transform", {
-                duration: theme.transitions.duration.shortest,
-            }),
-        },
-        expandOpen: {
-            transform: "rotate(180deg)",
-        },
-    })
-);
+interface ExpandMoreProps extends IconButtonProps {
+    expand: boolean;
+}
+
+const ExpandMore = styled((props: ExpandMoreProps) => {
+    const { expand, ...other } = props;
+    return <IconButton {...other} />;
+})(({ theme, expand }) => ({
+    transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
+    marginLeft: "auto",
+    transition: theme.transitions.create("transform", {
+        duration: theme.transitions.duration.shortest,
+    }),
+}));
 
 type Props = {
     id: string;
@@ -60,7 +47,6 @@ type Props = {
 export const BookDetailsPage: React.FC<Props> = ({
     id,
 }): JSX.Element | null => {
-    const classes = useStyles();
     const [, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const thisBook = useRecoilValue(bookByIdState(id));
     const setBooks = useSetRecoilState<Book[]>(bookListState);
@@ -144,7 +130,7 @@ export const BookDetailsPage: React.FC<Props> = ({
                                     </Typography>
                                     {thisBook.readStatus && (
                                         <Chip
-                                            className={classes.chipToRead}
+                                            sx={{ float: "right" }}
                                             size="small"
                                             label={getReadStatusLabel(
                                                 thisBook.readStatus
@@ -187,10 +173,8 @@ export const BookDetailsPage: React.FC<Props> = ({
                                         </IconButton>
                                     )}
                                     {thisBook.isbn && (
-                                        <IconButton
-                                            className={clsx(classes.expand, {
-                                                [classes.expandOpen]: expanded,
-                                            })}
+                                        <ExpandMore
+                                            expand={expanded}
                                             onClick={() =>
                                                 handleExpandClick(thisBook)
                                             }
@@ -198,7 +182,7 @@ export const BookDetailsPage: React.FC<Props> = ({
                                             aria-label="show more"
                                         >
                                             <ExpandMoreIcon />
-                                        </IconButton>
+                                        </ExpandMore>
                                     )}
                                 </CardActions>
                                 {thisBook.isbn && (
