@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import Button from "@material-ui/core/Button";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
-import {useLocation} from "wouter";
+import Button from "@mui/material/Button";
+import Container from "@mui/material/Container";
+import { useLocation } from "wouter";
 import { useRecoilState, useSetRecoilState, useRecoilValue } from "recoil";
 
 import { FormBook } from "@/component/form/FormBook";
@@ -16,21 +15,12 @@ import { IsbnScanner } from "@/component/IsbnScanner";
 import { FabScanner } from "@/component/button/FabScanner";
 import { useSnackbar } from "notistack";
 
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        submitButton: {
-            color: "white",
-        },
-    })
-);
-
 type Props = {
     id: string;
 };
 
 export const UpdateBookPage: React.FC<Props> = ({ id }): JSX.Element | null => {
     const { enqueueSnackbar } = useSnackbar();
-    const classes = useStyles();
     const [enableIsbnScan, setEnableIsbnScan] = useState(false);
 
     const setBooks = useSetRecoilState<Book[]>(bookListState);
@@ -61,7 +51,7 @@ export const UpdateBookPage: React.FC<Props> = ({ id }): JSX.Element | null => {
         }
         setProgress(true);
         setLocation(`/detail/${id}`);
-        
+
         BookApi.updateBook({
             ...thisBook,
             title: bookForm.title,
@@ -86,9 +76,23 @@ export const UpdateBookPage: React.FC<Props> = ({ id }): JSX.Element | null => {
                         }
                     }),
                 ]);
-                
             })
-            .catch(console.error)
+            .catch((error) => {
+                console.error(error);
+                if (error.status === 401) {
+                    enqueueSnackbar(
+                        "Echec lors de l'identification: veuillez vous authentifier",
+                        {
+                            variant: "error",
+                            anchorOrigin: {
+                                vertical: "bottom",
+                                horizontal: "center",
+                            },
+                        }
+                    );
+                    setLocation("/signin");
+                }
+            })
             .finally(() => setProgress(false));
     };
 
@@ -143,7 +147,7 @@ export const UpdateBookPage: React.FC<Props> = ({ id }): JSX.Element | null => {
                         backPath={`/detail/${id}`}
                         actions={
                             <Button
-                                className={classes.submitButton}
+                                sx={{ color: "white" }}
                                 onClick={handleSave}
                             >
                                 Enregistrer

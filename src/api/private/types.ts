@@ -88,13 +88,13 @@ export type API_Ticket = {
     qrcode_url: string;
     /**
      * Departure DateTime as UTC ISO 8610 string
-     * 
+     *
      * ex: "2021-09-09T17:04:36+0000"
      */
     departure_at: string;
     /**
      * Location where the book departs from
-     * 
+     *
      * ex: "Paris"
      */
     from: string;
@@ -163,6 +163,10 @@ export type API_Track = {
      */
     book_id: string;
     /**
+     * Flag to set mark this track as the boarding track
+     */
+    is_boarding: number;
+    /**
      * IP address of the track creator
      */
     user_ip: string;
@@ -208,7 +212,6 @@ export type API_Track = {
  * - read track list `GET api/tracker`
  */
 export type API_BookTrack = {
-    book: API_Book;
     track: API_Track[];
 };
 
@@ -218,6 +221,6 @@ export type API_BookTrack = {
  */
 export type API_ISBN_SearchResult = {
     title: string;
-    subtitle?:string;
+    subtitle?: string;
     author: string;
-}
+};

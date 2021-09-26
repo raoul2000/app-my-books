@@ -1,54 +1,24 @@
 import React, { useState } from "react";
-import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
-import Stepper from "@material-ui/core/Stepper";
-import Step from "@material-ui/core/Step";
-import StepLabel from "@material-ui/core/StepLabel";
-import StepContent from "@material-ui/core/StepContent";
-import Button from "@material-ui/core/Button";
-import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import DateFnsUtils from "@date-io/date-fns";
+import Stepper from "@mui/material/Stepper";
+import Box from "@mui/material/Box";
+import Step from "@mui/material/Step";
+import StepLabel from "@mui/material/StepLabel";
+import StepContent from "@mui/material/StepContent";
+import Button from "@mui/material/Button";
+import Paper from "@mui/material/Paper";
+import Typography from "@mui/material/Typography";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
 import frLocale from "date-fns/locale/fr";
-import CheckCircleOutlineRoundedIcon from "@material-ui/icons/CheckCircleOutlineRounded";
+import CheckCircleOutlineRoundedIcon from "@mui/icons-material/CheckCircleOutlineRounded";
 
-import {
-    MuiPickersUtilsProvider,
-    KeyboardDatePicker,
-    KeyboardTimePicker,
-} from "@material-ui/pickers";
-import TextField from "@material-ui/core/TextField";
+import DateAdapter from "@mui/lab/AdapterDateFns";
+import LocalizationProvider from "@mui/lab/LocalizationProvider";
+import MobileDatePicker from "@mui/lab/MobileDatePicker";
+import TimePicker from "@mui/lab/TimePicker";
+
+import TextField from "@mui/material/TextField";
 import { Book, TravelTicket, createTravelTicket } from "@/types";
-
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        root: {
-            width: "100%",
-        },
-        button: {
-            marginTop: theme.spacing(1),
-            marginRight: theme.spacing(1),
-        },
-        actionsContainer: {
-            marginTop: theme.spacing(2),
-            marginBottom: theme.spacing(2),
-        },
-        resetContainer: {
-            padding: theme.spacing(3),
-        },
-        cardContainer: {
-            marginTop: "2em",
-            marginBottom: "2em",
-        },
-        title: {
-            fontWeight: "bold",
-        },
-        subtitle: {
-            fontSize: "1em",
-        },
-    })
-);
 
 type Props = {
     book: Book;
@@ -60,16 +30,13 @@ export const FormTicket: React.FC<Props> = ({
     book,
     onCreateTicket,
 }): JSX.Element => {
-    const classes = useStyles();
     const [activeStep, setActiveStep] = useState(0);
     const [departureDate, setDepartureDate] = useState<Date>(new Date());
     const [departureDateError, setDepartureDateError] =
         useState<boolean>(false);
-
     const [departureTime, setDepartureTime] = useState<Date>(new Date());
     const [departureTimeError, setDepartureTimeError] =
         useState<boolean>(false);
-
     const [from, setFrom] = useState<string>("");
     const [fromError, setFromError] = useState<boolean>(false);
 
@@ -149,18 +116,13 @@ export const FormTicket: React.FC<Props> = ({
                             Vérifiez que les informations suivantes sont
                             correctes :
                         </Typography>
-                        <Card
-                            variant="outlined"
-                            className={classes.cardContainer}
-                        >
+                        <Card elevation={0}>
                             <CardContent>
-                                <Typography className={classes.title}>
-                                    {book.title}
+                                <Typography>
+                                    <strong>{book.title}</strong>
                                 </Typography>
                                 {book.subtitle && (
-                                    <Typography className={classes.subtitle}>
-                                        {book.subtitle}
-                                    </Typography>
+                                    <Typography>{book.subtitle}</Typography>
                                 )}
                                 {book.author && (
                                     <Typography color="textSecondary">
@@ -179,41 +141,39 @@ export const FormTicket: React.FC<Props> = ({
                             Entrez la date et l'heure à laquelle le livre sera
                             déposé pour débuter son voyage.
                         </Typography>
-                        <MuiPickersUtilsProvider
-                            utils={DateFnsUtils}
+
+                        <LocalizationProvider
+                            dateAdapter={DateAdapter}
                             locale={frLocale}
                         >
-                            <KeyboardDatePicker
-                                margin="normal"
-                                id="date-picker-dialog"
-                                label="Date de départ"
-                                format="dd/MM/yyyy"
-                                onChange={handleDateChange}
-                                value={departureDate}
-                                KeyboardButtonProps={{
-                                    "aria-label": "change date",
-                                }}
-                                fullWidth
-                                required
-                                autoComplete="off"
-                                error={departureDateError}
-                            />
-                            <KeyboardTimePicker
-                                margin="normal"
-                                id="time-picker"
-                                label="Heure de départ"
-                                value={departureTime}
-                                ampm={false}
-                                onChange={handleTimeChange}
-                                KeyboardButtonProps={{
-                                    "aria-label": "change time",
-                                }}
-                                fullWidth
-                                required
-                                autoComplete="off"
-                                error={departureTimeError}
-                            />
-                        </MuiPickersUtilsProvider>
+                            <Box padding="1em">
+                                <MobileDatePicker
+                                    label="Date de départ"
+                                    inputFormat="dd/MM/yyyy"
+                                    value={departureDate}
+                                    onChange={handleDateChange}
+                                    renderInput={(params) => (
+                                        <TextField
+                                            {...params}
+                                            variant="standard"
+                                        />
+                                    )}
+                                />
+                            </Box>
+                            <Box padding="1em">
+                                <TimePicker
+                                    label="Heure de départ"
+                                    value={departureTime}
+                                    onChange={handleTimeChange}
+                                    renderInput={(params) => (
+                                        <TextField
+                                            {...params}
+                                            variant="standard"
+                                        />
+                                    )}
+                                />
+                            </Box>
+                        </LocalizationProvider>
                     </>
                 );
             case 2:
@@ -228,6 +188,7 @@ export const FormTicket: React.FC<Props> = ({
                             id="departure-location"
                             label="Lieu de départ"
                             margin="normal"
+                            variant="standard"
                             value={from}
                             onChange={handleFromChange}
                             fullWidth
@@ -243,9 +204,9 @@ export const FormTicket: React.FC<Props> = ({
     };
 
     return (
-        <div className={classes.root}>
+        <Box>
             {activeStep === steps.length ? (
-                <Paper square elevation={0} className={classes.resetContainer}>
+                <Paper square elevation={0}>
                     <Typography>
                         <CheckCircleOutlineRoundedIcon /> Vous avez complété les
                         étapes :{" "}
@@ -269,17 +230,16 @@ export const FormTicket: React.FC<Props> = ({
                         Si Les informations saisies sont exactes, vous pouvez
                         maintenant créer le ticket de voyage.
                     </Typography>
-                    <Button onClick={handleReset} className={classes.button}>
-                        Recommencer
-                    </Button>
-                    <Button
-                        onClick={handleCreateTicket}
-                        className={classes.button}
-                        variant="contained"
-                        color="primary"
-                    >
-                        Créer Ticket
-                    </Button>
+                    <Box marginTop="1em">
+                        <Button onClick={handleReset}>Recommencer</Button>
+                        <Button
+                            onClick={handleCreateTicket}
+                            variant="contained"
+                            color="primary"
+                        >
+                            Créer Ticket
+                        </Button>
+                    </Box>
                 </Paper>
             ) : (
                 <Stepper activeStep={activeStep} orientation="vertical">
@@ -288,35 +248,29 @@ export const FormTicket: React.FC<Props> = ({
                             <StepLabel>{label}</StepLabel>
                             <StepContent>
                                 {getStepContent(index)}
-                                <div className={classes.actionsContainer}>
-                                    <div>
-                                        <Button
-                                            disabled={activeStep === 0}
-                                            onClick={handleBack}
-                                            className={classes.button}
-                                        >
-                                            Précédent
-                                        </Button>
-                                        <Button
-                                            variant="contained"
-                                            color="primary"
-                                            onClick={handleNext}
-                                            className={classes.button}
-                                            disabled={disableNextButton(
-                                                activeStep
-                                            )}
-                                        >
-                                            {activeStep === steps.length - 1
-                                                ? "Terminer"
-                                                : "Suivant"}
-                                        </Button>
-                                    </div>
-                                </div>
+                                <Box marginTop="1em">
+                                    <Button
+                                        disabled={activeStep === 0}
+                                        onClick={handleBack}
+                                    >
+                                        Précédent
+                                    </Button>
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                        onClick={handleNext}
+                                        disabled={disableNextButton(activeStep)}
+                                    >
+                                        {activeStep === steps.length - 1
+                                            ? "Terminer"
+                                            : "Suivant"}
+                                    </Button>
+                                </Box>
                             </StepContent>
                         </Step>
                     ))}
                 </Stepper>
             )}
-        </div>
+        </Box>
     );
 };

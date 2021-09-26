@@ -1,32 +1,26 @@
 import React from "react";
-import Fab from "@material-ui/core/Fab";
-import { makeStyles } from "@material-ui/core/styles";
-import AddIcon from "@material-ui/icons/Add";
-import { green } from '@material-ui/core/colors';
+import Fab from "@mui/material/Fab";
+import AddIcon from "@mui/icons-material/Add";
+import { green } from "@mui/material/colors";
 
 type Props = {
     onClick: () => void;
 };
 
-const useStyles = makeStyles((theme) => ({
-    fabAddBook: {
-        position: "fixed",
-        bottom: "1em",
-        right: "1em",
-        backgroundColor: green[700],
-        "&:hover" : {
-            backgroundColor: green[900]
-        }
-    },
-}));
-
 export const FabAddBook: React.FC<Props> = ({ onClick }): JSX.Element => {
-    const classes = useStyles();
     return (
         <Fab
+            sx={{
+                position: "fixed",
+                bottom: "1em",
+                right: "1em",
+                backgroundColor: green[600],
+                "&:hover": {
+                    backgroundColor: green[800],
+                },
+            }}
             color="primary"
             aria-label="add"
-            className={classes.fabAddBook}
             onClick={onClick}
         >
             <AddIcon />

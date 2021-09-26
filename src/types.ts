@@ -67,6 +67,7 @@ export type BookFormState = {
         title: boolean;
     };
     isbnSearch: AsyncOperationStatus;
+    readonly isTraveling:boolean;
 };
 
 export const createBookFormState = (book?: Book): BookFormState => ({
@@ -80,6 +81,7 @@ export const createBookFormState = (book?: Book): BookFormState => ({
         title: true,
     },
     isbnSearch: "success",
+    isTraveling: book?.isTraveling || false
 });
 
 export const createBookForm = (): BookFormState => ({
@@ -92,6 +94,7 @@ export const createBookForm = (): BookFormState => ({
         title: true,
     },
     isbnSearch: "success",
+    isTraveling: false
 });
 
 export const getReadStatusLabel = (readStatus?: number) => {

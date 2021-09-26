@@ -100,6 +100,7 @@ const trackSchema: JSONSchemaType<API_Track> = {
     properties: {
         id: { type: "number" },
         book_id: { type: "string" },
+        is_boarding: { type: "number", enum: [0, 1] },
         user_ip: { type: "string" },
         email: { type: "string", nullable: true  },
         text: { type: "string", nullable: true  },
@@ -131,11 +132,9 @@ const bookTrackSchema: JSONSchemaType<API_BookTrack> = {
     $id: "http://example.com/schemas/book-track.json",
     type: "object",
     properties: {
-        book: { $ref: "book.json" },
         track: { $ref: "track-list.json"}
     },
     required: [
-        "book",
         "track",
     ],
     additionalProperties: false,

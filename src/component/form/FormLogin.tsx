@@ -1,39 +1,13 @@
 import React, { useState } from "react";
-import Button from "@material-ui/core/Button";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import TextField from "@material-ui/core/TextField";
-import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
-import LinearProgress from "@material-ui/core/LinearProgress";
-
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import LinearProgress from "@mui/material/LinearProgress";
+import { Theme } from "@mui/material/styles";
 import BookApi from "@/api/book";
-
-const useStyles = makeStyles((theme) => ({
-    loginFormContainer: {
-        paddingTop: "50px",
-    },
-    loginProgressContainer: {
-        width: "100%",
-    },
-    paper: {
-        marginTop: theme.spacing(8),
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-    },
-    avatar: {
-        margin: theme.spacing(1),
-        backgroundColor: theme.palette.secondary.main,
-    },
-    form: {
-        width: "100%", // Fix IE 11 issue.
-        marginTop: theme.spacing(1),
-    },
-    submit: {
-        margin: theme.spacing(3, 0, 2),
-    }
-}));
 
 type FormError = {
     username: boolean;
@@ -41,12 +15,14 @@ type FormError = {
 };
 
 type Props = {
-    onSuccess: (apiKey:string) => void;
+    onSuccess: (apiKey: string) => void;
     onError: () => void;
 };
 
-export const FormLogin: React.FC<Props> = ({onSuccess, onError}):JSX.Element => {
-    const classes = useStyles();
+export const FormLogin: React.FC<Props> = ({
+    onSuccess,
+    onError,
+}): JSX.Element => {
     const [loginInProgress, setLoginInProgress] = React.useState(false);
     const [formError, setFormError] = useState<FormError>({
         username: false,
@@ -77,7 +53,7 @@ export const FormLogin: React.FC<Props> = ({onSuccess, onError}):JSX.Element => 
             BookApi.login(username, password)
                 .then(onSuccess)
                 .catch((err) => {
-                    setLoginInProgress(false)
+                    setLoginInProgress(false);
                     onError();
                 });
         }
@@ -87,14 +63,30 @@ export const FormLogin: React.FC<Props> = ({onSuccess, onError}):JSX.Element => 
         <Container
             component="main"
             maxWidth="xs"
-            className={classes.loginFormContainer}
+            sx={{
+                paddingTop: "50px",
+            }}
         >
             <CssBaseline />
-            <div className={classes.paper}>
+            <Box
+                sx={{
+                    marginTop: (theme: Theme) => theme.spacing(8),
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                }}
+            >
                 <Typography component="h1" variant="h5">
                     My Books
                 </Typography>
-                <form className={classes.form} noValidate>
+                <Box
+                    component="form"
+                    sx={{
+                        width: "100%", // Fix IE 11 issue.
+                        marginTop: (theme: Theme) => theme.spacing(1),
+                    }}
+                    noValidate
+                >
                     <TextField
                         variant="outlined"
                         margin="normal"
@@ -125,21 +117,25 @@ export const FormLogin: React.FC<Props> = ({onSuccess, onError}):JSX.Element => 
                     />
 
                     <Button
+                        sx={{
+                            margin: (theme: Theme) => theme.spacing(3, 0, 2),
+                        }}
                         type="button"
                         fullWidth
                         variant="contained"
                         color="primary"
-                        className={classes.submit}
                         onClick={handleLogin}
                         disabled={loginInProgress}
                     >
                         Sign In
                     </Button>
-                    <div className={classes.loginProgressContainer}>
-                        <LinearProgress hidden={!loginInProgress} />
-                    </div>
-                </form>
-            </div>
+                    {loginInProgress && (
+                        <Box>
+                            <LinearProgress />
+                        </Box>
+                    )}
+                </Box>
+            </Box>
         </Container>
     );
 };

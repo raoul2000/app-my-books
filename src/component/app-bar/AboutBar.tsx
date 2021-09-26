@@ -1,30 +1,23 @@
 import React from "react";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
 import { useLocation } from "wouter";
-import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
-import IconButton from "@material-ui/core/IconButton";
-
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        backButton: {
-            color: "white",
-            marginRight: theme.spacing(2),
-        },
-    })
-);
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import IconButton from "@mui/material/IconButton";
+import { Theme } from '@mui/material/styles';
 
 export const AboutBar: React.FC<{}> = (): JSX.Element => {
-    const classes = useStyles();
     const [, setLocation] = useLocation();
 
     return (
         <AppBar position="sticky">
             <Toolbar>
                 <IconButton
+                    sx={{
+                        color: "white",
+                        marginRight: (theme: Theme) => theme.spacing(2),
+                    }}
                     edge="start"
-                    className={classes.backButton}
                     color="inherit"
                     aria-label="menu"
                     onClick={() => setLocation("/")}
