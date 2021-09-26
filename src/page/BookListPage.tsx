@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Container from "@mui/material/Container";
 import { useRecoilState } from "recoil";
 import { useLocation } from "wouter";
@@ -10,9 +10,12 @@ import { bookListState } from "../state/book-list";
 import { loadingBooksState } from "../state/loading-books";
 import BookApi from "../api/book";
 import { FabAddBook } from "@/component/button/FabAddBook";
+import { Box } from "@mui/material";
+import TextField from '@mui/material/TextField';
 
 export const BookListPage: React.FC<{}> = (): JSX.Element => {
     const { enqueueSnackbar } = useSnackbar();
+    const [showFilter, setShowFilter] = useState<boolean>(false);
     const [books, setBooks] = useRecoilState(bookListState);
     const [loadingBooks, setLoadingBooks] = useRecoilState(loadingBooksState);
     const [, setLocation] = useLocation();
@@ -59,14 +62,27 @@ export const BookListPage: React.FC<{}> = (): JSX.Element => {
         }
     }, []);
 
+    const toggleFilter = () => setShowFilter(!showFilter);
+
     return (
         <div>
-            <BookListBar />
+            <BookListBar 
+                enableFilter={true}
+                onShowFilterClick={toggleFilter}
+            />
             <main>
                 <Container maxWidth="sm">
                     {loadingBooks.status === "error" && (
                         <div>Failed to load book list</div>
                     )}
+                    {showFilter &&
+                        <Box className="scale-in-ver-top">
+                                <TextField 
+                                    fullWidth={true}
+                                    autoFocus={true}
+                                id="book-filter" label="Filtrer" variant="outlined" />
+                        </Box>
+                    }
                     <ListBooks
                         books={books}
                         loading={loadingBooks.status === "loading"}

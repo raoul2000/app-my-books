@@ -1,4 +1,5 @@
 # TODO
+- add: dotted border for the ticket in print device
 - add: web share API support to share books
 - add: use drawer to display contextual info
   - ping details in the timeline view
