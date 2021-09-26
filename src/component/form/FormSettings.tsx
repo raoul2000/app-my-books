@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import Button from "@material-ui/core/Button";
-import Grid from "@material-ui/core/Grid";
-import TextField from "@material-ui/core/TextField";
-import SaveIcon from "@material-ui/icons/Save";
+import Button from "@mui/material/Button";
+import Grid from "@mui/material/Grid";
+import TextField from "@mui/material/TextField";
+import SaveIcon from "@mui/icons-material/Save";
 
 import Storage from "@/utils/storage";
 

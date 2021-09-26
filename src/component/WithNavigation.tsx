@@ -13,7 +13,6 @@ import { SignInPage } from "@/page/SignInPage";
 import { TicketViewPage } from "@/page/TicketViewPage";
 import { TicketFormPage } from "@/page/TicketFormPage";
 import { BoardingPage } from "@/page/BoardingPage";
-import { TravelTimeline } from "@/page/TravelTimeline";
 import { TracksPage } from "@/page/TracksPage";
 
 export const WithNavigation: React.FC<{}> = (): JSX.Element => {

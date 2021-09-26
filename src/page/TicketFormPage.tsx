@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Container from "@material-ui/core/Container";
+import Container from "@mui/material/Container";
 import { useSnackbar } from "notistack";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { useLocation } from "wouter";
