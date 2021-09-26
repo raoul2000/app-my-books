@@ -10,9 +10,11 @@ export const AboutPage: React.FC<{}> = (): JSX.Element => {
             <main>
                 <Container maxWidth="sm">
                     <Typography variant="h5" component="h1">
-                        About
+                        Mes Livres
                     </Typography>
-                    <p>This app is a work in progress...</p>
+                    <Typography>
+                        Votre bibliothèque virtuelle
+                    </Typography>
                 </Container>
             </main>
         </div>
