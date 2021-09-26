@@ -1,20 +1,19 @@
 import React, { useState } from "react";
-import Container from "@material-ui/core/Container";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import CardActions from "@material-ui/core/CardActions";
-import Typography from "@material-ui/core/Typography";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import PersonPinCircleIcon from "@material-ui/icons/PersonPinCircle";
-import { Alert } from "@material-ui/lab";
-import IconButton from "@material-ui/core/IconButton";
-import Chip from "@material-ui/core/Chip";
-import Collapse from "@material-ui/core/Collapse";
-import clsx from "clsx";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import FlightTakeoffIcon from "@material-ui/icons/FlightTakeoff";
-import LinearProgress from "@material-ui/core/LinearProgress";
-import Badge from "@material-ui/core/Badge";
+import { styled } from "@mui/material/styles";
+import Container from "@mui/material/Container";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import CardActions from "@mui/material/CardActions";
+import Typography from "@mui/material/Typography";
+import PersonPinCircleIcon from "@mui/icons-material/PersonPinCircle";
+import Alert from "@mui/material/Alert";
+import IconButton, { IconButtonProps } from "@mui/material/IconButton";
+import Chip from "@mui/material/Chip";
+import Collapse from "@mui/material/Collapse";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
+import LinearProgress from "@mui/material/LinearProgress";
+import Badge from "@mui/material/Badge";
 
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { bookListState, bookByIdState } from "@/state/book-list";
@@ -22,36 +21,24 @@ import { progressState } from "@/state/progress";
 import { Book, getReadStatusLabel } from "@/types";
 import { useLocation } from "wouter";
 import BookApi from "@/api/book";
-import Rating from "@material-ui/lab/Rating";
+import Rating from "@mui/material/Rating";
 import { BookDetailBar } from "@/component/app-bar/BookDetailBar";
 import { WebShareBookButton } from "@/component/button/WebShareBookButton";
 
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        title: {
-            flex: 1,
-            justifyContent: "flex-end",
-            color: "white",
-            textAlign: "center",
-        },
-        submitButton: {
-            color: "white",
-        },
-        chipToRead: {
-            float: "right",
-        },
-        expand: {
-            transform: "rotate(0deg)",
-            marginLeft: "auto",
-            transition: theme.transitions.create("transform", {
-                duration: theme.transitions.duration.shortest,
-            }),
-        },
-        expandOpen: {
-            transform: "rotate(180deg)",
-        },
-    })
-);
+interface ExpandMoreProps extends IconButtonProps {
+    expand: boolean;
+}
+
+const ExpandMore = styled((props: ExpandMoreProps) => {
+    const { expand, ...other } = props;
+    return <IconButton {...other} />;
+})(({ theme, expand }) => ({
+    transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
+    marginLeft: "auto",
+    transition: theme.transitions.create("transform", {
+        duration: theme.transitions.duration.shortest,
+    }),
+}));
 
 type Props = {
     id: string;
@@ -60,7 +47,6 @@ type Props = {
 export const BookDetailsPage: React.FC<Props> = ({
     id,
 }): JSX.Element | null => {
-    const classes = useStyles();
     const [, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const thisBook = useRecoilValue(bookByIdState(id));
     const setBooks = useSetRecoilState<Book[]>(bookListState);
@@ -144,7 +130,7 @@ export const BookDetailsPage: React.FC<Props> = ({
                                     </Typography>
                                     {thisBook.readStatus && (
                                         <Chip
-                                            className={classes.chipToRead}
+                                            sx={{ float: "right" }}
                                             size="small"
                                             label={getReadStatusLabel(
                                                 thisBook.readStatus
@@ -187,10 +173,8 @@ export const BookDetailsPage: React.FC<Props> = ({
                                         </IconButton>
                                     )}
                                     {thisBook.isbn && (
-                                        <IconButton
-                                            className={clsx(classes.expand, {
-                                                [classes.expandOpen]: expanded,
-                                            })}
+                                        <ExpandMore
+                                            expand={expanded}
                                             onClick={() =>
                                                 handleExpandClick(thisBook)
                                             }
@@ -198,7 +182,7 @@ export const BookDetailsPage: React.FC<Props> = ({
                                             aria-label="show more"
                                         >
                                             <ExpandMoreIcon />
-                                        </IconButton>
+                                        </ExpandMore>
                                     )}
                                 </CardActions>
                                 {thisBook.isbn && (

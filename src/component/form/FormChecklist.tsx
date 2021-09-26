@@ -1,20 +1,13 @@
 import React, { useState } from "react";
-import { Paper } from "@material-ui/core";
-import Switch from "@material-ui/core/Switch";
-import Button from "@material-ui/core/Button";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
-import ListItemText from "@material-ui/core/ListItemText";
-import ListSubheader from "@material-ui/core/ListSubheader";
-import { makeStyles } from "@material-ui/core/styles";
-import { Alert, AlertTitle } from "@material-ui/lab";
-
-const useStyles = makeStyles((theme) => ({
-    checklistText: {
-        marginRight: "2em",
-    },
-}));
+import { Paper } from "@mui/material";
+import Switch from "@mui/material/Switch";
+import Button from "@mui/material/Button";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemSecondaryAction from "@mui/material/ListItemSecondaryAction";
+import ListItemText from "@mui/material/ListItemText";
+import ListSubheader from "@mui/material/ListSubheader";
+import Alert from "@mui/material/Alert";
 
 type Checklist = {
     qrCodeOk: boolean;
@@ -33,7 +26,6 @@ export const FormChecklist: React.FC<Props> = ({
     checkpoint,
     onConfirm,
 }): JSX.Element => {
-    const classes = useStyles();
     const [checklist, setChecklist] = useState<Checklist>({
         qrCodeOk: false,
         bookingNumberOk: false,
@@ -66,9 +58,9 @@ export const FormChecklist: React.FC<Props> = ({
                     <ListItem>
                         <ListItemText
                             id="switch-qrcode"
+                            sx={{ marginRight: "2em" }}
                             primary="Le QR-CODE du ticket est collé sur la
                                         couverture, à l'interieur du livre"
-                            className={classes.checklistText}
                         />
                         <ListItemSecondaryAction>
                             <Switch

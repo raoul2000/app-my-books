@@ -1,11 +1,9 @@
 import React, { useState } from "react";
-
-import Button from "@material-ui/core/Button";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
-import IconButton from "@material-ui/core/IconButton";
+import Button from "@mui/material/Button";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import IconButton from "@mui/material/IconButton";
 
 import { Book } from "../../types";
 import { useLocation } from "wouter";
@@ -15,37 +13,23 @@ type Props = {
     book: Book;
     onClickDeleteBook: (book: Book) => void;
 };
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        updateButton: {
-            color: "white",
-        },
-    })
-);
 
 export const BookDetailBar: React.FC<Props> = ({
     book,
     onClickDeleteBook,
 }): JSX.Element => {
-    const classes = useStyles();
     const [, setLocation] = useLocation();
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-
     const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>) =>
         setAnchorEl(event.currentTarget);
-
     const handleCloseMenu = () => setAnchorEl(null);
-    const handleClickDelete = () => {
-        if (!book.isTraveling) {
-            onClickDeleteBook(book);
-        }
-    };
+
     return (
         <TopBarActions
             actions={
                 <>
                     <Button
-                        className={classes.updateButton}
+                        sx={{ color: "white" }}
                         onClick={() => setLocation(`/update/${book.id}`)}
                     >
                         Modifier

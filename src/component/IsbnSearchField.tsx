@@ -1,22 +1,11 @@
 import React from "react";
-import TextField from "@material-ui/core/TextField";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import IconButton from "@material-ui/core/IconButton";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import ErrorIcon from "@material-ui/icons/Error";
-import SearchIcon from '@material-ui/icons/Search';
-
+import TextField from "@mui/material/TextField";
+import InputAdornment from "@mui/material/InputAdornment";
+import IconButton from "@mui/material/IconButton";
+import CircularProgress from "@mui/material/CircularProgress";
+import ErrorIcon from "@mui/icons-material/Error";
+import SearchIcon from "@mui/icons-material/Search";
 import { AsyncOperationStatus } from "@/types";
-import { SyncDisabledTwoTone } from "@material-ui/icons";
-
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        spinnerButton: {
-            width: "10px",
-        },
-    })
-);
 
 type Props = {
     value: string;
@@ -30,15 +19,19 @@ export const IsbnSearchField: React.FC<Props> = ({
     status,
     disabled,
     onChange,
-    onStartSearch
+    onStartSearch,
 }): JSX.Element => {
-    const classes = useStyles();
-
     const renderIsbnSearchButton = () => {
         const renderButtonContent = () => {
             switch (status) {
                 case "progress":
-                    return <CircularProgress className={classes.spinnerButton} />;
+                    return (
+                        <CircularProgress
+                            sx={{
+                                width: "10px",
+                            }}
+                        />
+                    );
                 case "error":
                     return <ErrorIcon />;
                 default:
@@ -66,7 +59,10 @@ export const IsbnSearchField: React.FC<Props> = ({
             onChange={(e) => onChange(e.target.value)}
             InputProps={{
                 endAdornment: (
-                    <InputAdornment position="end" disablePointerEvents={!value?.length}>
+                    <InputAdornment
+                        position="end"
+                        disablePointerEvents={!value?.length}
+                    >
                         {renderIsbnSearchButton()}
                     </InputAdornment>
                 ),

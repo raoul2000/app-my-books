@@ -1,24 +1,15 @@
 import React from "react";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import Avatar from "@material-ui/core/Avatar";
-import BookIcon from "@material-ui/icons/Book";
-import FlightTakeoffIcon from "@material-ui/icons/FlightTakeoff";
-import clsx from "clsx";
-import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
-import { blue } from "@material-ui/core/colors";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
+import ListItemAvatar from "@mui/material/ListItemAvatar";
+import Avatar from "@mui/material/Avatar";
+import BookIcon from "@mui/icons-material/Book";
+import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
+import { blue } from "@mui/material/colors";
 
 import { Book } from "@/types";
-
-
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        traveling: {
-            backgroundColor: blue[200],
-        },
-    })
-);
+import { SxProps } from "@mui/system";
+import { Theme } from "@mui/material";
 
 type Props = {
     key: string;
@@ -30,11 +21,13 @@ export const ListBookItem: React.FC<Props> = ({
     book,
     onSelectBook,
 }): JSX.Element => {
-    const classes = useStyles();
+    const classIcon: SxProps<Theme> = book.isTraveling
+        ? { backgroundColor: blue[200] }
+        : {};
     return (
         <ListItem divider={false} button onClick={() => onSelectBook(book.id)}>
             <ListItemAvatar>
-                <Avatar className={clsx({[classes.traveling] : book.isTraveling === true})}>
+                <Avatar sx={classIcon}>
                     {book.isTraveling === true ? (
                         <FlightTakeoffIcon />
                     ) : (
