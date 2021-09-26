@@ -46,7 +46,7 @@ export const ListBooks: React.FC<Props> = ({ books, loading }): JSX.Element => {
                     align="center"
                     color="textSecondary"
                 >
-                    Votre bibliothèque est vide
+                    Aucune livre trouvé
                 </Typography>
             )}
         </>

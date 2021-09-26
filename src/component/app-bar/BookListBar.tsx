@@ -4,6 +4,7 @@ import Typography from "@mui/material/Typography";
 import Toolbar from "@mui/material/Toolbar";
 import MainMenu from "../MainMenu";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
+import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import IconButton from "@mui/material/IconButton";
 import CircularProgress from "@mui/material/CircularProgress";
 import { progressState } from "../../state/progress";
@@ -12,11 +13,13 @@ import { useLocation } from "wouter";
 
 type Props = {
     enableFilter: boolean;
+    filterVisible: boolean;
     onShowFilterClick: () => void;
 };
 
 export const BookListBar: React.FC<Props> = ({
     enableFilter,
+    filterVisible,
     onShowFilterClick,
 }): JSX.Element => {
     const progress = useRecoilValue<boolean>(progressState);
@@ -30,17 +33,21 @@ export const BookListBar: React.FC<Props> = ({
                         flexGrow: 1,
                     }}
                 >
-                    <div onClick={() => setLocation("/")}>My Books</div>
+                    <div onClick={() => setLocation("/")}>Mes Livres</div>
                 </Typography>
+                {progress && <CircularProgress sx={{ color: "white" }} />}
                 {enableFilter && (
                     <IconButton
                         sx={{ color: "white" }}
                         onClick={() => onShowFilterClick()}
                     >
-                        <FilterAltIcon />
+                        {filterVisible ? (
+                            <FilterAltIcon />
+                        ) : (
+                            <FilterAltOutlinedIcon />
+                        )}
                     </IconButton>
                 )}
-                {progress && <CircularProgress sx={{ color: "white" }} />}
                 <MainMenu />
             </Toolbar>
         </AppBar>

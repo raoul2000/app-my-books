@@ -42,8 +42,8 @@ const MainMenu: React.FC<{}> = (): JSX.Element => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                <MenuItem onClick={handleSignOut}>Sign out</MenuItem>
-                <MenuItem onClick={handleAbout}>About</MenuItem>
+                <MenuItem onClick={handleSignOut}>Déconnecter</MenuItem>
+                <MenuItem onClick={handleAbout}>A propos</MenuItem>
             </Menu>
         </div>
     );
