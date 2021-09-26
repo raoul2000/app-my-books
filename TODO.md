@@ -1,8 +1,10 @@
 # TODO
+- add: dotted border for the ticket in print device
 - add: web share API support to share books
 - add: use drawer to display contextual info
   - ping details in the timeline view
 - feature: track card should display only a portin of text (expand to see all)
+- feature: if actual boarding date-time is "a lot" before or after ticket departure date-time, dispplay a confirmation message. Possibly, the ticket departure date-time could be updated at the time of actual boarding
 
 # DONE
 - fix: do not display expand arrow in book card if book has no isbn

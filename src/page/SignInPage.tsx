@@ -28,7 +28,7 @@ export const SignInPage: React.FC<{}> = (): JSX.Element => {
     };
 
     const handleLoginError = () => {
-        enqueueSnackbar("Login failed", {
+        enqueueSnackbar("Echec de connexion", {
             variant: "error",
             anchorOrigin: {
                 vertical: "bottom",

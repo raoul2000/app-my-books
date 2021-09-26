@@ -77,7 +77,7 @@ export const FormLogin: React.FC<Props> = ({
                 }}
             >
                 <Typography component="h1" variant="h5">
-                    My Books
+                    Mes Livres
                 </Typography>
                 <Box
                     component="form"
@@ -93,7 +93,7 @@ export const FormLogin: React.FC<Props> = ({
                         required
                         fullWidth
                         id="username"
-                        label="User name"
+                        label="Pseudo ou email"
                         name="username"
                         autoComplete="off"
                         autoFocus
@@ -107,7 +107,7 @@ export const FormLogin: React.FC<Props> = ({
                         required
                         fullWidth
                         name="password"
-                        label="Password"
+                        label="Mot de passe"
                         type="password"
                         id="password"
                         autoComplete="off"
@@ -127,7 +127,7 @@ export const FormLogin: React.FC<Props> = ({
                         onClick={handleLogin}
                         disabled={loginInProgress}
                     >
-                        Sign In
+                        Se Connecter
                     </Button>
                     {loginInProgress && (
                         <Box>

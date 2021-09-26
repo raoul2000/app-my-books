@@ -69,6 +69,8 @@ export const TicketView: React.FC<Props> = ({
     const handleBoarding = () => onPreBoarding(ticket);
     const handlePrintTicket = () => window.print();
 
+    // set filename with printing to PDF
+    document.title = `book-ticket-${ticket.id}`;
     return (
         <>
             {book.isTraveling === true && (
