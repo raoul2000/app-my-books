@@ -12,20 +12,23 @@ import { SxProps } from "@mui/system";
 import { Theme } from "@mui/material";
 
 type Props = {
+    style?:React.CSSProperties;
     key: string;
     book: Book;
     onSelectBook: (bookId: string) => void;
 };
 
 export const ListBookItem: React.FC<Props> = ({
+    key,
     book,
+    style,
     onSelectBook,
 }): JSX.Element => {
     const classIcon: SxProps<Theme> = book.isTraveling
         ? { backgroundColor: blue[200] }
         : {};
     return (
-        <ListItem divider={false} button onClick={() => onSelectBook(book.id)}>
+        <ListItem key={key} style={style} divider={false} button onClick={() => onSelectBook(book.id)}>
             <ListItemAvatar>
                 <Avatar sx={classIcon}>
                     {book.isTraveling === true ? (
