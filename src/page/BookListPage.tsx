@@ -14,7 +14,6 @@ import {
 import { loadingBooksState } from "@/state/loading-books";
 import BookApi from "@/api/book";
 import { FabAddBook } from "@/component/button/FabAddBook";
-import { FilterListBook } from "@/component/FilterListBook";
 
 export const BookListPage: React.FC<{}> = (): JSX.Element => {
     const { enqueueSnackbar } = useSnackbar();
@@ -86,7 +85,6 @@ export const BookListPage: React.FC<{}> = (): JSX.Element => {
                     {loadingBooks.status === "error" && (
                         <div>Failed to load book list</div>
                     )}
-                    {bookListFilter.visible && <FilterListBook />}
                     <ListBooks
                         books={filteredBookList}
                         loading={loadingBooks.status === "loading"}

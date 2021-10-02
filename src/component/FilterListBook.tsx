@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useRecoilState, useSetRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { bookListFilterState } from "@/state/book-list";
-import { Box } from "@mui/material";
 import TextField from "@mui/material/TextField";
 
 export const FilterListBook: React.FC<{}> = (): JSX.Element => {
@@ -15,7 +14,7 @@ export const FilterListBook: React.FC<{}> = (): JSX.Element => {
             setLocalFilterValue(bookListFilter.input);
         }
     }, []);
-    
+
     const updateBookListFilter = (
         e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
     ) => {
@@ -39,17 +38,15 @@ export const FilterListBook: React.FC<{}> = (): JSX.Element => {
     };
 
     return (
-        <Box className="scale-in-ver-top">
-            <TextField
-                value={localFilterValue}
-                fullWidth={true}
-                autoFocus={bookListFilter.input.length !== 0}
-                onChange={updateBookListFilter}
-                id="book-filter"
-                label="Filtrer par titre ou auteur"
-                variant="outlined"
-                autoComplete="off"
-            />
-        </Box>
+        <TextField
+            value={localFilterValue}
+            fullWidth={true}
+            autoFocus={true}
+            onChange={updateBookListFilter}
+            id="book-filter"
+            label="Filtrer par titre ou auteur"
+            variant="standard"
+            autoComplete="off"
+        />
     );
 };
