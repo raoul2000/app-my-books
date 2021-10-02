@@ -24,6 +24,7 @@ export const readBookTracks = (bookId: string): Promise<BookTrack[]> =>
             
             return bookTrack.track.map((trackItem) => ({
                 id: trackItem.id,
+                isBoarding: trackItem.is_boarding === 1,
                 email: trackItem.email,
                 rate: trackItem.rate,
                 locationName: trackItem.location_name,
