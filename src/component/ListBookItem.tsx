@@ -13,13 +13,13 @@ import { Theme } from "@mui/material";
 
 type Props = {
     style?:React.CSSProperties;
-    key: string;
+
     book: Book;
     onSelectBook: (bookId: string) => void;
 };
 
 export const ListBookItem: React.FC<Props> = ({
-    key,
+
     book,
     style,
     onSelectBook,
@@ -28,7 +28,7 @@ export const ListBookItem: React.FC<Props> = ({
         ? { backgroundColor: blue[200] }
         : {};
     return (
-        <ListItem key={key} style={style} divider={false} button onClick={() => onSelectBook(book.id)}>
+        <ListItem key={book.id} style={style} divider={false} button onClick={() => onSelectBook(book.id)}>
             <ListItemAvatar>
                 <Avatar sx={classIcon}>
                     {book.isTraveling === true ? (

@@ -6,7 +6,6 @@ import { useLocation } from "wouter";
 import { Book } from "@/types";
 import { ListBookItem } from "./ListBookItem";
 import { ListBookItemSkeleton } from "./ListBookItemSkeleton";
-import { ListItem, ListItemButton, ListItemText } from "@mui/material";
 import { Virtuoso } from "react-virtuoso";
 
 type Props = {
@@ -29,37 +28,14 @@ export const ListBooks: React.FC<Props> = ({ books, loading }): JSX.Element => {
             ) : (
                 <Virtuoso
                     useWindowScroll
-                    data={books}
+                    data={booksToRender}
                     ref={virtuoso}
                     itemContent={(index) => (
                         <ListBookItem
-                            key={books[index].id}
-                            book={books[index]}
+                            book={booksToRender[index]}
                             onSelectBook={handleShowBookDetail}
                         />
                     )}
-                    components={{
-                        Footer: () => {
-                            return (
-                                <div
-                                    style={{
-                                        padding: "2rem",
-                                        display: "flex",
-                                        justifyContent: "center",
-                                    }}
-                                >
-                                    <button
-                                        disabled={loading}
-                                        onClick={() => console.log('loading more ...')}
-                                    >
-                                        {loading
-                                            ? "Loading..."
-                                            : "Press to load more"}
-                                    </button>
-                                </div>
-                            );
-                        },
-                    }}
                 />
             )}
         </Box>

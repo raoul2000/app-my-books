@@ -10,6 +10,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { progressState } from "../../state/progress";
 import { useRecoilValue } from "recoil";
 import { useLocation } from "wouter";
+import { FilterListBook } from "@/component/FilterListBook";
 
 type Props = {
     enableFilter: boolean;
@@ -50,6 +51,11 @@ export const BookListBar: React.FC<Props> = ({
                 )}
                 <MainMenu />
             </Toolbar>
+            {filterVisible && (
+                <Toolbar sx={{ backgroundColor: "white", padding: "1em" }}>
+                    <FilterListBook />
+                </Toolbar>
+            )}
         </AppBar>
     );
 };
