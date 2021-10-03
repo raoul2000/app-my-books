@@ -14,8 +14,6 @@ import {
 import { loadingBooksState } from "@/state/loading-books";
 import BookApi from "@/api/book";
 import { FabAddBook } from "@/component/button/FabAddBook";
-import { Box } from "@mui/material";
-import TextField from "@mui/material/TextField";
 
 export const BookListPage: React.FC<{}> = (): JSX.Element => {
     const { enqueueSnackbar } = useSnackbar();
@@ -75,34 +73,17 @@ export const BookListPage: React.FC<{}> = (): JSX.Element => {
             visible: !bookListFilter.visible,
         });
 
-    const updateBookListFilter = (
-        e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
-    ) =>
-        setBookListFilter((curVal) => ({
-            ...curVal,
-            input: e.target.value,
-        }));
     return (
         <div>
-            <BookListBar enableFilter={true} filterVisible={bookListFilter.visible} onShowFilterClick={toggleFilter} />
+            <BookListBar
+                enableFilter={true}
+                filterVisible={bookListFilter.visible}
+                onShowFilterClick={toggleFilter}
+            />
             <main>
                 <Container maxWidth="sm">
                     {loadingBooks.status === "error" && (
                         <div>Failed to load book list</div>
-                    )}
-                    {bookListFilter.visible && (
-                        <Box className="scale-in-ver-top">
-                            <TextField
-                                value={bookListFilter.input}
-                                fullWidth={true}
-                                autoFocus={bookListFilter.input.length !== 0}
-                                onChange={updateBookListFilter}
-                                id="book-filter"
-                                label="Filtrer par titre ou auteur"
-                                variant="outlined"
-                                autoComplete="off"
-                            />
-                        </Box>
                     )}
                     <ListBooks
                         books={filteredBookList}

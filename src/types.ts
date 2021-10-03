@@ -14,6 +14,7 @@ export const createTravelTicket = (): TravelTicket => ({
 });
 export type BookTrack = {
     id: number;
+    isBoarding: boolean;
     email: string | null;
     rate: number | null;
     locationName: string | null;

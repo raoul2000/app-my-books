@@ -18,6 +18,16 @@ export const ListTracks: React.FC<Props> = ({
     tracks,
     ticket,
 }): JSX.Element => {
+    const departureTrack = tracks?.find((track) => track.isBoarding);
+
+    if (!departureTrack) {
+        return (
+            <Alert severity="error">
+                Ce livre ne n'a pas commencé son voyage
+            </Alert>
+        );
+    }
+    const otherTracks = tracks?.filter((track) => !track.isBoarding);
     return (
         <>
             <Card sx={{ marginBottom: "1em" }}>
@@ -32,19 +42,24 @@ export const ListTracks: React.FC<Props> = ({
                     }
                     title="Début du Voyage"
                     subheader={
-                        ticket &&
-                        `${ticket.departureDateTime.toLocaleDateString()} à ${ticket.departureDateTime
-                            .toLocaleTimeString()
-                            .replace(/:..$/, "")}`
+                        <div>
+                            {`${departureTrack.createdAt.toLocaleDateString()} à ${departureTrack.createdAt
+                                .toLocaleTimeString()
+                                .replace(/:..$/, "")}`}
+                            <br />
+                            {departureTrack.locationName
+                                ? departureTrack.locationName
+                                : "non renseigné"}
+                        </div>
                     }
                 />
             </Card>
-            {!tracks || tracks.length === 0 ? (
+            {!otherTracks || otherTracks.length === 0 ? (
                 <Alert severity="info">
                     Aucun signalement depuis le départ
                 </Alert>
             ) : (
-                tracks.map((track) => (
+                otherTracks.map((track) => (
                     <ListTrackItem key={track.id} track={track} />
                 ))
             )}

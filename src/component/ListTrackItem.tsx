@@ -33,7 +33,9 @@ export const ListTrackItem: React.FC<Props> = ({ track }): JSX.Element => {
                     <>
                         <Typography>
                             {track.createdAt.toLocaleDateString()} à{" "}
-                            {track.createdAt.toLocaleTimeString()}
+                            {track.createdAt
+                                .toLocaleTimeString()
+                                .replace(/:..$/, "")}
                         </Typography>
                         {track.rate && (
                             <Rating
