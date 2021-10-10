@@ -106,6 +106,8 @@ export const getReadStatusLabel = (readStatus?: number) => {
             return "Lu";
         case 3:
             return "En Lecture";
+        case 4:
+            return "A Relire";
         default:
             return "Sélectionner";
     }
