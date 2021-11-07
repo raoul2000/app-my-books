@@ -24,6 +24,10 @@ export const BookDetailBar: React.FC<Props> = ({
         setAnchorEl(event.currentTarget);
     const handleCloseMenu = () => setAnchorEl(null);
 
+    const handleClickDeleteBook = () => {
+        handleCloseMenu();
+        onClickDeleteBook(book);
+    }
     return (
         <TopBarActions
             actions={
@@ -52,7 +56,7 @@ export const BookDetailBar: React.FC<Props> = ({
                                 onClose={handleCloseMenu}
                             >
                                 <MenuItem
-                                    onClick={() => onClickDeleteBook(book)}
+                                    onClick={handleClickDeleteBook}
                                 >
                                     Supprimer
                                 </MenuItem>
