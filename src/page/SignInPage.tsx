@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Container from "@mui/material/Container";
 import { useSnackbar } from "notistack";
 import { useLocation } from "wouter";
@@ -10,13 +10,18 @@ import { loadingBooksState } from "@/state/loading-books";
 import { ApiKeyScanner } from "@/component/ApiKeyScanner";
 import { FabScanner } from "@/component/button/FabScanner";
 
-export const SignInPage: React.FC<{}> = (): JSX.Element => {
+type Props = {
+    externalApiKey?:string;
+}
+export const SignInPage: React.FC<Props> = ({externalApiKey}): JSX.Element => {
     const { enqueueSnackbar } = useSnackbar();
     const [, setLocation] = useLocation();
     const setLoadingBooks = useSetRecoilState(loadingBooksState);
     const [signInMethod, setSignInMethode] = useState<"login" | "apiKey">(
         "login"
     );
+
+    console.log('key =' + externalApiKey);
 
     const handleLoginSuccess = (apiKey: string) => {
         Storage.setApiKey(apiKey);
@@ -26,7 +31,11 @@ export const SignInPage: React.FC<{}> = (): JSX.Element => {
         });
         setLocation("/");
     };
-
+    useEffect(() => {
+        if(externalApiKey) {
+            handleLoginSuccess(externalApiKey);
+        }
+    })
     const handleLoginError = () => {
         enqueueSnackbar("Echec de connexion", {
             variant: "error",
