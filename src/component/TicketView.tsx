@@ -94,6 +94,7 @@ export const TicketView: React.FC<Props> = ({
                     <Box className={classes.ticketMainInfoContainer}>
                         <Grid container spacing={1}>
                             <Grid item sm={6}>
+                                Livre voyageur
                                 {ticket?.qrCodeUrl && (
                                     <Box>
                                         <img

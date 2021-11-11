@@ -6,3 +6,5 @@ dist-ssr
 .vscode
 test/api/db-snapshot
 .env*
+.lsp
+.clj-kondo
