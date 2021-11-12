@@ -11,9 +11,13 @@ import { ApiKeyScanner } from "@/component/ApiKeyScanner";
 import { FabScanner } from "@/component/button/FabScanner";
 
 type Props = {
-    externalApiKey?:string;
-}
-export const SignInPage: React.FC<Props> = ({externalApiKey}): JSX.Element => {
+    externalApiKey?: string;
+};
+export const siteUrl = import.meta.env.VITE_SITE_URL;
+
+export const SignInPage: React.FC<Props> = ({
+    externalApiKey,
+}): JSX.Element => {
     const { enqueueSnackbar } = useSnackbar();
     const [, setLocation] = useLocation();
     const setLoadingBooks = useSetRecoilState(loadingBooksState);
@@ -21,7 +25,7 @@ export const SignInPage: React.FC<Props> = ({externalApiKey}): JSX.Element => {
         "login"
     );
 
-    console.log('key =' + externalApiKey);
+    console.log("key =" + externalApiKey);
 
     const handleLoginSuccess = (apiKey: string) => {
         Storage.setApiKey(apiKey);
@@ -32,10 +36,10 @@ export const SignInPage: React.FC<Props> = ({externalApiKey}): JSX.Element => {
         setLocation("/");
     };
     useEffect(() => {
-        if(externalApiKey) {
+        if (externalApiKey) {
             handleLoginSuccess(externalApiKey);
         }
-    })
+    });
     const handleLoginError = () => {
         enqueueSnackbar("Echec de connexion", {
             variant: "error",
@@ -55,6 +59,13 @@ export const SignInPage: React.FC<Props> = ({externalApiKey}): JSX.Element => {
         <Container>
             {signInMethod === "login" ? (
                 <>
+                    {siteUrl && (
+                        <div className="create-account-link">
+                            Pas encore de compte ?{" "}
+                            <a href={siteUrl}>Créer un compte</a>
+                        </div>
+                    )}
+
                     <FormLogin
                         onSuccess={handleLoginSuccess}
                         onError={handleLoginError}
