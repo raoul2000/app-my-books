@@ -6,11 +6,13 @@ export type TravelTicket = {
      */
     from: string;
     qrCodeUrl?: string;
+    checkpointUrl:string;
 };
 export const createTravelTicket = (): TravelTicket => ({
     id: "",
     departureDateTime: new Date(),
     from: "",
+    checkpointUrl: ""
 });
 export type BookTrack = {
     id: number;

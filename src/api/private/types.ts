@@ -87,6 +87,10 @@ export type API_Ticket = {
      */
     qrcode_url: string;
     /**
+     * URL of the checkpoint page where reviewer can enter ticket ID
+     */
+    checkpoint_url: string;
+    /**
      * Departure DateTime as UTC ISO 8610 string
      *
      * ex: "2021-09-09T17:04:36+0000"

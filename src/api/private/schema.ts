@@ -74,12 +74,13 @@ const ticketSchema: JSONSchemaType<API_Ticket> = {
         id: { type: "string" },
         book_id: { type: "string" },
         qrcode_url: { type: "string" },
+        checkpoint_url: { type: "string" },
         departure_at: { type: "string" },
         from: { type: "string" },
         created_at: { type: "number" },
         updated_at: { type: "number" },
     },
-    required: ["id", "book_id", "created_at", "updated_at", "qrcode_url", "departure_at"],
+    required: ["id", "book_id", "created_at", "updated_at", "qrcode_url", "checkpoint_url", "departure_at"],
     additionalProperties: false,
 };
 

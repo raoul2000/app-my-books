@@ -120,8 +120,8 @@ export const TicketView: React.FC<Props> = ({
                                 >
                                     Checkpoint
                                 </Typography>
-                                <Typography variant="h5" gutterBottom={true}>
-                                    https://ping.mariola.fr
+                                <Typography  gutterBottom={true}>
+                                    {ticket.checkpointUrl}
                                 </Typography>
                             </Grid>
                         </Grid>
