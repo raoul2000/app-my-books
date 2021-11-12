@@ -13,7 +13,7 @@ import { FabScanner } from "@/component/button/FabScanner";
 type Props = {
     externalApiKey?: string;
 };
-export const siteUrl = import.meta.env.VITE_SITE_URL;
+export const createAccountUrl = import.meta.env.VITE_CREATE_ACCOUNT_URL;
 
 export const SignInPage: React.FC<Props> = ({
     externalApiKey,
@@ -59,10 +59,10 @@ export const SignInPage: React.FC<Props> = ({
         <Container>
             {signInMethod === "login" ? (
                 <>
-                    {siteUrl && (
+                    {createAccountUrl && (
                         <div className="create-account-link">
                             Pas encore de compte ?{" "}
-                            <a href={siteUrl}>Créer un compte</a>
+                            <a href={createAccountUrl}>Créer un compte</a>
                         </div>
                     )}
 
