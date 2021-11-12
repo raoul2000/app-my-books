@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import Box from "@mui/material/Box";
 import List from "@mui/material/List";
 import Typography from "@mui/material/Typography";
@@ -6,6 +6,7 @@ import { useLocation } from "wouter";
 import { Book } from "@/types";
 import { ListBookItem } from "./ListBookItem";
 import { ListBookItemSkeleton } from "./ListBookItemSkeleton";
+import { Virtuoso } from "react-virtuoso";
 
 type Props = {
     books: Book[];
@@ -14,24 +15,29 @@ type Props = {
 
 export const ListBooks: React.FC<Props> = ({ books, loading }): JSX.Element => {
     const [, setLocation] = useLocation();
+    const virtuoso = useRef(null);
     const handleShowBookDetail = (bookId: string) =>
         setLocation(`/detail/${bookId}`);
 
     const renderBookList = (booksToRender: Book[]) => (
-        <Box sx={{ bgcolor: "background.paper" }}>
-            <List>
-                {loading ? (
+        <Box sx={{ bgcolor: "background.paper" }} className="book-list">
+            {loading ? (
+                <List>
                     <ListBookItemSkeleton />
-                ) : (
-                    booksToRender.map((book) => (
+                </List>
+            ) : (
+                <Virtuoso
+                    useWindowScroll
+                    data={booksToRender}
+                    ref={virtuoso}
+                    itemContent={(index) => (
                         <ListBookItem
-                            key={book.id}
-                            book={book}
+                            book={booksToRender[index]}
                             onSelectBook={handleShowBookDetail}
                         />
-                    ))
-                )}
-            </List>
+                    )}
+                />
+            )}
         </Box>
     );
 
@@ -46,7 +52,7 @@ export const ListBooks: React.FC<Props> = ({ books, loading }): JSX.Element => {
                     align="center"
                     color="textSecondary"
                 >
-                    Votre bibliothèque est vide
+                    Aucune livre trouvé
                 </Typography>
             )}
         </>

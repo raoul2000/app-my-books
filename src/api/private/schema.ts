@@ -39,7 +39,7 @@ const userBookSchema: JSONSchemaType<API_UserBook> = {
     type: "object",
     properties: {
         book_id: { type: "string" },
-        read_status: { type: "number", nullable: true, enum: [1, 2, 3] },
+        read_status: { type: "number", nullable: true, enum: [1, 2, 3, 4] },
         rate: { type: "number", minimum: 0, nullable: true },
         created_at: { type: "number" },
         updated_at: { type: "number" },

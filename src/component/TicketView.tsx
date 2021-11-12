@@ -69,6 +69,8 @@ export const TicketView: React.FC<Props> = ({
     const handleBoarding = () => onPreBoarding(ticket);
     const handlePrintTicket = () => window.print();
 
+    // set filename with printing to PDF
+    document.title = `book-ticket-${ticket.id}`;
     return (
         <>
             {book.isTraveling === true && (
@@ -92,6 +94,7 @@ export const TicketView: React.FC<Props> = ({
                     <Box className={classes.ticketMainInfoContainer}>
                         <Grid container spacing={1}>
                             <Grid item sm={6}>
+                                Livre voyageur
                                 {ticket?.qrCodeUrl && (
                                     <Box>
                                         <img

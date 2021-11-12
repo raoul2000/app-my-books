@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import IconButton from "@mui/material/IconButton";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Alert from "@mui/material/Alert";
+import AlertTitle from '@mui/material/AlertTitle';
 import { BarcodeResult, CodeBarScanner } from "@/component/CodeBarScanner";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
@@ -65,7 +66,8 @@ export const ApiKeyScanner: React.FC<Props> = ({
                 ) : (
                     <>
                         <Alert severity="info">
-                            Scan the QR Code from your account settings page
+                            <AlertTitle>Connexion Rapide</AlertTitle>
+                            Scannez le QR Code affiché sur la page de votre compte
                         </Alert>
                         <CodeBarScanner
                             width="100%"

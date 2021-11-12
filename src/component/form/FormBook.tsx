@@ -176,6 +176,9 @@ export const FormBook: React.FC<Props> = ({ onIsbnSearch }): JSX.Element => {
                                 <MenuItem value={3}>
                                     {getReadStatusLabel(3)}
                                 </MenuItem>
+                                <MenuItem value={4}>
+                                    {getReadStatusLabel(4)}
+                                </MenuItem>
                             </Select>
                         </FormControl>
                     </Grid>

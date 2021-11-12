@@ -13,29 +13,20 @@ import { TopBarActions } from "@/component/app-bar/TopBarActions";
 import { bookFormState } from "@/state/book-form";
 import { IsbnScanner } from "@/component/IsbnScanner";
 import { FabScanner } from "@/component/button/FabScanner";
+import { ConfirmSaveBook } from "@/component/dialog/ConfirmSaveBook";
 
 export const AddBookPage: React.FC<{}> = (): JSX.Element => {
     const { enqueueSnackbar } = useSnackbar();
     const [enableIsbnScan, setEnableIsbnScan] = useState(false);
-    const setBooks = useSetRecoilState<Book[]>(bookListState);
+    const [showConfirm, setShowConfirm] = React.useState(false);
+    const [books, setBooks] = useRecoilState<Book[]>(bookListState);
     const setProgress = useSetRecoilState(progressState);
     const [bookForm, setBookForm] = useRecoilState(bookFormState);
     const [, setLocation] = useLocation();
 
     useEffect(() => setBookForm(createBookForm()), []);
 
-    const handleSave = () => {
-        if (!bookForm.title) {
-            alert("please enter a title");
-            setBookForm((curState) => ({
-                ...curState,
-                validation: {
-                    ...curState.validation,
-                    title: false,
-                },
-            }));
-            return;
-        }
+    const addBook = () => {
         const newBook: Omit<Book, "id"> = {
             title: bookForm.title,
             subtitle: bookForm.subtitle,
@@ -72,6 +63,31 @@ export const AddBookPage: React.FC<{}> = (): JSX.Element => {
                 }
             })
             .finally(() => setProgress(false));
+    };
+
+    const handleSave = () => {
+        if (!bookForm.title) {
+            alert("please enter a title");
+            setBookForm((curState) => ({
+                ...curState,
+                validation: {
+                    ...curState.validation,
+                    title: false,
+                },
+            }));
+            return;
+        }
+
+        const duplicateBook = books.find(
+            (book) =>
+                (bookForm.isbn && book.isbn === bookForm.isbn) ||
+                bookForm.title.toLowerCase() === book.title.toLowerCase()
+        );
+        if (duplicateBook) {
+            setShowConfirm(true);
+        } else {
+            addBook();
+        }
     };
 
     const searchBookByIsbn = (isbn: string) => {
@@ -130,6 +146,12 @@ export const AddBookPage: React.FC<{}> = (): JSX.Element => {
                             <FormBook onIsbnSearch={handleIsbnSearch} />
                         </Container>
                         <FabScanner onClick={() => setEnableIsbnScan(true)} />
+                        {showConfirm && (
+                            <ConfirmSaveBook
+                                onConfirm={addBook}
+                                onCancel={() => setShowConfirm(false)}
+                            />
+                        )}
                     </main>
                 </div>
             )}

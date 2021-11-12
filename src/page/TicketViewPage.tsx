@@ -10,12 +10,15 @@ import BookApi from "../api/book";
 import { TicketView } from "@/component/TicketView";
 import { ProgressSpinner } from "@/component/ProgressSpinner";
 import { TicketNotFoundView } from "@/component/TicketNotFoundView";
+import { Confirm } from "@/component/dialog/Confirm";
 
 type Props = {
     bookId: string;
 };
 
-export const TicketViewPage: React.FC<Props> = ({ bookId }): JSX.Element | null => {
+export const TicketViewPage: React.FC<Props> = ({
+    bookId,
+}): JSX.Element | null => {
     const { enqueueSnackbar } = useSnackbar();
     const setBook = useSetRecoilState(bookListState);
     const book = useRecoilValue(bookByIdState(bookId));
@@ -23,9 +26,10 @@ export const TicketViewPage: React.FC<Props> = ({ bookId }): JSX.Element | null 
     const [status, setStatus] = useState<
         "loading" | "ticket_not_found" | "ticket_deleting" | "ticket_ready"
     >("loading");
+    const [showConfirmDelete, setShowConfirmDelete] = useState<boolean>(false);
 
     if (!book) {
-        setLocation('/');
+        setLocation("/");
         return null;
     }
 
@@ -70,34 +74,39 @@ export const TicketViewPage: React.FC<Props> = ({ bookId }): JSX.Element | null 
         }
     }, []);
 
+    const deleteTicket = () => {
+        // TODO: ticket MUST NOT be used
+        setShowConfirmDelete(false);
+        setStatus("ticket_deleting");
+        BookApi.deleteBookTicket(book)
+            .then(() => {
+                setBook((old) =>
+                    old.map((oBook) => {
+                        if (oBook.id === book.id) {
+                            return {
+                                ...oBook,
+                                ticket: undefined,
+                            };
+                        } else {
+                            return oBook;
+                        }
+                    })
+                );
+                enqueueSnackbar("Ticket supprimé", {
+                    variant: "success",
+                    anchorOrigin: {
+                        vertical: "bottom",
+                        horizontal: "center",
+                    },
+                });
+                setStatus("ticket_not_found");
+            })
+            .catch(console.error);
+    };
+
     const handleDeleteTicket = () => {
-        if (book && confirm("Etes-vous sûr de vouloir effacer ce ticket ?")) {
-            // TODO: ticket MUST NOT be used
-            setStatus("ticket_deleting");
-            BookApi.deleteBookTicket(book)
-                .then(() => {
-                    setBook((old) =>
-                        old.map((oBook) => {
-                            if (oBook.id === book.id) {
-                                return {
-                                    ...oBook,
-                                    ticket: undefined,
-                                };
-                            } else {
-                                return oBook;
-                            }
-                        })
-                    );
-                    enqueueSnackbar("Ticket supprimé", {
-                        variant: "success",
-                        anchorOrigin: {
-                            vertical: "bottom",
-                            horizontal: "center",
-                        },
-                    });
-                    setStatus("ticket_not_found");
-                })
-                .catch(console.error);
+        if (book) {
+            setShowConfirmDelete(true);
         }
     };
 
@@ -140,6 +149,16 @@ export const TicketViewPage: React.FC<Props> = ({ bookId }): JSX.Element | null 
             />
             <main>
                 <Container maxWidth="sm">{renderContent()}</Container>
+                {showConfirmDelete && (
+                    <Confirm
+                        title="Supprimer ce ticket ?"
+                        message="Etes-vous sûr de vouloir supprimer ce ticket de voyage ?"
+                        confirmMsg="Oui"
+                        cancelMsg="Non"
+                        onConfirm={deleteTicket}
+                        onCancel={() => setShowConfirmDelete(false)}
+                    />
+                )}
             </main>
         </div>
     );

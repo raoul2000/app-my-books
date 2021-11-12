@@ -24,6 +24,7 @@ import BookApi from "@/api/book";
 import Rating from "@mui/material/Rating";
 import { BookDetailBar } from "@/component/app-bar/BookDetailBar";
 import { WebShareBookButton } from "@/component/button/WebShareBookButton";
+import { Confirm } from "@/component/dialog/Confirm";
 
 interface ExpandMoreProps extends IconButtonProps {
     expand: boolean;
@@ -47,12 +48,12 @@ type Props = {
 export const BookDetailsPage: React.FC<Props> = ({
     id,
 }): JSX.Element | null => {
-    const [, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const thisBook = useRecoilValue(bookByIdState(id));
     const setBooks = useSetRecoilState<Book[]>(bookListState);
     const setProgress = useSetRecoilState(progressState);
     const [, setLocation] = useLocation();
     const [expanded, setExpanded] = useState<boolean>(false);
+    const [showConfirmDelete, setShowConfirmDelete] = useState<boolean>(false);
     const [abstract, setAbstract] = useState<{
         status: "progress" | "error" | "success";
         text?: string;
@@ -81,25 +82,21 @@ export const BookDetailsPage: React.FC<Props> = ({
     const handleTravelClick = (book: Book) => setLocation(`/travel/${book.id}`);
     const handleTrackClick = (book: Book) =>
         setLocation(`/follow-trip/${book.id}`);
-    const handleClose = () => setAnchorEl(null);
 
-    const handleDeleteBook = (book?: Book): void => {
-        if (!book) return;
-
-        if (confirm(`Delete "${book.title}" ?`)) {
-            setProgress(true);
-            setLocation("/");
-            BookApi.deleteBook(book)
-                .then(() => {
-                    setBooks((oldBooks) => [
-                        ...oldBooks.filter((obook) => obook.id !== book.id),
-                    ]);
-                })
-                .catch(console.error)
-                .finally(() => setProgress(false));
-        }
-        handleClose();
+    const deleteBook = () => {
+        setProgress(true);
+        setLocation("/");
+        BookApi.deleteBook(thisBook)
+            .then(() => {
+                setBooks((oldBooks) => [
+                    ...oldBooks.filter((obook) => obook.id !== thisBook.id),
+                ]);
+            })
+            .catch(console.error)
+            .finally(() => setProgress(false));
     };
+
+    const handleDeleteBook = (book?: Book): void => setShowConfirmDelete(true);
 
     return (
         <>
@@ -216,6 +213,16 @@ export const BookDetailsPage: React.FC<Props> = ({
                             </Card>
                         )}
                     </div>
+                    {showConfirmDelete && (
+                        <Confirm
+                            title="Supprimer ce livre ?"
+                            message="Etes-vous sûr de vouloir supprimer ce livre de votre liste ?"
+                            confirmMsg="Oui"
+                            cancelMsg="Non"
+                            onConfirm={deleteBook}
+                            onCancel={() => setShowConfirmDelete(false)}
+                        />
+                    )}
                 </Container>
             </main>
         </>

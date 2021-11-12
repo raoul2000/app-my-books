@@ -18,7 +18,12 @@ import { TracksPage } from "@/page/TracksPage";
 export const WithNavigation: React.FC<{}> = (): JSX.Element => {
     return (
         <Switch>
-            <Route path="/signin" component={SignInPage} />
+            <Route path="/signin">
+                <SignInPage />
+            </Route>
+            <Route path="/signin-key/:key">
+                {(params) => <SignInPage externalApiKey={params.key}/>}
+            </Route>            
             <Route path="/about" component={AboutPage} />
             <Route path="/add" component={AddBookPage} />
             <Route path="/settings" component={SettingsPage} />
