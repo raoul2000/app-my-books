@@ -39,6 +39,7 @@ export const createBookTicket = (
                 id: ticket.id,
                 departureDateTime: new Date(Date.parse(ticket.departure_at)),
                 from: ticket.from,
+                checkpointUrl: ticket.checkpoint_url,
                 ...(ticket.qrcode_url && { qrCodeUrl: ticket.qrcode_url }),
             };
         });
