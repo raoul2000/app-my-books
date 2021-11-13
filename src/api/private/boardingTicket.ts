@@ -32,6 +32,7 @@ export const boardingTicket = (bookId:string, ticket:TravelTicket ): Promise<Tra
                 id: boarding.ticket.id,
                 departureDateTime: new Date(Date.parse(boarding.ticket.departure_at)),
                 from: boarding.ticket.from,
+                checkpointUrl: boarding.ticket.checkpoint_url,
                 ...(boarding.ticket.qrcode_url && { qrCodeUrl: boarding.ticket.qrcode_url }),
             };
         });
