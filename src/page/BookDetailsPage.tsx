@@ -18,7 +18,7 @@ import Badge from "@mui/material/Badge";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { bookListState, bookByIdState } from "@/state/book-list";
 import { progressState } from "@/state/progress";
-import { Book, getReadStatusLabel } from "@/types";
+import { Book, getReadStatusLabel, getReadStatusColor } from "@/types";
 import { useLocation } from "wouter";
 import BookApi from "@/api/book";
 import Rating from "@mui/material/Rating";
@@ -132,6 +132,7 @@ export const BookDetailsPage: React.FC<Props> = ({
                                             label={getReadStatusLabel(
                                                 thisBook.readStatus
                                             )}
+                                            color={getReadStatusColor(thisBook.readStatus)}
                                         />
                                     )}
                                     <Rating
