@@ -70,7 +70,7 @@ export const BookDetailsPage: React.FC<Props> = ({
             BookApi.fetchBookDescriptionByIsbn(book.isbn)
                 .then((description) =>
                     setAbstract({
-                        status: "success",
+                        status: description.length !== 0 ? "success" : "error",
                         text: description,
                     })
                 )
