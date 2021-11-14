@@ -1,9 +1,6 @@
 # TODO
-- add: dotted border for the ticket in print device
-- add: web share API support to share books
 - add: use drawer to display contextual info
   - ping details in the timeline view
-- feature: track card should display only a portin of text (expand to see all)
 - feature: if actual boarding date-time is "a lot" before or after ticket departure date-time, dispplay a confirmation message. Possibly, the ticket departure date-time could be updated at the time of actual boarding
 - book ping review should include optionnal reviewer name
 
@@ -14,3 +11,8 @@
 - fix: loads book abstract for ever if not found (isbn invalid)
 - add read status : "A relire"
 - user should be able to manually refresh book ping page  
+- add: web share API support to share books
+- add: dotted border for the ticket in print device
+- 
+# DISCARDED
+- feature: track card should display only a portin of text (expand to see all)
