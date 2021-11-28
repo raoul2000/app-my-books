@@ -114,6 +114,20 @@ export const getReadStatusLabel = (readStatus?: number) => {
             return "Sélectionner";
     }
 };
+export const getReadStatusColor = (readStatus?: number) => {
+    switch (readStatus) {
+        case 1:
+            return "primary";
+        case 2:
+            return "success";
+        case 3:
+            return "error";
+        case 4:
+            return "warning";
+        default:
+            return "default";
+    }
+};
 
 export type LoginSuccessResponse = {
     success: boolean;
