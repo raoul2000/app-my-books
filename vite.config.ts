@@ -4,6 +4,7 @@ import path from 'path'
 import packageJson from './package.json'
 
 
+const nowTs:string = new Date().toISOString();
 // https://vitejs.dev/config/
 export default defineConfig({
   resolve: {
@@ -12,7 +13,8 @@ export default defineConfig({
     }
   },
   define : {
-    APP_VERSION: JSON.stringify(packageJson.version)
+    APP_VERSION: JSON.stringify(packageJson.version),
+    NOW_TS: JSON.stringify(nowTs)
   },
   plugins: [reactRefresh()]
 })
