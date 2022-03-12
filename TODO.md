@@ -3,6 +3,7 @@
   - ping details in the timeline view
 - feature: if actual boarding date-time is "a lot" before or after ticket departure date-time, dispplay a confirmation message. Possibly, the ticket departure date-time could be updated at the time of actual boarding
 - book ping review should include optionnal reviewer name
+- feature: add field to handle book is lent to someone. Date of lend, person, etc ...
 
 # DONE
 - fix: do not display expand arrow in book card if book has no isbn
