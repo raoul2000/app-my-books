@@ -65,6 +65,7 @@ export type BookFormState = {
     author?: string;
     isbn?: string;
     readStatus?: number;
+    readDate?: Date;
     rate?: number;
     validation: {
         title: boolean;

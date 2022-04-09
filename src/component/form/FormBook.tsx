@@ -1,13 +1,18 @@
 import React from "react";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import Alert from '@mui/material/Alert';
+import Alert from "@mui/material/Alert";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 import Rating from "@mui/material/Rating";
+import DateAdapter from "@mui/lab/AdapterDateFns";
+import LocalizationProvider from "@mui/lab/LocalizationProvider";
+import MobileDatePicker from "@mui/lab/MobileDatePicker";
+import frLocale from "date-fns/locale/fr";
+
 import { useRecoilState } from "recoil";
 
 import { BookFormState, getReadStatusLabel } from "@/types";
@@ -20,7 +25,6 @@ type Props = {
 export const FormBook: React.FC<Props> = ({ onIsbnSearch }): JSX.Element => {
     const [bookForm, setBookFormState] =
         useRecoilState<BookFormState>(bookFormState);
-
     const handleBookTitleChange = (
         e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
     ) => {
@@ -52,6 +56,16 @@ export const FormBook: React.FC<Props> = ({ onIsbnSearch }): JSX.Element => {
         setBookFormState((state) => ({
             ...state,
             readStatus,
+        }));
+    };
+
+    const handleReadDateChange = (
+        date: Date | null,
+        _value?: string | null | undefined
+    ) => {
+        setBookFormState((state) => ({
+            ...state,
+            readDate:  date || undefined
         }));
     };
 
@@ -182,6 +196,33 @@ export const FormBook: React.FC<Props> = ({ onIsbnSearch }): JSX.Element => {
                             </Select>
                         </FormControl>
                     </Grid>
+                    {(bookForm.readStatus === 2 ||
+                        bookForm.readStatus === 4) && (
+                        <Grid item xs={12}>
+                            <FormControl variant="standard" fullWidth>
+                                <LocalizationProvider
+                                    dateAdapter={DateAdapter}
+                                    locale={frLocale}
+                                >
+                                    <MobileDatePicker
+                                        label="Date de lecture"
+                                        inputFormat="dd/MM/yyyy"
+                                        cancelText="Annuler"
+                                        clearable={true}
+                                        clearText="Effacer"
+                                        value={bookForm.readDate || null}
+                                        onChange={handleReadDateChange}
+                                        renderInput={(params) => (
+                                            <TextField
+                                                {...params}
+                                                variant="standard"
+                                            />
+                                        )}
+                                    />
+                                </LocalizationProvider>
+                            </FormControl>
+                        </Grid>
+                    )}
                 </Grid>
             </form>
         </div>
