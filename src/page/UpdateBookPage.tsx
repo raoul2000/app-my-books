@@ -42,7 +42,6 @@ export const UpdateBookPage: React.FC<Props> = ({ id }): JSX.Element | null => {
     const updateBook = () => {
         setProgress(true);
         setLocation(`/detail/${id}`);
-
         BookApi.updateBook({
             ...thisBook,
             title: bookForm.title,
@@ -50,6 +49,11 @@ export const UpdateBookPage: React.FC<Props> = ({ id }): JSX.Element | null => {
             author: bookForm.author,
             isbn: bookForm.isbn,
             readStatus: bookForm.readStatus,
+            // when read status is not "lu" or "A relire", readAt is reset
+            // otherwise, take the user value if there's one
+            readAt: bookForm.readStatus && [2, 4].indexOf(bookForm.readStatus) !== -1
+                ?  bookForm.readAt
+                : undefined,
             rate: bookForm.rate,
         })
             .then((updatedBook) => {

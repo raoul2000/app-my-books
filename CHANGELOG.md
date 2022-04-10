@@ -6,7 +6,8 @@ The format is based on [Keep a Changelog],
 and this project adheres to [Semantic Versioning].
 
 ## [unreleased] 
-
+### Added
+- new field "Read At": when the book is in "Lu" or "A Relire" status, user can enter a date (yyyy-mm-dd) in the "Date de Lecture" field.
 
 ## [1.2.0] - 2022-03-12
 - initial PROD release
