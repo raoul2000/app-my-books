@@ -32,6 +32,7 @@ export type Book = {
     author?: string;
     isbn?: string;
     readStatus?: number;
+    readAt?: Date;
     rate?: number;
     isTraveling: boolean;
     isTicketLoaded: boolean;
@@ -65,7 +66,7 @@ export type BookFormState = {
     author?: string;
     isbn?: string;
     readStatus?: number;
-    readDate?: Date;
+    readAt?: Date;
     rate?: number;
     validation: {
         title: boolean;
@@ -80,6 +81,7 @@ export const createBookFormState = (book?: Book): BookFormState => ({
     author: book?.author,
     isbn: book?.isbn,
     readStatus: book?.readStatus,
+    readAt: book?.readAt,
     rate: book?.rate,
     validation: {
         title: true,

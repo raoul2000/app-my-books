@@ -65,7 +65,7 @@ export const FormBook: React.FC<Props> = ({ onIsbnSearch }): JSX.Element => {
     ) => {
         setBookFormState((state) => ({
             ...state,
-            readDate:  date || undefined
+            readAt:  date || undefined
         }));
     };
 
@@ -210,7 +210,7 @@ export const FormBook: React.FC<Props> = ({ onIsbnSearch }): JSX.Element => {
                                         cancelText="Annuler"
                                         clearable={true}
                                         clearText="Effacer"
-                                        value={bookForm.readDate || null}
+                                        value={bookForm.readAt || null}
                                         onChange={handleReadDateChange}
                                         renderInput={(params) => (
                                             <TextField
