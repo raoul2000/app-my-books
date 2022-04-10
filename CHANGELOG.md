@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning].
 ### Added
 - new field "Read At": when the book is in "Lu" or "A Relire" status, user can enter a date (yyyy-mm-dd) in the "Date de Lecture" field.
 
+### Changed
+- when adding a new book, the read status is not set anymore (it used to be set to "Lu" as default initial value)
+
+
 ## [1.2.0] - 2022-03-12
 - initial PROD release
 

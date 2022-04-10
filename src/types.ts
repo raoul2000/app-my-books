@@ -95,7 +95,7 @@ export const createBookForm = (): BookFormState => ({
     subtitle: "",
     author: "",
     isbn: "",
-    readStatus: 2,
+    readStatus: undefined,
     validation: {
         title: true,
     },
