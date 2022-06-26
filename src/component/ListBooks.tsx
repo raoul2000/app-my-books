@@ -52,7 +52,7 @@ export const ListBooks: React.FC<Props> = ({ books, loading }): JSX.Element => {
                     align="center"
                     color="textSecondary"
                 >
-                    Aucune livre trouvé
+                    Aucun livre trouvé
                 </Typography>
             )}
         </>
