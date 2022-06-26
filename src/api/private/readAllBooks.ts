@@ -25,6 +25,10 @@ export const readAllBooks = (): Promise<Book[]> =>
                 ...item.book,
                 isTraveling: item.book.is_traveling === 1,
                 readStatus: item.read_status,
+                readAt:
+                    item.read_at && item.read_at.length > 0
+                        ? new Date(item.read_at)
+                        : undefined,                
                 rate: item.rate,
                 isTicketLoaded: false,
                 pingCount: item.book.ping_count,

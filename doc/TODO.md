@@ -1,4 +1,6 @@
 # TODO
+- display order: user should be able to configure the book list order. For example, one could want to see in top, the booke being read ('reading') then books read from the most recent to the oldest one. 
+  - the user could configured his own sorting order based on: status, date (of read or creation)
 - add: use drawer to display contextual info
   - ping details in the timeline view
 - feature: if actual boarding date-time is "a lot" before or after ticket departure date-time, dispplay a confirmation message. Possibly, the ticket departure date-time could be updated at the time of actual boarding
@@ -16,4 +18,4 @@
 - add: dotted border for the ticket in print device
 - 
 # DISCARDED
-- feature: track card should display only a portin of text (expand to see all)
+- feature: track card should display only a portion of text (expand to see all)

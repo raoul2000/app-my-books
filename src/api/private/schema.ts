@@ -40,6 +40,7 @@ const userBookSchema: JSONSchemaType<API_UserBook> = {
     properties: {
         book_id: { type: "string" },
         read_status: { type: "number", nullable: true, enum: [1, 2, 3, 4] },
+        read_at: { type: "string", nullable: true },
         rate: { type: "number", minimum: 0, nullable: true },
         created_at: { type: "number" },
         updated_at: { type: "number" },
@@ -61,7 +62,7 @@ const isbnSearchResultSchema: JSONSchemaType<API_ISBN_SearchResult> = {
     properties: {
         author: { type: "string" },
         title: { type: "string" },
-        subtitle: { type: "string",  nullable: true}
+        subtitle: { type: "string", nullable: true },
     },
     required: ["author", "title"],
     additionalProperties: false,
@@ -80,7 +81,15 @@ const ticketSchema: JSONSchemaType<API_Ticket> = {
         created_at: { type: "number" },
         updated_at: { type: "number" },
     },
-    required: ["id", "book_id", "created_at", "updated_at", "qrcode_url", "checkpoint_url", "departure_at"],
+    required: [
+        "id",
+        "book_id",
+        "created_at",
+        "updated_at",
+        "qrcode_url",
+        "checkpoint_url",
+        "departure_at",
+    ],
     additionalProperties: false,
 };
 
@@ -103,10 +112,10 @@ const trackSchema: JSONSchemaType<API_Track> = {
         book_id: { type: "string" },
         is_boarding: { type: "number", enum: [0, 1] },
         user_ip: { type: "string" },
-        email: { type: "string", nullable: true  },
-        text: { type: "string", nullable: true  },
+        email: { type: "string", nullable: true },
+        text: { type: "string", nullable: true },
         rate: { type: "number", nullable: true },
-        location_name: { type: "string", nullable: true  },
+        location_name: { type: "string", nullable: true },
         created_at: { type: "number" },
         updated_at: { type: "number" },
     },
@@ -133,19 +142,23 @@ const bookTrackSchema: JSONSchemaType<API_BookTrack> = {
     $id: "http://example.com/schemas/book-track.json",
     type: "object",
     properties: {
-        track: { $ref: "track-list.json"}
+        track: { $ref: "track-list.json" },
     },
-    required: [
-        "track",
-    ],
+    required: ["track"],
     additionalProperties: false,
-}
+};
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 const ajv = new Ajv({
     allErrors: false,
     verbose: true,
-    schemas: [bookSchema, userBookSchema, userBookListSchema, ticketSchema, trackListSchema],
+    schemas: [
+        bookSchema,
+        userBookSchema,
+        userBookListSchema,
+        ticketSchema,
+        trackListSchema,
+    ],
 });
 
 export const validateBookType = ajv.compile(bookSchema);

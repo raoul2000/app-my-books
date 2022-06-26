@@ -129,6 +129,12 @@ export type API_UserBook = {
      */
     rate?: number;
     /**
+     * Optional Read date DateTime as UTC ISO 8610 string
+     *
+     * ex: "2021-09-09T17:04:36+0000"
+     */
+     read_at?: string;    
+    /**
      * UserBook record creation date as unix timestamp
      *
      * ex: 1631097835

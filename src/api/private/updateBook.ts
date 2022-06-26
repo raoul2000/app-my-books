@@ -5,14 +5,17 @@ import { validateUserBookType } from "./schema";
 import { API_UserBook } from "./types";
 
 export const updateBook = (book: Book): Promise<Book> => {
-    let payload:any = {
+    let payload: any = {
         userBook: {
             read_status: book.readStatus,
+            read_at: book.readAt  
+                ? book.readAt.toISOString().split("T")[0]
+                : "",
             rate: book.rate,
-        }
+        },
     };
     // it is forbidden to update a traveling book (only useBook can be modified)
-    if(!book.isTraveling) {
+    if (!book.isTraveling) {
         payload.book = {
             title: book.title,
             subtitle: book.subtitle,
@@ -47,6 +50,10 @@ export const updateBook = (book: Book): Promise<Book> => {
                 ...resp.book,
                 isTraveling: resp.book.is_traveling === 1,
                 readStatus: resp.read_status,
+                readAt:
+                    resp.read_at && resp.read_at.length > 0
+                        ? new Date(resp.read_at)
+                        : undefined,
                 rate: resp.rate,
                 isTicketLoaded: false,
                 pingCount: resp.book.ping_count,

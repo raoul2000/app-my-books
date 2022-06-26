@@ -14,7 +14,7 @@ type Props = {
     onError: () => void;
     onCancel: () => void;
 };
-
+export const dashboardAccountUrl = import.meta.env.VITE_CREATE_ACCOUNT_DASHBOARD_URL;
 export const ApiKeyScanner: React.FC<Props> = ({
     onSuccess,
     onError,
@@ -67,7 +67,8 @@ export const ApiKeyScanner: React.FC<Props> = ({
                     <>
                         <Alert severity="info">
                             <AlertTitle>Connexion Rapide</AlertTitle>
-                            Scannez le QR Code affiché sur la page de votre compte
+                            Accédez depuis un autre appareil au <a href={dashboardAccountUrl}>Tableau de bord</a> de votre compte, et scannez
+                            le QR code qui s'affiche, pour vous connecter automatiquement depuis cet appareil.
                         </Alert>
                         <CodeBarScanner
                             width="100%"
