@@ -1,4 +1,5 @@
 # TODO
+- **issue**: In some cases the first time book details are displayed, the status is rendered as empty. After nvigating out and back, the status is correctly displayed - see [issue #22](https://github.com/raoul2000/app-my-books/issues/22)
 - display order: user should be able to configure the book list order. For example, one could want to see in top, the booke being read ('reading') then books read from the most recent to the oldest one. 
   - the user could configured his own sorting order based on: status, date (of read or creation)
 - add: use drawer to display contextual info
